@@ -2,6 +2,15 @@ require('dotenv').config();
 const express = require('express');
 const massive = require('massive');
 const session = require('express-session');
+const auth_controller = require('./controllers/auth_controller');
+const post_controller = require('./controllers/post_controller');
+const user_controller = require('./controllers/user_controller');
+const middlewares = require('./middlewares/auth_middlewares');
+
+const { checkForUser } = middlewares;
+const { getPostsByUser, getCountriesByUser, addCountryToUser, deleteCountryFromUser } = user_controller;
+const { getPostsByCountry, addPost, editPost, deletePost } = post_controller;
+const { register, login, logout } = auth_controller;
 
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env;
 
@@ -22,19 +31,21 @@ massive(CONNECTION_STRING)
     })
 
 // Auth Endpoints
-
+app.post('/auth/register', register);
+app.post('/auth/login', login);
+app.get('/auth/logout', logout)
 
 // User Endpoints
 app.get('/api/user/:id/posts', getPostsByUser);
-app.get('/api/user/:id/country', getCountriesByUser);
-app.post('/api/user/:id/country', addCountryToUser);
-app.delete('/api/user:id/country', deleteCountryFromUser);
+app.get('/api/user/:id/country', checkForUser, getCountriesByUser);
+app.post('/api/user/country', checkForUser, addCountryToUser);
+app.delete('/api/user/country', checkForUser, deleteCountryFromUser);
 
 // Posts Endpoints
 app.get('/api/posts/:country', getPostsByCountry);
-app.post('/api/posts', addPost);
-app.put('/api/posts/:id', editPost);
-app.delete('/api/posts/:id', deletePost);
+app.post('/api/posts', checkForUser, addPost);
+app.put('/api/posts/:country', checkForUser, editPost);
+app.delete('/api/posts/:country', checkForUser, deletePost);
 
 
 app.listen(SERVER_PORT, () => console.log('Listening on Port ' + SERVER_PORT));
