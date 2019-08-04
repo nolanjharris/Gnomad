@@ -8,7 +8,7 @@ const getPostsByUser = async (req, res) => {
 const getCountriesByUser = async (req, res) => {
     const { id } = req.params;
     const db = req.app.get('db');
-    const countries = await db.get_countries_by_user([id]).catch(error => console.log(err));
+    const countries = await db.get_countries_by_user([id]).catch(error => console.log(error));
     res.status(200).json(countries);
 }
 

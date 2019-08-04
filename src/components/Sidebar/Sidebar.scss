@@ -1,0 +1,24 @@
+@import '../../App.scss';
+
+.sidebar {
+    height: 100vh;
+    width: fit-content;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+
+    h3 {
+        font-size: 3em;
+        color: $brand-color-dark;
+        font-family: $content-font;
+        letter-spacing: 7px;
+
+        span {
+            color: $accent-color;
+            font-weight: bold;
+        }
+    }
+}

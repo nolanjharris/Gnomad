@@ -6,7 +6,9 @@ const auth_controller = require('./controllers/auth_controller');
 const post_controller = require('./controllers/post_controller');
 const user_controller = require('./controllers/user_controller');
 const middlewares = require('./middlewares/auth_middlewares');
+const country_controller = require('./controllers/country_controller');
 
+const { getCountriesGeoJSON } = country_controller;
 const { checkForUser } = middlewares;
 const { getPostsByUser, getCountriesByUser, addCountryToUser, deleteCountryFromUser } = user_controller;
 const { getPostsByCountry, addPost, editPost, deletePost } = post_controller;
@@ -47,5 +49,7 @@ app.post('/api/posts', checkForUser, addPost);
 app.put('/api/posts/:country', checkForUser, editPost);
 app.delete('/api/posts/:country', checkForUser, deletePost);
 
+// Countries GeoJSON Endpoint
+app.get('/api/countries', getCountriesGeoJSON);
 
 app.listen(SERVER_PORT, () => console.log('Listening on Port ' + SERVER_PORT));
