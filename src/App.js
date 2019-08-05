@@ -5,13 +5,15 @@ import Map from './components/Map/Map';
 import Sidebar from './components/Sidebar/Sidebar';
 import LoginRegisterPopup from './components/LoginRegisterPopup/LoginRegisterPopup';
 import { connect } from 'react-redux';
+import AddPost from './components/AddPost/AddPost';
 
 function App(props) {
   return (
     <div className="App">
       <Sidebar />
       <Map />
-      {!props.loggedIn && <LoginRegisterPopup />}
+      {!props.loggedIn ? <LoginRegisterPopup /> : <div></div>}
+      <AddPost />
     </div>
   );
 }

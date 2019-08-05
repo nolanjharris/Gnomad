@@ -11,6 +11,7 @@
     "express-session": "^1.16.2",
     "geojson-world-map": "0.0.2",
     "leaflet": "^1.5.1",
+    "leaflet-geosearch": "^2.7.0",
     "massive": "^5.11.2",
     "material-ui": "^0.20.2",
     "node-sass": "^4.12.0",

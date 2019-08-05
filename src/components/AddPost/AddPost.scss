@@ -1,0 +1,7 @@
+@import '../../App.scss';
+
+#addPost {
+    height: 100vh;
+    width: 100vw;
+    @include flexCenter(column);
+}

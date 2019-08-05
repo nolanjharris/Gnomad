@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Popup } from 'react-leaflet';
 
-class CustomPopup extends Component {
+function CustomPopup(props) {
 
-    handleClick = () => {
+    const handleClick = () => {
         alert('You clicked it bruh!')
     }
-    render() {
-        return (
-            <div id="popup-div">
-                <p>You clicked on {this.props.countryName}</p>
-                <button onClick={this.handleClick}>WOOHOOOOO!</button>
-            </div>
-        )
-    }
+    return (
+        <Popup>
+            <p>You clicked on {props.countryName}</p>
+            <button onClick={handleClick}>WOOHOOOOO!</button>
+        </Popup>
+    )
 }
 
 export default CustomPopup;
