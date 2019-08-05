@@ -14,10 +14,10 @@ const getCountriesByUser = async (req, res) => {
 
 const addCountryToUser = async (req, res) => {
     const { id } = req.session.user;
-    const { country } = req.body;
+    const { country } = req.params;
     const db = req.app.get('db');
-    await db.add_country_to_user([id, country]).catch(error => console.log(error));
-    res.sendStatus(200);
+    const countries = await db.add_country_to_user([id, country]).catch(error => console.log(error));
+    res.status(200).json(countries);
 }
 
 const deleteCountryFromUser = async (req, res) => {
@@ -25,10 +25,10 @@ const deleteCountryFromUser = async (req, res) => {
         return res.status(401).json("Please login first!")
     }
     const { id } = req.session.user;
-    const { country } = req.body;
+    const { country } = req.params;
     const db = req.app.get('db');
-    await db.delete_country_from_user([id, country]).catch(error => console.log(error));
-    res.sendStatus(200);
+    const countries = await db.delete_country_from_user([id, country]).catch(error => console.log(error));
+    res.status(200).json(countries);
 }
 
 module.exports = {

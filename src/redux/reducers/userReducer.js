@@ -1,58 +1,92 @@
 import axios from 'axios';
 
 const initialState = {
-    loggedIn: false,
-    firstName: '',
-    lastName: '',
-    username: '',
+    visitedList: [],
+    posts: [],
+    friendsList: [],
     loading: false
 }
 
-const LOGIN_USER = 'LOGIN_USER';
-const REGISTER_USER = 'REGISTER_USER';
+const REQUEST_VISITED_LIST = 'REQUEST_VISITED_LIST';
+const REQUEST_USER_POSTS = 'REQUEST_USER_POSTS';
+const REMOVE_USER_COUNTRY = 'REMOVE_USER_COUNTRY';
+const ADD_USER_COUNTRY = 'ADD_USER_COUNTRY';
 
-export function loginUser(user) {
+export function requestVisitedList(id) {
     return {
-        type: LOGIN_USER,
-        payload: axios.post('/api/login', { user })
+        type: REQUEST_VISITED_LIST,
+        payload: axios.get(`/api/user/${id}/country`)
             .then(res => res.data)
-            .catch(error => console.log(error));
     }
 }
 
-export function registerUser(user) {
+export function requestUserPosts(id) {
     return {
-        type: REGISTER_USER,
-        payload: axios.post('/api/register', { user })
+        type: REQUEST_USER_POSTS,
+        payload: axios.get(`/api/user/${id}/posts`)
             .then(res => res.data)
-            .catch(error => console.log(error));
     }
 }
 
-export default reducer(state = initialState, action){
+export function removeUserCountry(country) {
+    return {
+        type: REMOVE_USER_COUNTRY,
+        payload: axios.delete(`/api/user/country/${country}`)
+            .then(res => res.data)
+    }
+}
+
+export function addUserCountry(country) {
+    return {
+        type: ADD_USER_COUNTRY,
+        payload: axios.post(`/api/user/country/${country}`)
+            .then(res => res.data)
+    }
+}
+
+export default function reducer(state = initialState, action) {
     const { type, payload } = action;
-
     switch (type) {
-        case `${LOGIN_USER}_FULFILLED`:
+        case `${REQUEST_VISITED_LIST}_FULFILLED`:
             return {
                 ...state,
-                username: payload.user.username,
-                loggedIn: true,
+                visitedList: payload,
                 loading: false
-            };
-        case `${LOGIN_USER}_PENDING`:
+            }
+        case `${REQUEST_VISITED_LIST}_PENDING`:
             return {
                 ...state,
                 loading: true
-            };
-        case `${REGISTER_USER}_FULFILLED`:
+            }
+        case `${REQUEST_USER_POSTS}_FULFILLED`:
             return {
                 ...state,
-                username: payload.user.username,
-                loggedIn: true,
+                posts: payload,
                 loading: false
             }
-        case `${REGISTER_USER}_PENDING`:
+        case `${REQUEST_USER_POSTS}_PENDING`:
+            return {
+                ...state,
+                loading: true
+            }
+        case `${REMOVE_USER_COUNTRY}_FULFILLED`:
+            return {
+                ...state,
+                loading: false,
+                countries: payload
+            }
+        case `${REMOVE_USER_COUNTRY}_PENDING`:
+            return {
+                ...state,
+                loading: true
+            }
+        case `${ADD_USER_COUNTRY}_FULFILLED`:
+            return {
+                ...state,
+                countries: payload,
+                loading: false
+            }
+        case `${ADD_USER_COUNTRY}_PENDING`:
             return {
                 ...state,
                 loading: true

@@ -1,22 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Sidebar.scss';
+import { logoutUser } from '../../redux/reducers/authReducer';
+import { connect } from 'react-redux';
 
-class Sidebar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+function Sidebar(props) {
 
-        }
-    }
+    return (
+        <div className="sidebar">
+            <h1><span>G</span>nomad</h1>
+            {
+                props.loggedIn &&
+                <>
+                    <h3>Logged in as</h3>
+                    <h4>{props.username}</h4>
+                    <a href="#" onClick={props.logoutUser}>logout</a>
+                </>
+            }
+        </div>
+    )
+}
 
-    render() {
-        return (
-            <div className="sidebar">
-                <h3><span>G</span>nomad</h3>
-
-            </div>
-        )
+function mapStateToProps(reduxState) {
+    return {
+        loggedIn: reduxState.auth.loggedIn,
+        username: reduxState.auth.username
     }
 }
 
-export default Sidebar;
+export default connect(mapStateToProps, { logoutUser })(Sidebar);

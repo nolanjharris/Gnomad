@@ -1,15 +1,71 @@
 @import '../../App.scss';
 
 
-#login-register-popup-content {
-    font-family: $content-font;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 60vh;
+#login-register-background-div {
+    width: 100vw;
+    height: 100vh;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
 
-    h2 {
-        font-size: 2em;
-        color: $brand-color;
+    #login-register-popup-content {
+        padding: 20px;
+        font-family: $content-font;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 50vh;
+        width: 40vw;
+        position: absolute;
+        left: 30vw;
+        top: 20vh;
+        background: #fff;
+        z-index: 10;
+        border-radius: 20px;
+        box-shadow: 0px 0px 4px 4px #b9b9b9;
+
+        #login-title-div {
+            display: flex;
+            flex-direction: column;
+            height: 25%;
+            justify-content: space-between;
+
+            h2 {
+                font-size: 3.7em;
+                color: $brand-color;
+
+                span {
+                    color: $accent-color;
+                }
+            }
+
+            div {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 40%;
+
+
+                p {
+                    font-size: 1.5em;
+                    color: $brand-color-dark;
+                }
+            }
+        }
+
+        #loginRegisterForm {
+            height: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .btn {
+                background-color: $accent-color;
+                margin-top: 20px;
+            }
+        }
+
     }
 }

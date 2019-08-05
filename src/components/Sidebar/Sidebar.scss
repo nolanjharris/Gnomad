@@ -10,7 +10,7 @@
     background-color: rgba(255, 255, 255, 0.7);
     padding: 10px;
 
-    h3 {
+    h1 {
         font-size: 3em;
         color: $brand-color-dark;
         font-family: $content-font;
@@ -20,5 +20,22 @@
             color: $accent-color;
             font-weight: bold;
         }
+    }
+
+    h3 {
+        font-size: 1em;
+        color: $brand-color-dark;
+        margin-top: 20px;
+    }
+
+    h4 {
+        font-size: 2em;
+        color: $brand-color;
+        margin-bottom: 20px;
+    }
+
+    a {
+        font-size: 1.2em;
+        color: $dark-color;
     }
 }

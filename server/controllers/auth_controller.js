@@ -29,7 +29,7 @@ let login = async (req, res) => {
     const db = req.app.get('db');
     let user = await db.get_user([username]);
     if (!user[0]) {
-        res.status(403).json("Username or Password is incorrect");
+        res.status(403).json({ error: "Username or Password is incorrect" });
     } else {
         const isAuthorized = await bcrypt.compare(password, user[0].password)
         if (!isAuthorized) {
@@ -39,6 +39,7 @@ let login = async (req, res) => {
                 username,
                 id: user[0].user_id
             }
+
             res.status(200).json(req.session.user);
         }
     }

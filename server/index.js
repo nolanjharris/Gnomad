@@ -40,8 +40,8 @@ app.get('/auth/logout', logout)
 // User Endpoints
 app.get('/api/user/:id/posts', getPostsByUser);
 app.get('/api/user/:id/country', checkForUser, getCountriesByUser);
-app.post('/api/user/country', checkForUser, addCountryToUser);
-app.delete('/api/user/country', checkForUser, deleteCountryFromUser);
+app.post('/api/user/country/:country', checkForUser, addCountryToUser);
+app.delete('/api/user/country/:country', checkForUser, deleteCountryFromUser);
 
 // Posts Endpoints
 app.get('/api/posts/:country', getPostsByCountry);
