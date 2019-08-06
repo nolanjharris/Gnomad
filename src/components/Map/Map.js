@@ -11,7 +11,7 @@ class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            names: ['Germany', 'Italy', 'Japan', 'Australia']
+            names: ['United States', 'Czech Rep.', 'Germany', 'Italy', 'Ireland', 'Japan', 'Australia']
         }
     }
 
@@ -57,7 +57,7 @@ class Map extends Component {
                                             fillOpacity: 1,
                                         })}
                                     >
-                                        <CustomPopup countryName={countryName} />
+                                        <CustomPopup feature={feature} />
                                     </GeoJSON>
                                     :
                                     <GeoJSON
@@ -71,7 +71,7 @@ class Map extends Component {
                                             fillOpacity: 0,
                                         })}
                                     >
-                                        <CustomPopup countryName={countryName} />
+                                        <CustomPopup feature={feature} />
                                     </GeoJSON>
                             )
                         })}

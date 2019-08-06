@@ -1,7 +1,86 @@
 @import '../../App.scss';
 
 #addPost {
-    height: 100vh;
+    min-height: 100vh;
+    height: fit-content;
     width: 100vw;
     @include flexCenter(column);
+
+    #postContainer {
+        @include flexCenter(column);
+        width: 100%;
+        height: 90%;
+    }
+
+    #countryMap {
+        height: 15vw;
+        width: 15vw;
+        border-radius: 10px;
+    }
+
+    button {
+        width: 80%;
+        height: 50px;
+        border: none;
+        border-radius: 5px;
+        background-color: $brand-color-dark;
+        color: $white-color;
+        font-size: 1.5em;
+        margin-bottom: 15px;
+    }
+}
+
+
+
+
+.slide-container {
+    width: 40%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+img {
+    max-height: 100% !important;
+}
+
+h3 {
+    text-align: center;
+}
+
+.each-slide>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-position: center;
+    background-size: initial;
+    height: 350px;
+}
+
+.each-slide span {
+    padding: 20px;
+    font-size: 20px;
+    background: #efefef;
+    text-align: center;
+}
+
+.each-fade {
+    display: flex;
+}
+
+.each-fade .image-container {
+    width: 75%;
+    overflow: hidden;
+}
+
+.each-fade .image-container img {
+    width: 100%;
+}
+
+.each-fade h2 {
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    background: #adceed;
 }

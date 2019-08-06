@@ -2,14 +2,23 @@ import axios from 'axios';
 
 const initialState = {
     postPage: false,
+    postCountry: [],
     posts: [],
     loading: false
 }
 
+const OPEN_POST_FORM = 'OPEN_POST_FORM';
 const REQUEST_COUNTRY_POSTS = 'REQUEST_COUNTRY_POSTS';
 const ADD_POST = 'ADD_POST';
 const EDIT_POST = 'EDIT_POST';
 const DELETE_POST = 'DELETE_POST';
+
+export function openPostForm(country) {
+    return {
+        type: OPEN_POST_FORM,
+        payload: country
+    }
+}
 
 export function requestCountryPosts(country) {
     return {
@@ -43,6 +52,12 @@ export function deletePost(country) {
 export default function reducer(state = initialState, action) {
     const { type, payload } = action;
     switch (type) {
+        case OPEN_POST_FORM:
+            return {
+                ...state,
+                postPage: true,
+                postCountry: payload
+            }
         case `${REQUEST_COUNTRY_POSTS}_FULFILLED`:
             return {
                 ...state,

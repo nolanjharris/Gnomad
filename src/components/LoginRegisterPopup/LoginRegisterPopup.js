@@ -85,7 +85,8 @@ class LoginRegisterPopup extends Component {
                             />
                             <TextField
                                 name="password"
-                                floatingLabelText="Password" type="password"
+                                floatingLabelText="Password"
+                                type="password"
                                 onChange={this.handleChange}
                             />
                             {this.props.error && <h4 id="error">{this.props.errorMessage}</h4>}
