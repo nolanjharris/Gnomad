@@ -47,7 +47,7 @@ app.delete('/api/user/country/:country', checkForUser, deleteCountryFromUser);
 app.get('/api/posts/:country', getPostsByCountry);
 app.post('/api/posts', checkForUser, addPost);
 app.put('/api/posts/:country', checkForUser, editPost);
-app.delete('/api/posts/:country', checkForUser, deletePost);
+app.delete('/api/posts/:id', checkForUser, deletePost);
 
 // Countries GeoJSON Endpoint
 app.get('/api/countries', getCountriesGeoJSON);

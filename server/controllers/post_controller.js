@@ -1,5 +1,6 @@
 const getPostsByCountry = async (req, res) => {
     const { country } = req.params;
+    // console.log(req.params);
     const db = req.app.get('db');
     const posts = await db.get_posts_by_country([country]);
     for (let post of posts) {
@@ -11,7 +12,7 @@ const getPostsByCountry = async (req, res) => {
 }
 
 const addPost = async (req, res) => {
-    const { country, postContent, date, imageArr } = req.body;
+    const { country, postContent, date, imageArr } = req.body.post;
     const { id } = req.session.user;
     const db = req.app.get('db');
     const post = await db.add_post([id, country, postContent, date]).catch(error => console.log(error));

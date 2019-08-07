@@ -6,6 +6,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import LoginRegisterPopup from './components/LoginRegisterPopup/LoginRegisterPopup';
 import { connect } from 'react-redux';
 import AddPost from './components/AddPost/AddPost';
+import ViewPosts from './components/ViewPosts/ViewPosts';
 
 function App(props) {
   return (
@@ -13,7 +14,8 @@ function App(props) {
       <Sidebar />
       <Map />
       {!props.loggedIn ? <LoginRegisterPopup /> : <div></div>}
-      <AddPost />
+      {props.addPost && <AddPost />}
+      {props.viewPosts && <ViewPosts />}
     </div>
   );
 }
@@ -21,7 +23,11 @@ function App(props) {
 function mapStateToProps(reduxState) {
   return {
     loggedIn: reduxState.auth.loggedIn,
-    username: reduxState.auth.username
+    userId: reduxState.auth.userId,
+    username: reduxState.auth.username,
+    addPost: reduxState.post.addPost,
+    viewPosts: reduxState.post.viewPosts,
+    postCountry: reduxState.post.postCountry
   }
 }
 

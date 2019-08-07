@@ -4,7 +4,8 @@ const initialState = {
     visitedList: [],
     posts: [],
     friendsList: [],
-    loading: false
+    loading: false,
+    requested: false
 }
 
 const REQUEST_VISITED_LIST = 'REQUEST_VISITED_LIST';
@@ -50,6 +51,7 @@ export default function reducer(state = initialState, action) {
         case `${REQUEST_VISITED_LIST}_FULFILLED`:
             return {
                 ...state,
+                requested: true,
                 visitedList: payload,
                 loading: false
             }
@@ -62,34 +64,40 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 posts: payload,
-                loading: false
+                loading: false,
+                requested: false
             }
         case `${REQUEST_USER_POSTS}_PENDING`:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                requested: false
             }
         case `${REMOVE_USER_COUNTRY}_FULFILLED`:
             return {
                 ...state,
                 loading: false,
-                countries: payload
+                countries: payload,
+                requested: false
             }
         case `${REMOVE_USER_COUNTRY}_PENDING`:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                requested: false
             }
         case `${ADD_USER_COUNTRY}_FULFILLED`:
             return {
                 ...state,
                 countries: payload,
-                loading: false
+                loading: false,
+                requested: false
             }
         case `${ADD_USER_COUNTRY}_PENDING`:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                requested: false
             }
         default: return state;
     }

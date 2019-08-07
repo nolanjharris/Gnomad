@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Map as LeafletMap, FeatureGroup, GeoJSON, TileLayer } from 'react-leaflet';
-import { addPost } from '../../redux/reducers/postReducer';
+import { addPost, closePostForm } from '../../redux/reducers/postReducer';
 import './AddPost.scss';
 import TextField from '@material-ui/core/TextField';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
-import { Slide } from 'react-slideshow-image';
+import ImageScroll from '../ImageScroll/ImageScroll';
 
 
 const theme = createMuiTheme({
@@ -16,17 +16,6 @@ const theme = createMuiTheme({
     },
 });
 
-const properties = {
-    duration: 5000,
-    transitionDuration: 500,
-    infinite: true,
-    indicators: true,
-    arrows: true,
-    onChange: (oldIndex, newIndex) => {
-        console.log(`slide transition from ${oldIndex} to ${newIndex}`);
-    }
-}
-
 class AddPost extends Component {
     constructor(props) {
         super(props);
@@ -34,7 +23,17 @@ class AddPost extends Component {
             image_url: '',
             description: '',
             recommendations: '',
+            date: '',
             imgArr: []
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.editPost[0] && this.props.posts.length > 0) {
+            let postIndex = this.props.posts.findIndex(e => e.post_id === this.props.editPost[1]);
+            console.log(this.props.postCountry);
+            const { image_urls, post_content, upload_date } = this.props.posts[postIndex];
+            this.setState({ imgArr: image_urls, description: post_content, date: upload_date })
         }
     }
 
@@ -43,14 +42,43 @@ class AddPost extends Component {
             this.setState({ imgArr: [...this.state.imgArr, resultEvent.info.secure_url] });
             this.setState({ image_url: resultEvent.info.secure_url })
         }
-        console.log(this.state.imgArr);
+    }
+
+    handleChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     handleSubmit = () => {
+        const postContent = `${this.state.description} ${this.state.recommendations}`
+        const { date, imgArr } = this.state;
+        const { properties } = this.props.postCountry;
+        const country = properties.name.toLowerCase();
+        const post = { date, imageArr: imgArr, country, postContent }
+        this.props.addPost(post);
+        this.props.closePostForm();
+    }
 
+    onFeatureGroupAdd = (e) => {
+        this.refs.countryMap.leafletElement.fitBounds(e.target.getBounds());
+    }
+
+    backToMap = () => {
+        this.props.closePostForm();
     }
 
     render() {
+        let countryName = '';
+        let postCountry = '';
+        if (this.props.postCountry.properties) {
+            const { properties } = this.props.postCountry;
+            countryName = properties.name;
+            postCountry = this.props.postCountry;
+        } else if (this.props.postCountry[0].properties) {
+            const { properties } = this.props.postCountry[0];
+            countryName = properties.name;
+            postCountry = this.props.postCountry[0];
+        }
+        console.log(this.props.postCountry)
         const widget = window.cloudinary.createUploadWidget({
             cloudName: 'dytja9xnd',
             uploadPreset: 'travels',
@@ -60,54 +88,72 @@ class AddPost extends Component {
         return (
             <div id="addPost">
                 <div id="postContainer">
-                    <LeafletMap
-                        id="countryMap"
-                        center={[26.588527, 8.4375]}
-                        zoom={3}
-                        zoomControl={false}
-                        minZoom={3}
-                        maxBoundsViscosity={1}
-                        maxBounds={[[90, 180], [-90, -180]]}>
-                        <TileLayer
-                            url='https://api.mapbox.com/styles/v1/nolanjames/cjyp7eg2v0jju1coj57z5z4v2/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoibm9sYW5qYW1lcyIsImEiOiJjanlrdDdyaXYwMTc1M2NsaW1lbHk4OWJlIn0.iggyHj94yOeanu2cdVezug'
-                            attribution={'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'} />
-                        <FeatureGroup>
-                            <GeoJSON
-                                data={this.props.postCountry}
-                                style={() => ({
-                                    stroke: false,
-                                    color: '#4a83ec',
-                                    weight: 0.5,
-                                    fillColor: "#1a1d62",
-                                    fillOpacity: 1,
-                                })}
+                    <button onClick={this.backToMap}>Back to Map</button>
+                    <div id="postTitle">
+                        <LeafletMap
+                            id="countryMap"
+                            ref="countryMap"
+                            center={[26.588527, 8.4375]}
+                            zoom={3}
+                            zoomControl={false}
+                            minZoom={3}
+                            maxBoundsViscosity={1}
+                            maxBounds={[[90, 180], [-90, -180]]}>
+                            <TileLayer
+                                url='https://api.mapbox.com/styles/v1/nolanjames/cjyzw8gsf0v4t1coya5i7hm16/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoibm9sYW5qYW1lcyIsImEiOiJjanlrdDdyaXYwMTc1M2NsaW1lbHk4OWJlIn0.iggyHj94yOeanu2cdVezug'
+                                attribution={'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                                    '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                                    'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'} />
+                            <FeatureGroup
+                                onAdd={this.onFeatureGroupAdd}
                             >
-                            </GeoJSON>
-                        </FeatureGroup>
-                    </LeafletMap>
-                    {this.state.imgArr.length > 0 &&
-                        <div className="slide-container">
-                            <Slide {...properties}>
-                                {this.state.imgArr.map((url, i) => {
-                                    console.log(url);
-                                    return (
-                                        <div className="each-slide">
-                                            <div style={{ 'backgroundImage': `url(${url})` }}>
-                                            </div>
-                                        </div>)
-                                })}
-                            </Slide>
+                                <GeoJSON
+                                    data={postCountry}
+                                    style={() => ({
+                                        stroke: false,
+                                        color: '#4a83ec',
+                                        weight: 0.5,
+                                        fillColor: "#1a1d62",
+                                        fillOpacity: 0,
+                                    })}
+                                >
+                                </GeoJSON>
+                            </FeatureGroup>
+                        </LeafletMap>
+                        <div id="postInfoTitle">
+                            <h1>{countryName}</h1>
+                            <ThemeProvider theme={theme}>
+                                <TextField
+                                    value={this.state.date}
+                                    onChange={this.handleChange}
+                                    name="date"
+                                    id="outlined-date"
+                                    label="Travel Date"
+                                    helperText={`When did you visit ${countryName}?`}
+                                    type="date"
+                                    format="DD-MM-YYYY"
+                                    style={{ margin: 10, width: '100%' }}
+                                    margin="normal"
+                                    variant="outlined"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </ThemeProvider>
+
+                            <button id="addImages" onClick={() => widget.open()}>Add Images</button>
                         </div>
-                    }
-                    <button onClick={() => widget.open()}>Add Images</button>
+                    </div>
+                    {this.state.imgArr.length > 0 && <ImageScroll imgArr={this.state.imgArr} />}
                     <ThemeProvider theme={theme}>
                         <TextField
-                            id="outlined-multiline-flexible"
+                            value={this.state.description}
+                            id="postDescription"
+                            name="description"
+                            onChange={this.handleChange}
                             label="Describe your Experience!"
                             rowsMax="10"
-                            style={{ margin: 20, width: '60%' }}
+                            style={{ margin: 10, width: '80%' }}
                             helperText="What was great about your trip?"
                             multiline
                             margin="normal"
@@ -117,10 +163,13 @@ class AddPost extends Component {
                             }}
                         />
                         <TextField
-                            id="outlined-multiline-flexible"
+                            value={this.state.recommendations}
+                            id="postSuggestion"
+                            name="recommendations"
+                            onChange={this.handleChange}
                             label="What would you recommend?"
                             rowsMax="10"
-                            style={{ margin: 30, width: '60%' }}
+                            style={{ margin: 30, width: '80%' }}
                             helperText="What activites would you suggest to others who visit?"
                             multiline
                             margin="normal"
@@ -139,8 +188,10 @@ class AddPost extends Component {
 
 function mapStateToProps(reduxState) {
     return {
-        postCountry: reduxState.post.postCountry
+        editPost: reduxState.post.editPost,
+        postCountry: reduxState.post.postCountry,
+        posts: reduxState.post.posts
     }
 }
 
-export default connect(mapStateToProps, { addPost })(AddPost);
+export default connect(mapStateToProps, { addPost, closePostForm })(AddPost);
