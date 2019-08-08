@@ -27,7 +27,9 @@ function mapStateToProps(reduxState) {
     username: reduxState.auth.username,
     addPost: reduxState.post.addPost,
     viewPosts: reduxState.post.viewPosts,
-    postCountry: reduxState.post.postCountry
+    postCountry: reduxState.post.postCountry,
+    searchMap: reduxState.map.searchMap,
+    geojson: reduxState.map.geojson
   }
 }
 

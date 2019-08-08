@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Map as LeafletMap, FeatureGroup, GeoJSON, TileLayer } from 'react-leaflet';
-import { addPost, closePostForm } from '../../redux/reducers/postReducer';
+import { addPost, closePostForm, submitEditPost } from '../../redux/reducers/postReducer';
 import './AddPost.scss';
 import TextField from '@material-ui/core/TextField';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -33,7 +33,8 @@ class AddPost extends Component {
             let postIndex = this.props.posts.findIndex(e => e.post_id === this.props.editPost[1]);
             console.log(this.props.postCountry);
             const { image_urls, post_content, upload_date } = this.props.posts[postIndex];
-            this.setState({ imgArr: image_urls, description: post_content, date: upload_date })
+            const contentSplit = post_content.split('!RECOMMENDATIONS!');
+            this.setState({ imgArr: image_urls, description: contentSplit[0], recommendations: contentSplit[1], date: upload_date })
         }
     }
 
@@ -49,12 +50,19 @@ class AddPost extends Component {
     }
 
     handleSubmit = () => {
-        const postContent = `${this.state.description} ${this.state.recommendations}`
+        const postContent = `${this.state.description}!RECOMMENDATIONS!${this.state.recommendations}`
         const { date, imgArr } = this.state;
-        const { properties } = this.props.postCountry;
-        const country = properties.name.toLowerCase();
-        const post = { date, imageArr: imgArr, country, postContent }
-        this.props.addPost(post);
+        if (this.props.editPost[0] && this.props.posts.length > 0) {
+            const { properties } = this.props.postCountry[0];
+            let country = properties.name.toLowerCase();
+            let post = { imageArr: imgArr, postContent };
+            this.props.submitEditPost(country, post)
+        } else {
+            const { properties } = this.props.postCountry;
+            let country = properties.name.toLowerCase();
+            let post = { date, imageArr: imgArr, country, postContent }
+            this.props.addPost(post);
+        }
         this.props.closePostForm();
     }
 
@@ -78,7 +86,6 @@ class AddPost extends Component {
             countryName = properties.name;
             postCountry = this.props.postCountry[0];
         }
-        console.log(this.props.postCountry)
         const widget = window.cloudinary.createUploadWidget({
             cloudName: 'dytja9xnd',
             uploadPreset: 'travels',
@@ -114,7 +121,7 @@ class AddPost extends Component {
                                         color: '#4a83ec',
                                         weight: 0.5,
                                         fillColor: "#1a1d62",
-                                        fillOpacity: 0,
+                                        fillOpacity: 1,
                                     })}
                                 >
                                 </GeoJSON>
@@ -194,4 +201,4 @@ function mapStateToProps(reduxState) {
     }
 }
 
-export default connect(mapStateToProps, { addPost, closePostForm })(AddPost);
+export default connect(mapStateToProps, { addPost, submitEditPost, closePostForm })(AddPost);

@@ -25,7 +25,6 @@ class ViewPosts extends Component {
     }
 
     render() {
-        console.log(this.props.postCountry);
         return (
             <div id="viewPosts">
                 <div id="viewPostsContainer">

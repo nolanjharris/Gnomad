@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { createRef, Component } from 'react';
 import { connect } from 'react-redux';
 import { openPostForm } from '../../redux/reducers/postReducer';
 import { requestVisitedList } from '../../redux/reducers/userReducer';
@@ -7,12 +7,19 @@ import { Map as LeafletMap, FeatureGroup, ZoomControl, GeoJSON, TileLayer } from
 import worldGeoJSON from 'geojson-world-map';
 import SearchMap from '../SearchMap/SearchMap';
 import CustomPopup from '../CustomPopup/CustomPopup';
+import { updateGeojson } from '../../redux/reducers/mapReducer';
 
 
 class Map extends Component {
-    // componentDidMount() {
-    //     this.props.requestVisitedList(this.props.userId);
-    // }
+
+    componentDidMount() {
+        this.props.updateGeojson(worldGeoJSON);
+    }
+
+    onFeatureGroupAdd = (e) => {
+        this.refs.map.leafletElement.fitBounds(e.target.getBounds());
+        console.log(e)
+    }
 
     render() {
         if (this.props.userId && !this.props.requested) {
@@ -22,6 +29,7 @@ class Map extends Component {
             <div>
                 <LeafletMap
                     id="map"
+                    ref="map"
                     center={[26.588527, 8.4375]}
                     zoom={3}
                     zoomControl={false}
@@ -33,6 +41,25 @@ class Map extends Component {
                         attribution={'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
                             '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
                             'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'} />
+
+                    {this.props.searchMap &&
+
+                        <FeatureGroup
+                            onAdd={this.onFeatureGroupAdd}
+                        >
+                            <GeoJSON
+                                data={this.props.bounds}
+                                style={() => ({
+                                    stroke: false,
+                                    color: '#4a83ec',
+                                    weight: 0.5,
+                                    fillColor: "#1a1d62",
+                                    fillOpacity: 0.05,
+                                })}
+                            >
+                                <CustomPopup feature={this.props.bounds} />
+                            </GeoJSON>
+                        </FeatureGroup>}
                     <FeatureGroup>
                         {worldGeoJSON.features.map((feature, i) => {
                             const countryName = feature.properties.name.toLowerCase();
@@ -68,11 +95,9 @@ class Map extends Component {
                             )
                         })}
                     </FeatureGroup>
-
                     <ZoomControl
                         position='topright'
                     />
-                    <SearchMap />
                 </LeafletMap>
             </div >
         )
@@ -83,8 +108,11 @@ function mapStateToProps(reduxState) {
     return {
         userId: reduxState.auth.userId,
         visitedList: reduxState.user.visitedList,
-        requested: reduxState.user.requested
+        requested: reduxState.user.requested,
+        bounds: reduxState.map.bounds,
+        geojson: reduxState.map.geojson,
+        searchMap: reduxState.map.searchMap
     }
 }
 
-export default connect(mapStateToProps, { openPostForm, requestVisitedList })(Map);
+export default connect(mapStateToProps, { updateGeojson, openPostForm, requestVisitedList })(Map);

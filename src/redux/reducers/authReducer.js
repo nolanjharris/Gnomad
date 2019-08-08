@@ -94,14 +94,7 @@ export default function reducer(state = initialState, action) {
             }
         case `${LOGOUT_USER}_FULFILLED`:
             console.log('Logged you out!')
-            return {
-                ...state,
-                username: '',
-                loggedIn: false,
-                loading: false,
-                error: false,
-                errorMessage: ''
-            }
+            return initialState;
         case `${LOGOUT_USER}_PENDING`:
             return {
                 ...state,

@@ -18,6 +18,7 @@ const EDIT_POST = 'EDIT_POST';
 const DELETE_POST = 'DELETE_POST';
 const OPEN_VIEW_POSTS = 'OPEN_VIEW_POSTS';
 const CLOSE_VIEW_POSTS = 'CLOSE_VIEW_POSTS';
+const RESET_POST = 'RESET_POST';
 
 export function openPostForm(country) {
     return {
@@ -68,7 +69,7 @@ export function addPost(post) {
     }
 }
 
-export function editPost(country, post) {
+export function submitEditPost(country, post) {
     return {
         type: EDIT_POST,
         payload: axios.put(`/api/posts/${country}`, post)
@@ -79,6 +80,12 @@ export function deletePost(id) {
     return {
         type: DELETE_POST,
         payload: axios.delete(`/api/posts/${id}`)
+    }
+}
+
+export function resetPost() {
+    return {
+        type: RESET_POST
     }
 }
 
@@ -192,6 +199,8 @@ export default function reducer(state = initialState, action) {
                 viewPosts: false,
                 editPosts: [false, '']
             }
+        case RESET_POST:
+            return initialState;
         default: return state;
     }
 }

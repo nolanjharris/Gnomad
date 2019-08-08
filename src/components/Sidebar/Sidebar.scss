@@ -1,9 +1,9 @@
 @import '../../App.scss';
 
+
 .sidebar {
-
     // display: none;
-
+    @include flexSpaceBetween(column);
     height: 100vh;
     width: fit-content;
     position: fixed;
@@ -12,33 +12,152 @@
     z-index: 10;
     background-color: rgba(255, 255, 255, 0.7);
     padding: 10px;
+    align-items: flex-start;
 
-    h1 {
-        font-size: 3em;
-        color: $brand-color-dark;
-        font-family: $content-font;
-        letter-spacing: 7px;
+    #sideBarTitle {
+        // position: absolute;
+        // top: 0;
+        height: 25%;
+        align-items: flex-start;
+        justify-content: flex-start;
 
-        span {
+        #menuIcon {
+            display: none;
+        }
+
+        h1 {
+            font-size: 3.5em;
             color: $accent-color;
-            font-weight: bold;
+            font-family: $content-font;
+            letter-spacing: 7px;
+            margin-left: 4px;
+
+            span {
+                color: $brand-color-dark;
+                // display: none;
+            }
+        }
+
+        #profileInfo {
+            // display: none;
+
+            h3 {
+                font-size: 1em;
+                color: $brand-color-dark;
+                margin-top: 20px;
+            }
+
+            h4 {
+                font-size: 2em;
+                color: $brand-color;
+                margin-bottom: 20px;
+            }
+
+            a {
+                font-size: 1.2em;
+                color: $dark-color;
+            }
         }
     }
 
-    h3 {
-        font-size: 1em;
-        color: $brand-color-dark;
-        margin-top: 20px;
+    .menuItems {
+        width: fit-content;
+        height: 50%;
+
+        @include flexSpaceBetween(column);
+        align-items: flex-start;
+
+        div {
+            @include flexSpaceBetween(row);
+
+
+            select,
+            input {
+                height: 2.3em;
+                width: 175px;
+                margin-left: 10px;
+                background-color: #fff;
+                border: 1px solid $accent-color;
+                border-radius: 5px;
+                font-size: 1.1em;
+                font-family: $content-font;
+            }
+
+            input {
+                height: 2em;
+            }
+        }
     }
 
-    h4 {
-        font-size: 2em;
+    .open {
+        display: inline-block;
+    }
+
+    .closed {
+        display: none;
+    }
+
+    #empty {
+        height: 25%;
+    }
+
+}
+
+@keyframes openSidebar {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: fit-content;
+    }
+}
+
+@keyframes closeSidebar {
+    from {
+        width: fit-content;
+    }
+
+    to {
+        width: 0;
+    }
+}
+
+#sideNav {
+    background-color: $white-color;
+    opacity: 0.9;
+    color: $brand-color-dark;
+    font-family: $content-font;
+    @include flexCenter(column);
+
+    .navText {
+        color: $brand-color-dark !important;
+    }
+
+    #toggleContainer {
+        width: 100%;
+
+    }
+
+    #toggle {
+        width: 100%;
+        background-color: $brand-color;
+        float: left;
+    }
+
+    #icon {
         color: $brand-color;
-        margin-bottom: 20px;
+        font-size: 3em;
     }
 
-    a {
-        font-size: 1.2em;
-        color: $dark-color;
+    .sidenav---navtext---1AE_f {
+        color: $brand-color-dark;
+        font-size: 1.8em;
     }
+
+    input {
+        height: 1.8em;
+    }
+
+    .sidenav---navitem---9uL5T {}
 }

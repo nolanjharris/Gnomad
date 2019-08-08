@@ -12,6 +12,7 @@ const REQUEST_VISITED_LIST = 'REQUEST_VISITED_LIST';
 const REQUEST_USER_POSTS = 'REQUEST_USER_POSTS';
 const REMOVE_USER_COUNTRY = 'REMOVE_USER_COUNTRY';
 const ADD_USER_COUNTRY = 'ADD_USER_COUNTRY';
+const RESET_USER = 'RESET_USER';
 
 export function requestVisitedList(id) {
     return {
@@ -42,6 +43,12 @@ export function addUserCountry(country) {
         type: ADD_USER_COUNTRY,
         payload: axios.post(`/api/user/country/${country}`)
             .then(res => res.data)
+    }
+}
+
+export function resetUser() {
+    return {
+        type: RESET_USER
     }
 }
 
@@ -99,6 +106,8 @@ export default function reducer(state = initialState, action) {
                 loading: true,
                 requested: false
             }
+        case RESET_USER:
+            return initialState;
         default: return state;
     }
 }

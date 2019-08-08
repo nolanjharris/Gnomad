@@ -30,6 +30,7 @@ const addPost = async (req, res) => {
 
 const editPost = async (req, res) => {
     const { postContent } = req.body;
+    console.log(postContent);
     const { country } = req.params;
     const { id } = req.session.user;
     const db = req.app.get('db');
