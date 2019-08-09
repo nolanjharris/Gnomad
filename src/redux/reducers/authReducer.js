@@ -4,6 +4,8 @@ const initialState = {
     loggedIn: false,
     userId: '',
     username: '',
+    firstName: '',
+    lastName: '',
     loading: false,
     error: false,
     errorMessage: ''
@@ -49,6 +51,8 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 username: payload.username,
+                firstName: payload.firstName,
+                lastName: payload.lastName,
                 userId: payload.id,
                 loggedIn: true,
                 loading: false,
@@ -73,6 +77,8 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 username: payload.username,
+                firstName: payload.firstName,
+                lastName: payload.lastName,
                 userId: payload.id,
                 loggedIn: true,
                 loading: false,

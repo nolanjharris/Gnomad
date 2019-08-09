@@ -5,7 +5,8 @@ const initialState = {
     posts: [],
     friendsList: [],
     loading: false,
-    requested: false
+    requested: false,
+    profileOpen: false
 }
 
 const REQUEST_VISITED_LIST = 'REQUEST_VISITED_LIST';
@@ -13,6 +14,8 @@ const REQUEST_USER_POSTS = 'REQUEST_USER_POSTS';
 const REMOVE_USER_COUNTRY = 'REMOVE_USER_COUNTRY';
 const ADD_USER_COUNTRY = 'ADD_USER_COUNTRY';
 const RESET_USER = 'RESET_USER';
+const OPEN_PROFILE = 'OPEN_PROFILE';
+const CLOSE_PROFILE = 'CLOSE_PROFILE';
 
 export function requestVisitedList(id) {
     return {
@@ -23,6 +26,7 @@ export function requestVisitedList(id) {
 }
 
 export function requestUserPosts(id) {
+    console.log(id);
     return {
         type: REQUEST_USER_POSTS,
         payload: axios.get(`/api/user/${id}/posts`)
@@ -52,6 +56,18 @@ export function resetUser() {
     }
 }
 
+export function openProfile() {
+    return {
+        type: OPEN_PROFILE
+    }
+}
+
+export function closeProfile() {
+    return {
+        type: CLOSE_PROFILE
+    }
+}
+
 export default function reducer(state = initialState, action) {
     const { type, payload } = action;
     switch (type) {
@@ -68,6 +84,7 @@ export default function reducer(state = initialState, action) {
                 loading: true
             }
         case `${REQUEST_USER_POSTS}_FULFILLED`:
+            console.log(payload);
             return {
                 ...state,
                 posts: payload,
@@ -105,6 +122,20 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 loading: true,
                 requested: false
+            }
+        case OPEN_PROFILE: 
+            return {
+                ...state,
+                loading: false,
+                requested: false,
+                profileOpen: true
+            }
+        case CLOSE_PROFILE:
+            return {
+                ...state,
+                loading: false,
+                requested: false,
+                profileOpen: false
             }
         case RESET_USER:
             return initialState;

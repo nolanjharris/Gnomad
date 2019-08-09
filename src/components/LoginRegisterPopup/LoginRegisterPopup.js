@@ -6,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { loginUser, registerUser } from '../../redux/reducers/authReducer';
-import { requestVisitedList } from '../../redux/reducers/userReducer';
+import { requestVisitedList, requestUserPosts } from '../../redux/reducers/userReducer';
 
 
 
@@ -31,7 +31,7 @@ class LoginRegisterPopup extends Component {
         this.setState({ register: !this.state.register })
     }
 
-    handleLogin = async () => {
+    handleLogin = () => {
         const user = { username: this.state.username, password: this.state.password }
         this.props.loginUser(user);
         this.props.requestVisitedList(this.props.userId);
@@ -125,4 +125,4 @@ function mapStateToProps(reduxState) {
 }
 
 
-export default connect(mapStateToProps, { loginUser, registerUser, requestVisitedList })(LoginRegisterPopup);
+export default connect(mapStateToProps, { loginUser, registerUser, requestVisitedList, requestUserPosts})(LoginRegisterPopup);

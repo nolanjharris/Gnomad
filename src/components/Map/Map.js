@@ -13,18 +13,24 @@ import { updateGeojson } from '../../redux/reducers/mapReducer';
 class Map extends Component {
 
     componentDidMount() {
+        console.log(worldGeoJSON)
         this.props.updateGeojson(worldGeoJSON);
     }
 
     onFeatureGroupAdd = (e) => {
-        this.refs.map.leafletElement.fitBounds(e.target.getBounds());
+        // this.refs.map.leafletElement.fitBounds(this.refs.geojson.leafletElement.getBounds());
         console.log(e)
     }
 
     render() {
+        let visited = [];
+        this.props.visitedList.map(e => visited.push(e.country_name));
         if (this.props.userId && !this.props.requested) {
             this.props.requestVisitedList(this.props.userId)
         }
+        // if (this.refs.map && this.refs.map.leafletElement && this.refs.geojson && this.refs.geojson.leafletElement) {
+        //     this.refs.map.leafletElement.fitBounds(this.refs.geojson.leafletElement.getBounds());
+        // }
         return (
             <div>
                 <LeafletMap
@@ -33,7 +39,8 @@ class Map extends Component {
                     center={[26.588527, 8.4375]}
                     zoom={3}
                     zoomControl={false}
-                    minZoom={3}
+                    minZoom={2}
+                    maxZoom={5}
                     maxBoundsViscosity={1}
                     maxBounds={[[90, 180], [-90, -180]]}>
                     <TileLayer
@@ -42,38 +49,21 @@ class Map extends Component {
                             '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
                             'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'} />
 
-                    {this.props.searchMap &&
-
-                        <FeatureGroup
-                            onAdd={this.onFeatureGroupAdd}
-                        >
-                            <GeoJSON
-                                data={this.props.bounds}
-                                style={() => ({
-                                    stroke: false,
-                                    color: '#4a83ec',
-                                    weight: 0.5,
-                                    fillColor: "#1a1d62",
-                                    fillOpacity: 0.05,
-                                })}
-                            >
-                                <CustomPopup feature={this.props.bounds} />
-                            </GeoJSON>
-                        </FeatureGroup>}
                     <FeatureGroup>
-                        {worldGeoJSON.features.map((feature, i) => {
+                        {this.props.geojson.features && this.props.geojson.features.map((feature, i) => {
                             const countryName = feature.properties.name.toLowerCase();
                             return (
-                                this.props.visitedList.includes(countryName) ?
+                                visited.includes(countryName) ?
                                     <GeoJSON
                                         key={i}
+                                        ref="geojson"
                                         data={feature}
                                         style={() => ({
-                                            stroke: false,
+                                            stroke: true,
                                             color: '#4a83ec',
-                                            weight: 0.5,
-                                            fillColor: "#1a1d62",
-                                            fillOpacity: 1,
+                                            weight: 3,
+                                            fillColor: "#4a83ec",
+                                            fillOpacity: .6,
                                         })}
                                     >
                                         <CustomPopup feature={feature} />
@@ -95,6 +85,24 @@ class Map extends Component {
                             )
                         })}
                     </FeatureGroup>
+                    {this.props.searchMap &&
+
+                        <FeatureGroup
+                            onAdd={this.onFeatureGroupAdd}
+                        >
+                            <GeoJSON
+                                data={this.props.bounds}
+                                style={() => ({
+                                    stroke: false,
+                                    color: '#4a83ec',
+                                    weight: 0.5,
+                                    fillColor: "#1a1d62",
+                                    fillOpacity: 0.05,
+                                })}
+                            >
+                                <CustomPopup feature={this.props.bounds} />
+                            </GeoJSON>
+                        </FeatureGroup>}
                     <ZoomControl
                         position='topright'
                     />

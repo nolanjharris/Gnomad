@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Map as LeafletMap, FeatureGroup, GeoJSON, TileLayer } from 'react-leaflet';
 import { addPost, closePostForm, submitEditPost } from '../../redux/reducers/postReducer';
+import {requestVisitedList} from '../../redux/reducers/userReducer';
 import './AddPost.scss';
 import TextField from '@material-ui/core/TextField';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -63,6 +64,7 @@ class AddPost extends Component {
             let post = { date, imageArr: imgArr, country, postContent }
             this.props.addPost(post);
         }
+        this.props.requestVisitedList(this.props.userId);
         this.props.closePostForm();
     }
 
@@ -197,8 +199,9 @@ function mapStateToProps(reduxState) {
     return {
         editPost: reduxState.post.editPost,
         postCountry: reduxState.post.postCountry,
-        posts: reduxState.post.posts
+        posts: reduxState.post.posts,
+        userId: reduxState.auth.userId
     }
 }
 
-export default connect(mapStateToProps, { addPost, submitEditPost, closePostForm })(AddPost);
+export default connect(mapStateToProps, { addPost, requestVisitedList, submitEditPost, closePostForm })(AddPost);

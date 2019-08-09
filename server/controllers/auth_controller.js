@@ -17,6 +17,8 @@ let register = async (req, res) => {
             console.log(newUser);
             req.session.user = {
                 username,
+                lastName,
+                firstName,
                 id: newUser[0].user_id
             }
             res.status(200).json(req.session.user);
@@ -37,6 +39,8 @@ let login = async (req, res) => {
         } else {
             req.session.user = {
                 username,
+                firstName: user[0].first_name,
+                lastName: user[0].last_name,
                 id: user[0].user_id
             }
 

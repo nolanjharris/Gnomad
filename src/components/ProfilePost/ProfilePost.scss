@@ -1,0 +1,67 @@
+@import '../../App.scss';
+
+.profilePost {
+    height: fit-content;
+    width: 100%;
+    margin: 20px 0;
+    border: 1px solid $brand-color;
+    padding: 10px;
+    border-radius: 10px;
+    @include flexSpaceBetween(column);
+
+    .profilePostMain {
+        @include flexSpaceBetween(row);
+        width: 100%;
+
+        .profileMap {
+            height: 400px;
+            width: 40%;
+            border-radius: 10px;
+        }
+
+        #profilePostContent {
+            @include flexSpaceAround(column);
+            width: 60%;
+
+            height: 350px;
+
+            h1 {
+                font-size: 3.5em;
+                font-family: $header-font;
+                color: $brand-color-dark;
+            }
+
+            h3 {
+                font-size: 2em;
+                font-family: $header-font;
+                color: $brand-color;
+            }
+
+            button {
+                width: 80%;
+                height: 50px;
+                border: none;
+                border-radius: 5px;
+                background-color: $brand-color-dark;
+                color: $white-color;
+                font-size: 1.5em;
+                margin: 15px;
+            }
+        }
+    }
+
+    #profilePostContent {
+        height: fit-content;
+        width: 100%;
+        padding: 20px;
+        @include flexSpaceBetween(column);
+    }
+
+    .open {
+        display: block !important;
+    }
+
+    .closed {
+        display: none !important;
+    }
+}

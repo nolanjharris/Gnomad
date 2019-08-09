@@ -1,7 +1,7 @@
 const countries = require('../countries');
 
 const getCountriesGeoJSON = (req, res) => {
-    res.send(countries)
+    res.json(countries)
 }
 
 module.exports = {

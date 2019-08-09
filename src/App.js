@@ -7,6 +7,7 @@ import LoginRegisterPopup from './components/LoginRegisterPopup/LoginRegisterPop
 import { connect } from 'react-redux';
 import AddPost from './components/AddPost/AddPost';
 import ViewPosts from './components/ViewPosts/ViewPosts';
+import Profile from './components/Profile/Profile';
 
 function App(props) {
   return (
@@ -16,6 +17,7 @@ function App(props) {
       {!props.loggedIn ? <LoginRegisterPopup /> : <div></div>}
       {props.addPost && <AddPost />}
       {props.viewPosts && <ViewPosts />}
+      {props.profileOpen && <Profile />}
     </div>
   );
 }
@@ -29,7 +31,8 @@ function mapStateToProps(reduxState) {
     viewPosts: reduxState.post.viewPosts,
     postCountry: reduxState.post.postCountry,
     searchMap: reduxState.map.searchMap,
-    geojson: reduxState.map.geojson
+    geojson: reduxState.map.geojson,
+    profileOpen: reduxState.user.profileOpen
   }
 }
 

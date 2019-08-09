@@ -2,13 +2,15 @@
 
 #imageScrollDiv {
     // width: fit-content;
-    width: 80%;
+    width: fit-content;
+    max-width: 100%;
     height: 200px;
     overflow-x: auto;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     margin-bottom: 30px;
     margin-top: 0;
+    object-fit: cover;
 
     img {
         display: inline-block;

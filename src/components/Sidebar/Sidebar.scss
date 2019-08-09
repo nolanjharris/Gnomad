@@ -10,7 +10,7 @@
     top: 0;
     left: 0;
     z-index: 10;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(224, 224, 224, 0.7);
     padding: 10px;
     align-items: flex-start;
 
@@ -18,23 +18,31 @@
         // position: absolute;
         // top: 0;
         height: 25%;
-        align-items: flex-start;
-        justify-content: flex-start;
+        align-items: center;
+        // justify-content: flex-start;
+        align-items: center;
 
         #menuIcon {
             display: none;
         }
 
         h1 {
-            font-size: 3.5em;
+            font-size: 2.5em;
             color: $accent-color;
             font-family: $content-font;
             letter-spacing: 7px;
             margin-left: 4px;
+            @include flexCenter(row);
+            align-items: flex-end;
+
+            img {
+                height: 65px;
+                margin-right: 5px;
+            }
 
             span {
                 color: $brand-color-dark;
-                // display: none;
+                line-height: .75;
             }
         }
 
@@ -61,30 +69,29 @@
     }
 
     .menuItems {
-        width: fit-content;
+        width: 100%;
         height: 50%;
 
         @include flexSpaceBetween(column);
-        align-items: flex-start;
 
-        div {
+        .iconDiv {
             @include flexSpaceBetween(row);
 
 
             select,
             input {
-                height: 2.3em;
-                width: 175px;
+                height: 1.6em;
+                width: 150px;
                 margin-left: 10px;
                 background-color: #fff;
-                border: 1px solid $accent-color;
-                border-radius: 5px;
+                border: 1px solid #6d6f6f;
+                border-radius: 1px;
                 font-size: 1.1em;
                 font-family: $content-font;
             }
 
             input {
-                height: 2em;
+                height: 1.5em;
             }
         }
     }
