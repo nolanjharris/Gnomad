@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import "./ProfilePost.scss";
 import ImageScroll from '../ImageScroll/ImageScroll';
+import { removeUserCountry, closeProfile } from '../../redux/reducers/userReducer';
 import { connect } from 'react-redux';
 import { Map as LeafletMap, FeatureGroup, GeoJSON, TileLayer } from 'react-leaflet';
 
@@ -18,6 +19,11 @@ class ProfilePost extends Component {
     handleContentToggle = () => {
         let newClass = this.state.contentClass === 'closed' ? 'open' : 'closed';
         this.setState({ contentClass: newClass })
+    }
+
+    handleRemoveCountry = (country) => {
+        this.props.removeUserCountry(country);
+        this.props.closeProfile();
     }
 
     render() {
@@ -60,6 +66,7 @@ class ProfilePost extends Component {
                         <h1>{this.props.country.properties.name}</h1>
                         <h3>You Visited on {post[0] ? post[0].upload_date : null}</h3>
                         <button onClick={this.handleContentToggle}>Show Your Post</button>
+                        <button onClick={() => this.handleRemoveCountry(this.props.country.properties.name.toLowerCase())}>Remove Country From Your List</button>
                     </div>
                 </div>
                 <div id="profilePostContent" className={this.state.contentClass}>
@@ -82,4 +89,4 @@ function mapStateToProps(reduxState) {
     }
 }
 
-export default connect(mapStateToProps)(ProfilePost);
+export default connect(mapStateToProps, { removeUserCountry, closeProfile })(ProfilePost);

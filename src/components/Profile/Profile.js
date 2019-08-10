@@ -9,12 +9,16 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            countryInfo: []
+            countryInfo: [],
+            visitedList: []
         }
     }
 
     componentDidMount() {
-        this.setState({ countryInfo: this.props.visitedListGeojson })
+        this.setState({
+            countryInfo: this.props.visitedListGeojson,
+            visitedList: this.props.visitedList
+        })
     }
 
     findCurrentPost = (country) => {

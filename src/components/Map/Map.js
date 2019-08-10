@@ -1,24 +1,27 @@
 import React, { createRef, Component } from 'react';
 import { connect } from 'react-redux';
 import { openPostForm } from '../../redux/reducers/postReducer';
-import { requestVisitedList } from '../../redux/reducers/userReducer';
+import { requestVisitedList, requestFriendsList } from '../../redux/reducers/userReducer';
 import './Map.scss';
 import { Map as LeafletMap, FeatureGroup, ZoomControl, GeoJSON, TileLayer } from 'react-leaflet';
 import worldGeoJSON from 'geojson-world-map';
 import SearchMap from '../SearchMap/SearchMap';
 import CustomPopup from '../CustomPopup/CustomPopup';
 import { updateGeojson } from '../../redux/reducers/mapReducer';
+import FriendsMap from '../FriendsMap/FriendsMap';
 
 
 class Map extends Component {
 
     componentDidMount() {
-        console.log(worldGeoJSON)
+        this.props.requestVisitedList(this.props.userId);
+        // let geoJson = { ...worldGeoJSON }
+        // geoJson = geoJson.features[167].geometry.coordinates.splice(17, 1)
         this.props.updateGeojson(worldGeoJSON);
     }
 
     onFeatureGroupAdd = (e) => {
-        // this.refs.map.leafletElement.fitBounds(this.refs.geojson.leafletElement.getBounds());
+        this.refs.map.leafletElement.fitBounds(e.target.getBounds());
         console.log(e)
     }
 
@@ -26,20 +29,21 @@ class Map extends Component {
         let visited = [];
         this.props.visitedList.map(e => visited.push(e.country_name));
         if (this.props.userId && !this.props.requested) {
-            this.props.requestVisitedList(this.props.userId)
+            setTimeout(() => {
+                this.props.requestVisitedList(this.props.userId)
+            }, 500);
         }
-        // if (this.refs.map && this.refs.map.leafletElement && this.refs.geojson && this.refs.geojson.leafletElement) {
-        //     this.refs.map.leafletElement.fitBounds(this.refs.geojson.leafletElement.getBounds());
-        // }
+        let continents = ["Earth", "Africa", "Asia", "Australia", "N. America", "S. America", "Europe"];
         return (
             <div>
                 <LeafletMap
                     id="map"
                     ref="map"
-                    center={[26.588527, 8.4375]}
+                    center={[30, 8]}
                     zoom={3}
                     zoomControl={false}
-                    minZoom={2}
+                    minZoom={3}
+                    LatLng='wrap'
                     maxZoom={5}
                     maxBoundsViscosity={1}
                     maxBounds={[[90, 180], [-90, -180]]}>
@@ -84,7 +88,18 @@ class Map extends Component {
                                     </GeoJSON>
                             )
                         })}
+
                     </FeatureGroup>
+                    {
+                        this.props.geojson.features && this.props.displayFriendsCountries &&
+                        this.props.geojson.features.map(feature => {
+                            return (
+                                <FeatureGroup>
+                                    <FriendsMap feature={feature} />
+                                </FeatureGroup>
+                            )
+                        })
+                    }
                     {this.props.searchMap &&
 
                         <FeatureGroup
@@ -97,10 +112,12 @@ class Map extends Component {
                                     color: '#4a83ec',
                                     weight: 0.5,
                                     fillColor: "#1a1d62",
-                                    fillOpacity: 0.05,
+                                    fillOpacity: continents.includes(this.props.bounds.properties.name) ? 0 : 0.05
                                 })}
                             >
-                                <CustomPopup feature={this.props.bounds} />
+                                {continents.includes(this.props.bounds.properties.name) &&
+                                    <CustomPopup feature={this.props.bounds} />
+                                }
                             </GeoJSON>
                         </FeatureGroup>}
                     <ZoomControl
@@ -119,8 +136,10 @@ function mapStateToProps(reduxState) {
         requested: reduxState.user.requested,
         bounds: reduxState.map.bounds,
         geojson: reduxState.map.geojson,
-        searchMap: reduxState.map.searchMap
+        searchMap: reduxState.map.searchMap,
+        displayFriendsCountries: reduxState.map.displayFriendsCountries,
+        friendsList: reduxState.user.friendsList
     }
 }
 
-export default connect(mapStateToProps, { updateGeojson, openPostForm, requestVisitedList })(Map);
+export default connect(mapStateToProps, { updateGeojson, requestFriendsList, openPostForm, requestVisitedList })(Map);

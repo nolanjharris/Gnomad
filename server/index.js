@@ -10,7 +10,16 @@ const country_controller = require('./controllers/country_controller');
 
 const { getCountriesGeoJSON } = country_controller;
 const { checkForUser } = middlewares;
-const { getPostsByUser, getCountriesByUser, addCountryToUser, deleteCountryFromUser } = user_controller;
+const {
+    getAllUsers,
+    getPostsByUser,
+    getCountriesByUser,
+    addCountryToUser,
+    deleteCountryFromUser,
+    addFriendRequest,
+    acceptFriendRequest,
+    getFriendsByUser
+} = user_controller;
 const { getPostsByCountry, addPost, editPost, deletePost } = post_controller;
 const { register, login, logout } = auth_controller;
 
@@ -38,10 +47,16 @@ app.post('/auth/login', login);
 app.get('/auth/logout', logout)
 
 // User Endpoints
+app.get('/api/user/all', getAllUsers);
 app.get('/api/user/:id/posts', getPostsByUser);
 app.get('/api/user/:id/country', checkForUser, getCountriesByUser);
 app.post('/api/user/country/:country', checkForUser, addCountryToUser);
 app.delete('/api/user/country/:country', checkForUser, deleteCountryFromUser);
+
+// User Friends Endpoints
+app.get('/api/user/friends/:id', checkForUser, getFriendsByUser);
+app.post('/api/user/friends/add', checkForUser, addFriendRequest);
+app.post('/api/user/friends/accept/', checkForUser, acceptFriendRequest)
 
 // Posts Endpoints
 app.get('/api/posts/:country', getPostsByCountry);

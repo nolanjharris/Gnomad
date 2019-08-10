@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Map as LeafletMap, FeatureGroup, GeoJSON, TileLayer } from 'react-leaflet';
 import { addPost, closePostForm, submitEditPost } from '../../redux/reducers/postReducer';
-import {requestVisitedList} from '../../redux/reducers/userReducer';
+import { requestVisitedList } from '../../redux/reducers/userReducer';
 import './AddPost.scss';
 import TextField from '@material-ui/core/TextField';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -90,7 +90,7 @@ class AddPost extends Component {
         }
         const widget = window.cloudinary.createUploadWidget({
             cloudName: 'dytja9xnd',
-            uploadPreset: 'travels',
+            uploadPreset: 'travles',
             sources: ['local', 'url', 'dropbox', 'facebook', 'instagram']
         },
             (error, result) => { this.checkUploadResult(error, result) })

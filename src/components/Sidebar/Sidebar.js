@@ -2,11 +2,12 @@
 import React, { Component } from 'react';
 import logo from '../../logo.png';
 import unitedStates from '../../unitedStates';
+import continents from '../../continents';
 import './Sidebar.scss';
 import { logoutUser } from '../../redux/reducers/authReducer';
 import { resetPost } from '../../redux/reducers/postReducer';
-import { resetUser, openProfile, requestUserPosts } from '../../redux/reducers/userReducer';
-import { searchMap, updateBounds, exitSearch, updateVisitedGeojson } from '../../redux/reducers/mapReducer';
+import { resetUser, openProfile, requestUserPosts, requestFriendsList } from '../../redux/reducers/userReducer';
+import { searchMap, updateBounds, exitSearch, updateVisitedGeojson, toggleFriendsCountries } from '../../redux/reducers/mapReducer';
 import { connect } from 'react-redux';
 import Icon from '@material-ui/core/Icon';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -43,8 +44,17 @@ class Sidebar extends Component {
             menuOpen: false,
             displayClass: 'closed',
             searchResults: [],
-            searchValue: ''
+            searchValue: '',
+            continent: ''
         }
+    }
+
+    getFriendsList = () => {
+        if (this.props.userId) {
+            this.props.requestFriendsList(this.props.userId);
+        }
+        this.handleSlideToggle();
+        this.props.toggleFriendsCountries();
     }
     handleLogout = () => {
         this.props.logoutUser();
@@ -54,19 +64,37 @@ class Sidebar extends Component {
 
     handleSearch = (e) => {
         let results = this.props.geojson.features.filter(country => country.properties.name.toLowerCase().includes(e.target.value.toLowerCase()));
-        console.log(results);
+        console.log();
         this.setState({ searchResults: results, searchValue: e.target.value })
         this.props.exitSearch();
     }
 
     handleSearchedCountry = (country) => {
-
         if (country.properties.name.toLowerCase() === 'united states') {
             console.log(unitedStates);
         }
         this.props.searchMap();
         this.props.updateBounds(country);
         this.setState({ searchResults: [], searchValue: '' })
+        setTimeout(() => {
+            this.props.exitSearch();
+        }, 200);
+    }
+
+    handleClearSearch = () => {
+        this.props.exitSearch();
+        this.props.updateBounds(continents.features[6]);
+        this.setState({ continent: '' })
+    }
+
+    handleSearchedContinent = (e) => {
+        this.setState({ continent: e.target.value });
+        // this.props.exitSearch();
+        let foundContinent = continents.features.filter(continent => continent.properties.name === e.target.value);
+        console.log(foundContinent);
+        this.props.searchMap();
+        this.props.updateBounds(foundContinent[0]);
+        // this.props.updateBounds(continents.features[6]);
     }
 
     handleProfileOpen = () => {
@@ -83,6 +111,7 @@ class Sidebar extends Component {
         })
     }
     render() {
+
 
         return (
             <div className="sidebar" >
@@ -107,7 +136,7 @@ class Sidebar extends Component {
                 </div>
                 <div className="menuItems">
                     <div className="iconDiv">
-                        <Icon onClick={this.handleSlideToggle} color="disabled" style={{ fontSize: '1.5em' }}>search</Icon>
+                        <i onClick={this.handleSlideToggle} color="disabled" className='material-icons' style={{ fontSize: '1.5em' }}>search</i>
                         <input onChange={this.handleSearch} value={this.state.searchValue} className={this.state.displayClass} type="text" />
                         {this.state.searchValue && this.state.searchResults.length > 0 &&
                             <div>
@@ -123,9 +152,11 @@ class Sidebar extends Component {
                     <div className="iconDiv">
                         <div className="iconContianer">
 
-                            <Icon onClick={this.handleSlideToggle} color="action" style={{ fontSize: '1.5em' }}>explore</Icon>
+                            <i onClick={this.handleSlideToggle} className='material-icons' color="action" style={{ fontSize: '1.5em' }}>explore</i>
                         </div>
-                        <select className={this.state.displayClass}>
+                        <select onClick={this.handleClearSearch} onChange={this.handleSearchedContinent} value={this.state.continent} className={this.state.displayClass}>
+                            <option value="" disabled selected>Browse By Continent</option>
+                            <option value="Earth">Earth View</option>
                             <option value="Africa">Africa</option>
                             <option value="Asia">Asia</option>
                             <option value="Australia">Australia</option>
@@ -137,17 +168,17 @@ class Sidebar extends Component {
                     <div className="iconDiv">
                         <div className="iconContianer">
 
-                            <Icon onClick={this.handleSlideToggle} color="action" style={{ fontSize: '1.5em' }} >person_pin</Icon>
+                            <i onClick={this.handleSlideToggle} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >person_pin</i>
                         </div>
                     </div>
                     <div className="iconDiv">
-                        <Icon onClick={this.handleSlideToggle} color="action" style={{ fontSize: '1.5em' }} >people</Icon>
+                        <i onClick={this.getFriendsList} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >people</i>
                     </div>
                     <div className="iconDiv">
-                        <Icon onClick={this.handleSlideToggle} color="action" style={{ fontSize: '1.5em' }} >work</Icon>
+                        <i onClick={this.handleSlideToggle} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >work</i>
                     </div>
                     <div className="iconDiv">
-                        <Icon onClick={this.handleSlideToggle} color="action" style={{ fontSize: '1.5em' }} >favorite</Icon>
+                        <i onClick={this.handleSlideToggle} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >favorite</i>
                     </div>
                 </div>
                 <div id="empty"></div>
@@ -162,8 +193,9 @@ function mapStateToProps(reduxState) {
         username: reduxState.auth.username,
         userId: reduxState.auth.userId,
         geojson: reduxState.map.geojson,
-        visitedList: reduxState.user.visitedList
+        visitedList: reduxState.user.visitedList,
+        friendsList: reduxState.user.friendsList
     }
 }
 
-export default connect(mapStateToProps, { openProfile, requestUserPosts, updateVisitedGeojson, logoutUser, updateBounds, searchMap, exitSearch, resetPost, resetUser })(Sidebar);
+export default connect(mapStateToProps, { openProfile, toggleFriendsCountries, requestUserPosts, updateVisitedGeojson, logoutUser, updateBounds, searchMap, exitSearch, resetPost, resetUser, requestFriendsList })(Sidebar);

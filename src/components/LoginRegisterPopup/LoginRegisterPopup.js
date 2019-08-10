@@ -6,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { loginUser, registerUser } from '../../redux/reducers/authReducer';
-import { requestVisitedList, requestUserPosts } from '../../redux/reducers/userReducer';
+import { requestVisitedList, requestUserPosts, requestFriendsList } from '../../redux/reducers/userReducer';
 
 
 
@@ -34,10 +34,6 @@ class LoginRegisterPopup extends Component {
     handleLogin = () => {
         const user = { username: this.state.username, password: this.state.password }
         this.props.loginUser(user);
-        this.props.requestVisitedList(this.props.userId);
-        // axios.post('/auth/login', user).then(res => {
-        //     console.log('Logged in as ' + res.data.username);
-        // }).catch(error => console.log(error));
     }
 
     handleRegister = () => {
@@ -125,4 +121,4 @@ function mapStateToProps(reduxState) {
 }
 
 
-export default connect(mapStateToProps, { loginUser, registerUser, requestVisitedList, requestUserPosts})(LoginRegisterPopup);
+export default connect(mapStateToProps, { loginUser, registerUser, requestVisitedList, requestUserPosts, requestFriendsList })(LoginRegisterPopup);

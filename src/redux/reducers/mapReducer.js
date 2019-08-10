@@ -2,7 +2,8 @@ const initialState = {
     bounds: [[90, 180], [-90, -180]],
     geojson: {},
     search: false,
-    visitedListGeojson: []
+    visitedListGeojson: [],
+    displayFriendsCountries: false
 }
 
 const UPDATE_BOUNDS = 'UPDATE_BOUNDS';
@@ -11,6 +12,7 @@ const SEARCH_MAP = 'SEARCH_MAP';
 const EXIT_SEARCH = 'EXIT_SEARCH';
 const UPDATE_VISITED_GEOJSON = 'UPDATE_VISITED_GEOJSON';
 const RESET_VISITED_GEOJSON = 'RESET_VISITED_GEOJSON';
+const TOGGLE_FRIENDS_COUNTRIES = 'DISPLAY_FRIENDS_COUNTRIES';
 
 export function updateBounds(bounds) {
     return {
@@ -38,16 +40,22 @@ export function updateGeojson(geojson) {
     }
 }
 
-export function updateVisitedGeojson(visited){
+export function updateVisitedGeojson(visited) {
     return {
         type: UPDATE_VISITED_GEOJSON,
         payload: visited
     }
 }
 
-export function resetVisitedGeojson(){
+export function resetVisitedGeojson() {
     return {
         type: RESET_VISITED_GEOJSON
+    }
+}
+
+export function toggleFriendsCountries() {
+    return {
+        type: TOGGLE_FRIENDS_COUNTRIES
     }
 }
 
@@ -79,8 +87,8 @@ export default function reducer(state = initialState, action) {
             let visited = [];
             payload.map(e => state.geojson.features.map(a => {
                 return a.properties.name.toLowerCase() === e.country_name ?
-                visited.push(a) :
-                null
+                    visited.push(a) :
+                    null
             }))
             console.log(visited);
             return {
@@ -91,6 +99,12 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 visitedListGeojson: []
+            }
+        case TOGGLE_FRIENDS_COUNTRIES:
+            let display = state.displayFriendsCountries ? false : true;
+            return {
+                ...state,
+                displayFriendsCountries: display
             }
         default: return state;
     }

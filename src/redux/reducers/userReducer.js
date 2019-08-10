@@ -4,9 +4,11 @@ const initialState = {
     visitedList: [],
     posts: [],
     friendsList: [],
+    pendingFriendRequests: [],
     loading: false,
     requested: false,
-    profileOpen: false
+    profileOpen: false,
+    allUsers: []
 }
 
 const REQUEST_VISITED_LIST = 'REQUEST_VISITED_LIST';
@@ -16,6 +18,8 @@ const ADD_USER_COUNTRY = 'ADD_USER_COUNTRY';
 const RESET_USER = 'RESET_USER';
 const OPEN_PROFILE = 'OPEN_PROFILE';
 const CLOSE_PROFILE = 'CLOSE_PROFILE';
+const REQUEST_FRIENDS_LIST = 'REQUEST_FRIENDS_LIST';
+const REQUEST_ALL_USERS = 'REQUEST_ALL_USERS';
 
 export function requestVisitedList(id) {
     return {
@@ -67,6 +71,23 @@ export function closeProfile() {
         type: CLOSE_PROFILE
     }
 }
+
+export function requestFriendsList(id) {
+    return {
+        type: REQUEST_FRIENDS_LIST,
+        payload: axios.get(`/api/user/friends/${id}`)
+            .then(res => res.data)
+    }
+}
+
+export function requestAllUsers() {
+    return {
+        type: REQUEST_ALL_USERS,
+        payload: axios.get('/api/user/all')
+            .then(res => res.data)
+    }
+}
+
 
 export default function reducer(state = initialState, action) {
     const { type, payload } = action;
@@ -123,7 +144,7 @@ export default function reducer(state = initialState, action) {
                 loading: true,
                 requested: false
             }
-        case OPEN_PROFILE: 
+        case OPEN_PROFILE:
             return {
                 ...state,
                 loading: false,
@@ -136,6 +157,29 @@ export default function reducer(state = initialState, action) {
                 loading: false,
                 requested: false,
                 profileOpen: false
+            }
+        case `${REQUEST_FRIENDS_LIST}_FULFILLED`:
+            return {
+                ...state,
+                loading: false,
+                friendsList: payload[0],
+                pendingFriendRequests: payload[1]
+            }
+        case `${REQUEST_FRIENDS_LIST}_PENDING`:
+            return {
+                ...state,
+                loading: true
+            }
+        case `${REQUEST_ALL_USERS}_FULFILLED`:
+            return {
+                ...state,
+                loading: false,
+                allUsers: payload
+            }
+        case `${REQUEST_ALL_USERS}_PENDING`:
+            return {
+                ...state,
+                loading: true
             }
         case RESET_USER:
             return initialState;
