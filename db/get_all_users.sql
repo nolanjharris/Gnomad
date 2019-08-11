@@ -1,1 +1,1 @@
-SELECT user_id, first_name, last_name, username FROM users;
+SELECT user_id, first_name, last_name, username, country_color FROM users;

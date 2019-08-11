@@ -8,7 +8,8 @@ const initialState = {
     lastName: '',
     loading: false,
     error: false,
-    errorMessage: ''
+    errorMessage: '',
+    userColor: ''
 }
 
 const LOGIN_USER = 'LOGIN_USER';
@@ -20,7 +21,6 @@ export function loginUser(user) {
         type: LOGIN_USER,
         payload: axios.post('/auth/login', user)
             .then(res => {
-                console.log(res.data);
                 return res.data
             })
         // .catch(error => console.log(error))
@@ -47,7 +47,6 @@ export default function reducer(state = initialState, action) {
     const { type, payload } = action;
     switch (type) {
         case `${LOGIN_USER}_FULFILLED`:
-            console.log('Logged you In!')
             return {
                 ...state,
                 username: payload.username,
@@ -57,7 +56,8 @@ export default function reducer(state = initialState, action) {
                 loggedIn: true,
                 loading: false,
                 error: false,
-                errorMessage: ''
+                errorMessage: '',
+                userColor: payload.country_color
             };
         case `${LOGIN_USER}_PENDING`:
             return {

@@ -1,38 +1,45 @@
-import React, { createRef, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { openPostForm } from '../../redux/reducers/postReducer';
-import { requestVisitedList, requestFriendsList } from '../../redux/reducers/userReducer';
+import { requestVisitedList, requestFriendsList, requestAllUsers } from '../../redux/reducers/userReducer';
 import './Map.scss';
 import { Map as LeafletMap, FeatureGroup, ZoomControl, GeoJSON, TileLayer } from 'react-leaflet';
 import worldGeoJSON from 'geojson-world-map';
-import SearchMap from '../SearchMap/SearchMap';
 import CustomPopup from '../CustomPopup/CustomPopup';
 import { updateGeojson } from '../../redux/reducers/mapReducer';
 import FriendsMap from '../FriendsMap/FriendsMap';
 
 
 class Map extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            visitedList: []
+        }
+    }
 
     componentDidMount() {
-        this.props.requestVisitedList(this.props.userId);
+        // this.props.requestVisitedList(this.props.userId);
+        this.setState({ visitedList: this.props.visitedList });
         // let geoJson = { ...worldGeoJSON }
         // geoJson = geoJson.features[167].geometry.coordinates.splice(17, 1)
         this.props.updateGeojson(worldGeoJSON);
+        this.props.requestAllUsers();
     }
 
     onFeatureGroupAdd = (e) => {
         this.refs.map.leafletElement.fitBounds(e.target.getBounds());
-        console.log(e)
     }
 
     render() {
+        if (this.props.userId && !this.props.requested) {
+            this.props.requestVisitedList(this.props.userId);
+            //     setTimeout(() => {
+            //         this.props.requestFriendsList(this.props.userId);
+            //     }, 100);
+        }
         let visited = [];
         this.props.visitedList.map(e => visited.push(e.country_name));
-        if (this.props.userId && !this.props.requested) {
-            setTimeout(() => {
-                this.props.requestVisitedList(this.props.userId)
-            }, 500);
-        }
         let continents = ["Earth", "Africa", "Asia", "Australia", "N. America", "S. America", "Europe"];
         return (
             <div>
@@ -44,14 +51,12 @@ class Map extends Component {
                     zoomControl={false}
                     minZoom={3}
                     LatLng='wrap'
-                    maxZoom={5}
+                    maxZoom={7}
                     maxBoundsViscosity={1}
                     maxBounds={[[90, 180], [-90, -180]]}>
                     <TileLayer
-                        url='https://api.mapbox.com/styles/v1/nolanjames/cjyzw8gsf0v4t1coya5i7hm16/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoibm9sYW5qYW1lcyIsImEiOiJjanlrdDdyaXYwMTc1M2NsaW1lbHk4OWJlIn0.iggyHj94yOeanu2cdVezug'
-                        attribution={'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'} />
+                        url='https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'
+                        attribution='Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ' />
 
                     <FeatureGroup>
                         {this.props.geojson.features && this.props.geojson.features.map((feature, i) => {
@@ -64,10 +69,11 @@ class Map extends Component {
                                         data={feature}
                                         style={() => ({
                                             stroke: true,
-                                            color: '#4a83ec',
+                                            color: `${this.props.userColor}`,
                                             weight: 3,
-                                            fillColor: "#4a83ec",
-                                            fillOpacity: .6,
+                                            opacity: .1,
+                                            fillColor: `${this.props.userColor}`,
+                                            fillOpacity: .3,
                                         })}
                                     >
                                         <CustomPopup feature={feature} />
@@ -92,13 +98,13 @@ class Map extends Component {
                     </FeatureGroup>
                     {
                         this.props.geojson.features && this.props.displayFriendsCountries &&
-                        this.props.geojson.features.map(feature => {
-                            return (
-                                <FeatureGroup>
-                                    <FriendsMap feature={feature} />
-                                </FeatureGroup>
-                            )
-                        })
+                        <FeatureGroup>
+                            {this.props.geojson.features.map((feature, i) => {
+                                return (
+                                    <FriendsMap key={i} feature={feature} />
+                                )
+                            })}
+                        </FeatureGroup>
                     }
                     {this.props.searchMap &&
 
@@ -112,7 +118,7 @@ class Map extends Component {
                                     color: '#4a83ec',
                                     weight: 0.5,
                                     fillColor: "#1a1d62",
-                                    fillOpacity: continents.includes(this.props.bounds.properties.name) ? 0 : 0.05
+                                    fillOpacity: continents.includes(this.props.bounds.properties.name) ? 0 : 0.1
                                 })}
                             >
                                 {continents.includes(this.props.bounds.properties.name) &&
@@ -138,8 +144,9 @@ function mapStateToProps(reduxState) {
         geojson: reduxState.map.geojson,
         searchMap: reduxState.map.searchMap,
         displayFriendsCountries: reduxState.map.displayFriendsCountries,
-        friendsList: reduxState.user.friendsList
+        friendsList: reduxState.user.friendsList,
+        userColor: reduxState.auth.userColor
     }
 }
 
-export default connect(mapStateToProps, { updateGeojson, requestFriendsList, openPostForm, requestVisitedList })(Map);
+export default connect(mapStateToProps, { updateGeojson, requestAllUsers, requestFriendsList, openPostForm, requestVisitedList })(Map);

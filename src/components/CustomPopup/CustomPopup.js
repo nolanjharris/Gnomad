@@ -10,7 +10,7 @@ function CustomPopup(props) {
     }
 
     const handlePostsByCountry = () => {
-        props.requestCountryPosts(props.feature)
+        props.requestCountryPosts(props.feature).then()
     }
 
     return (

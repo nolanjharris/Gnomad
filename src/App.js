@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import AddPost from './components/AddPost/AddPost';
 import ViewPosts from './components/ViewPosts/ViewPosts';
 import Profile from './components/Profile/Profile';
+import Legend from './components/Legend/Legend';
 
 function App(props) {
   return (
@@ -18,6 +19,7 @@ function App(props) {
       {props.addPost && <AddPost />}
       {props.viewPosts && <ViewPosts />}
       {props.profileOpen && <Profile />}
+      <Legend />
     </div>
   );
 }

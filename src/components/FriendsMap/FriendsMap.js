@@ -10,15 +10,16 @@ class FriendsMap extends Component {
             <>
                 {this.props.friendsList.map((friend, i) => {
                     return (
-                        friend.countries.includes(this.props.feature.properties.name.toLowerCase()) &&
+                        friend.visitedList.includes(this.props.feature.properties.name.toLowerCase()) &&
                         <GeoJSON
                             key={`friend${i}`}
                             data={this.props.feature}
                             style={() => ({
-                                stroke: false,
-                                color: 'green',
-                                weight: 0.5,
-                                fillColor: "green",
+                                stroke: true,
+                                color: `${friend.country_color}`,
+                                weight: 3,
+                                opacity: .1,
+                                fillColor: `${friend.country_color}`,
                                 fillOpacity: 0.2,
                             })}
                         >

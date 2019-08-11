@@ -3,7 +3,6 @@ import './Profile.scss';
 import { connect } from 'react-redux';
 import { closeProfile } from '../../redux/reducers/userReducer';
 import ProfilePost from '../ProfilePost/ProfilePost';
-import { Map as LeafletMap, FeatureGroup, GeoJSON, TileLayer } from 'react-leaflet';
 
 class Profile extends Component {
     constructor(props) {
@@ -30,7 +29,7 @@ class Profile extends Component {
 
 
     render() {
-
+        console.log(this.state.countryInfo)
         return (
             <div id="profile">
                 <div id="profileContainer">
@@ -38,6 +37,7 @@ class Profile extends Component {
                     <h1>{this.props.firstName} {this.props.lastName}</h1>
                     <h3>{this.props.username}</h3>
                     {this.state.countryInfo.length > 0 &&
+
                         this.state.countryInfo.map((country, i) => {
                             return <ProfilePost key={i} country={country} />
                         })

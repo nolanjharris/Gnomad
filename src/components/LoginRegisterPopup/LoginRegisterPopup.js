@@ -31,9 +31,9 @@ class LoginRegisterPopup extends Component {
         this.setState({ register: !this.state.register })
     }
 
-    handleLogin = () => {
+    handleLogin = async () => {
         const user = { username: this.state.username, password: this.state.password }
-        this.props.loginUser(user);
+        await this.props.loginUser(user);
     }
 
     handleRegister = () => {

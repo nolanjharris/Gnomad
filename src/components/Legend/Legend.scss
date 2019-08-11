@@ -1,0 +1,69 @@
+@import '../../App.scss';
+
+#mapLegend {
+    position: absolute;
+    bottom: 20px;
+    right: 15px;
+    z-index: 1000;
+    opacity: .8;
+
+    #legendTabs {
+        display: flex;
+        justify-content: flex-start;
+
+        button {
+            height: 30px;
+            width: 80px;
+            border: none;
+            border-top-right-radius: 3px;
+            border-top-left-radius: 3px;
+            background: rgb(238, 238, 238);
+            font-family: $content-font;
+            font-size: 1em;
+            color: $brand-color-dark;
+        }
+
+        .focused {
+            background: rgba(255, 255, 255, 1);
+        }
+    }
+
+    #legendContainer {
+        background: rgba(255, 255, 255, 1);
+        border-radius: 3px;
+        border-top-left-radius: 0px;
+        color: $brand-color-dark;
+        height: 200px;
+        width: 250px;
+        overflow-y: auto;
+
+        h3 {
+            font-size: 1.3em;
+            padding: 8px;
+        }
+
+        &>div {
+            position: relative;
+            height: 35px;
+            @include flexCenter(column);
+
+            .legendFriend {
+                opacity: .4;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            p {
+                font-size: 1.2em;
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                top: .4em;
+                left: 0;
+            }
+        }
+    }
+}

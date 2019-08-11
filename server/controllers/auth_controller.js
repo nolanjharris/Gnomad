@@ -41,6 +41,7 @@ let login = async (req, res) => {
                 username,
                 firstName: user[0].first_name,
                 lastName: user[0].last_name,
+                country_color: user[0].country_color,
                 id: user[0].user_id
             }
 

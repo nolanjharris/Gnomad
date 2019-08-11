@@ -50,19 +50,19 @@ class AddPost extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         const postContent = `${this.state.description}!RECOMMENDATIONS!${this.state.recommendations}`
         const { date, imgArr } = this.state;
         if (this.props.editPost[0] && this.props.posts.length > 0) {
             const { properties } = this.props.postCountry[0];
             let country = properties.name.toLowerCase();
             let post = { imageArr: imgArr, postContent };
-            this.props.submitEditPost(country, post)
+            await this.props.submitEditPost(country, post)
         } else {
             const { properties } = this.props.postCountry;
             let country = properties.name.toLowerCase();
             let post = { date, imageArr: imgArr, country, postContent }
-            this.props.addPost(post);
+            await this.props.addPost(post);
         }
         this.props.requestVisitedList(this.props.userId);
         this.props.closePostForm();
@@ -90,7 +90,7 @@ class AddPost extends Component {
         }
         const widget = window.cloudinary.createUploadWidget({
             cloudName: 'dytja9xnd',
-            uploadPreset: 'travles',
+            uploadPreset: 'profilePictures',
             sources: ['local', 'url', 'dropbox', 'facebook', 'instagram']
         },
             (error, result) => { this.checkUploadResult(error, result) })

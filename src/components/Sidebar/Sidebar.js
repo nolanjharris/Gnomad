@@ -1,42 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import logo from '../../logo.png';
-import unitedStates from '../../unitedStates';
 import continents from '../../continents';
 import './Sidebar.scss';
 import { logoutUser } from '../../redux/reducers/authReducer';
 import { resetPost } from '../../redux/reducers/postReducer';
-import { resetUser, openProfile, requestUserPosts, requestFriendsList } from '../../redux/reducers/userReducer';
+import { resetUser, openProfile, requestUserPosts, requestFriendsList, sendFriendRequest, acceptFriendRequest } from '../../redux/reducers/userReducer';
 import { searchMap, updateBounds, exitSearch, updateVisitedGeojson, toggleFriendsCountries } from '../../redux/reducers/mapReducer';
 import { connect } from 'react-redux';
 import Icon from '@material-ui/core/Icon';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
-import { makeStyles } from '@material-ui/core/styles';
-import { FormControl, FormHelperText, InputLabel, NativeSelect, Input, MenuItem } from '@material-ui/core'
 
-const theme = createMuiTheme({
-    palette: {
-        primary: green,
-    },
-});
-// const useStyles = makeStyles(theme => ({
-//     root: {
-//         display: 'flex',
-//         flexWrap: 'wrap'
-//     },
-//     formControl: {
-//         margin: theme.spacing(1),
-//         minWidth: '120px',
-//         display: 'flex',
-//         'flex-direction': 'column'
-//     },
-//     selectEmpty: {
-//         marginTop: theme.spacing(2)
-//     }
-// }))
 
-// const classes = useStyles();
 class Sidebar extends Component {
     constructor(props) {
         super(props);
@@ -45,19 +19,18 @@ class Sidebar extends Component {
             displayClass: 'closed',
             searchResults: [],
             searchValue: '',
-            continent: ''
+            continent: '',
+            usernameSearch: '',
+            usernameResults: []
         }
     }
 
-    getFriendsList = () => {
-        if (this.props.userId) {
-            this.props.requestFriendsList(this.props.userId);
-        }
-        this.handleSlideToggle();
+    getFriendsList = async () => {
+        await this.props.requestFriendsList(this.props.userId)
         this.props.toggleFriendsCountries();
     }
-    handleLogout = () => {
-        this.props.logoutUser();
+    handleLogout = async () => {
+        await this.props.logoutUser();
         this.props.resetPost();
         this.props.resetUser();
     }
@@ -70,9 +43,6 @@ class Sidebar extends Component {
     }
 
     handleSearchedCountry = (country) => {
-        if (country.properties.name.toLowerCase() === 'united states') {
-            console.log(unitedStates);
-        }
         this.props.searchMap();
         this.props.updateBounds(country);
         this.setState({ searchResults: [], searchValue: '' })
@@ -97,6 +67,23 @@ class Sidebar extends Component {
         // this.props.updateBounds(continents.features[6]);
     }
 
+    handleEarthView = async () => {
+        this.props.searchMap();
+        await this.props.updateBounds(continents.features[6])
+        this.props.exitSearch();
+    }
+
+    handleUsernameSearch = (e) => {
+        let foundUser = this.props.allUsers.filter(user => user.username.toLowerCase().includes(e.target.value.toLowerCase()));
+        this.setState({ usernameResults: foundUser, username: e.target.value });
+        console.log(foundUser);
+    }
+
+    handleAddFriend = async (user) => {
+        console.log(user.user_id)
+        await sendFriendRequest(user.user_id);
+    }
+
     handleProfileOpen = () => {
         this.props.requestUserPosts(this.props.userId);
         this.props.updateVisitedGeojson(this.props.visitedList);
@@ -111,8 +98,10 @@ class Sidebar extends Component {
         })
     }
     render() {
-
-
+        if (this.props.friendsList > 0) {
+            let unfriended = this.props.allUsers.filter(e => this.props.friendsList.findIndex(a => a.username === e.username) < 0)
+            console.log(unfriended);
+        }
         return (
             <div className="sidebar" >
                 <div id="sideBarTitle" onClick={this.handleSlideToggle} >
@@ -122,13 +111,13 @@ class Sidebar extends Component {
                         color="action"
                         onClick={this.handleSlideToggle}
                         style={{ float: 'left', fontSize: '3em' }}>
-                        {this.state.menuOpen ? 'close' : 'menu'}
+                        menu
                     </Icon>
                     {
                         this.props.loggedIn &&
                         <div className={this.state.displayClass} id="profileInfo">
                             <h3>Logged in as</h3>
-                            <h4>{this.props.username}</h4>
+                            <h4>&{this.props.username}</h4>
                             <button onClick={this.handleProfileOpen}>Profile</button>
                             <a href="#" onClick={this.handleLogout}>logout</a>
                         </div>
@@ -136,8 +125,20 @@ class Sidebar extends Component {
                 </div>
                 <div className="menuItems">
                     <div className="iconDiv">
+                        <div className="iconContainer notifications">
+                            <div id="notificationsIcon">
+                                <div id="notify"></div>
+                                <i onClick={this.handleNotifications} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >notifications</i>
+                            </div>
+                            <div>
+                                <button className={this.state.displayClass}>Notifications</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className="iconDiv">
                         <i onClick={this.handleSlideToggle} color="disabled" className='material-icons' style={{ fontSize: '1.5em' }}>search</i>
-                        <input onChange={this.handleSearch} value={this.state.searchValue} className={this.state.displayClass} type="text" />
+                        <input onChange={this.handleSearch} placeholder='Country Search' value={this.state.searchValue} className={this.state.displayClass} type="text" />
                         {this.state.searchValue && this.state.searchResults.length > 0 &&
                             <div>
                                 {this.state.searchResults.map((e, i) => {
@@ -155,8 +156,7 @@ class Sidebar extends Component {
                             <i onClick={this.handleSlideToggle} className='material-icons' color="action" style={{ fontSize: '1.5em' }}>explore</i>
                         </div>
                         <select onClick={this.handleClearSearch} onChange={this.handleSearchedContinent} value={this.state.continent} className={this.state.displayClass}>
-                            <option value="" disabled selected>Browse By Continent</option>
-                            <option value="Earth">Earth View</option>
+                            <option value="" disabled>Continent View</option>
                             <option value="Africa">Africa</option>
                             <option value="Asia">Asia</option>
                             <option value="Australia">Australia</option>
@@ -167,18 +167,14 @@ class Sidebar extends Component {
                     </div>
                     <div className="iconDiv">
                         <div className="iconContianer">
-
-                            <i onClick={this.handleSlideToggle} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >person_pin</i>
+                            <i onClick={this.handleEarthView} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >public</i>
                         </div>
+                        <button onClick={this.handleEarthView} className={this.state.displayClass}>World View</button>
+
                     </div>
                     <div className="iconDiv">
                         <i onClick={this.getFriendsList} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >people</i>
-                    </div>
-                    <div className="iconDiv">
-                        <i onClick={this.handleSlideToggle} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >work</i>
-                    </div>
-                    <div className="iconDiv">
-                        <i onClick={this.handleSlideToggle} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >favorite</i>
+                        <button onClick={this.getFriendsList} className={this.state.displayClass}>Toggle Friends</button>
                     </div>
                 </div>
                 <div id="empty"></div>
@@ -194,8 +190,15 @@ function mapStateToProps(reduxState) {
         userId: reduxState.auth.userId,
         geojson: reduxState.map.geojson,
         visitedList: reduxState.user.visitedList,
-        friendsList: reduxState.user.friendsList
+        allUsers: reduxState.user.allUsers,
+        friendsList: reduxState.user.friendsList,
+        pendingFriendRequests: reduxState.user.pendingFriendRequests,
+        sentFriendRequests: reduxState.user.sentFriendRequests
     }
 }
 
-export default connect(mapStateToProps, { openProfile, toggleFriendsCountries, requestUserPosts, updateVisitedGeojson, logoutUser, updateBounds, searchMap, exitSearch, resetPost, resetUser, requestFriendsList })(Sidebar);
+export default connect(mapStateToProps, { openProfile, sendFriendRequest, acceptFriendRequest, toggleFriendsCountries, requestUserPosts, updateVisitedGeojson, logoutUser, updateBounds, searchMap, exitSearch, resetPost, resetUser, requestFriendsList })(Sidebar);
+
+{/* <div className="iconDiv">
+    <i onClick={this.handleSlideToggle} color="action" className='material-icons' style={{ fontSize: '1.5em' }} >favorite</i>
+</div> */}

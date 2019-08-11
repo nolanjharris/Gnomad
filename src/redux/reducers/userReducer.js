@@ -5,6 +5,7 @@ const initialState = {
     posts: [],
     friendsList: [],
     pendingFriendRequests: [],
+    sentFriendRequests: [],
     loading: false,
     requested: false,
     profileOpen: false,
@@ -19,6 +20,8 @@ const RESET_USER = 'RESET_USER';
 const OPEN_PROFILE = 'OPEN_PROFILE';
 const CLOSE_PROFILE = 'CLOSE_PROFILE';
 const REQUEST_FRIENDS_LIST = 'REQUEST_FRIENDS_LIST';
+const SEND_FRIEND_REQUEST = 'SEND_FRIEND_REQUEST';
+const ACCEPT_FRIEND_REQUEST = 'ACCEPT_FRIEND_REQUEST';
 const REQUEST_ALL_USERS = 'REQUEST_ALL_USERS';
 
 export function requestVisitedList(id) {
@@ -80,6 +83,22 @@ export function requestFriendsList(id) {
     }
 }
 
+export function sendFriendRequest(id) {
+    return {
+        type: SEND_FRIEND_REQUEST,
+        payload: axios.post('/api/user/friends/add', { userId: id })
+            .then(res => res.data)
+    }
+}
+
+export function acceptFriendRequest(id) {
+    return {
+        type: ACCEPT_FRIEND_REQUEST,
+        payload: axios.put('/api/user/friends/accept', { userId: id })
+            .then(res => res.data)
+    }
+}
+
 export function requestAllUsers() {
     return {
         type: REQUEST_ALL_USERS,
@@ -91,11 +110,13 @@ export function requestAllUsers() {
 
 export default function reducer(state = initialState, action) {
     const { type, payload } = action;
+    let unfriended;
     switch (type) {
         case `${REQUEST_VISITED_LIST}_FULFILLED`:
+            let request = payload === [] ? false : true;
             return {
                 ...state,
-                requested: true,
+                requested: request,
                 visitedList: payload,
                 loading: false
             }
@@ -109,14 +130,12 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 posts: payload,
-                loading: false,
-                requested: false
+                loading: false
             }
         case `${REQUEST_USER_POSTS}_PENDING`:
             return {
                 ...state,
                 loading: true,
-                requested: false
             }
         case `${REMOVE_USER_COUNTRY}_FULFILLED`:
             return {
@@ -129,7 +148,6 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 loading: true,
-                requested: false
             }
         case `${ADD_USER_COUNTRY}_FULFILLED`:
             return {
@@ -148,24 +166,55 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                requested: false,
                 profileOpen: true
             }
         case CLOSE_PROFILE:
             return {
                 ...state,
                 loading: false,
-                requested: false,
                 profileOpen: false
             }
         case `${REQUEST_FRIENDS_LIST}_FULFILLED`:
+            unfriended = state.allUsers.filter(user => payload[0].findIndex(friend => friend.username === user.username) < 0)
             return {
                 ...state,
                 loading: false,
+                allUsers: unfriended,
                 friendsList: payload[0],
-                pendingFriendRequests: payload[1]
+                pendingFriendRequests: payload[1],
+                sentFriendRequests: payload[2]
             }
         case `${REQUEST_FRIENDS_LIST}_PENDING`:
+            return {
+                ...state,
+                loading: true
+            }
+        case `${SEND_FRIEND_REQUEST}_FULFILLED`:
+            unfriended = state.allUsers.filter(user => payload[0].findIndex(friend => friend.username === user.username) < 0)
+            return {
+                ...state,
+                loading: false,
+                allUsers: unfriended,
+                friendsList: payload[0],
+                pendingFriendRequests: payload[1],
+                sentFriendRequests: payload[2]
+            }
+        case `${SEND_FRIEND_REQUEST}_PENDING`:
+            return {
+                ...state,
+                loading: true
+            }
+        case `${ACCEPT_FRIEND_REQUEST}_FULFILLED`:
+            unfriended = state.allUsers.filter(user => payload[0].findIndex(friend => friend.username === user.username) < 0)
+            return {
+                ...state,
+                loading: false,
+                allUsers: unfriended,
+                friendsList: payload[0],
+                pendingFriendRequests: payload[1],
+                sentFriendRequests: payload[2]
+            }
+        case `${ACCEPT_FRIEND_REQUEST}_PENDING`:
             return {
                 ...state,
                 loading: true

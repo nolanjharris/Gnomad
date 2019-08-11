@@ -49,14 +49,14 @@ app.get('/auth/logout', logout)
 // User Endpoints
 app.get('/api/user/all', getAllUsers);
 app.get('/api/user/:id/posts', getPostsByUser);
-app.get('/api/user/:id/country', checkForUser, getCountriesByUser);
+app.get('/api/user/:id/country', getCountriesByUser);
 app.post('/api/user/country/:country', checkForUser, addCountryToUser);
 app.delete('/api/user/country/:country', checkForUser, deleteCountryFromUser);
 
 // User Friends Endpoints
-app.get('/api/user/friends/:id', checkForUser, getFriendsByUser);
-app.post('/api/user/friends/add', checkForUser, addFriendRequest);
-app.post('/api/user/friends/accept/', checkForUser, acceptFriendRequest)
+app.get('/api/user/friends/:id', getFriendsByUser);
+app.post('/api/user/friends/add', addFriendRequest);
+app.put('/api/user/friends/accept/', acceptFriendRequest);
 
 // Posts Endpoints
 app.get('/api/posts/:country', getPostsByCountry);

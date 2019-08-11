@@ -47,13 +47,13 @@ const getFriendsByUser = async (req, res) => {
     const db = req.app.get('db');
     const friends = await db.get_friends_by_user([id]).catch(error => console.log(error));
     const pending = await db.get_friend_requests_by_user([id]).catch(error => console.log(error));
+    const sentRequests = await db.get_pending_friend_requests([id]).catch(error => console.log(error));
     for (let friend of friends) {
         let countries = await db.get_countries_by_user([friend.user_id]).catch(error => console.log(error));
         let countriesArr = countries.map(e => e = e.country_name);
-        console.log(countriesArr);
         friend.visitedList = countriesArr;
     }
-    const friendsList = [friends, pending];
+    const friendsList = [friends, pending, sentRequests];
     res.status(200).json(friendsList);
 }
 
@@ -62,15 +62,33 @@ const addFriendRequest = async (req, res) => {
     const id2 = req.body.userId;
     const db = req.app.get('db');
     await db.add_friend_request([id, id2]).catch(error => console.log(error));
-    res.sendStatus(200);
+    const friends = await db.get_friends_by_user([id]).catch(error => console.log(error));
+    const pending = await db.get_friend_requests_by_user([id]).catch(error => console.log(error));
+    const sentRequests = await db.get_pending_friend_requests([id]).catch(error => console.log(error));
+    for (let friend of friends) {
+        let countries = await db.get_countries_by_user([friend.user_id]).catch(error => console.log(error));
+        let countriesArr = countries.map(e => e = e.country_name);
+        friend.visitedList = countriesArr;
+    }
+    const friendsList = [friends, pending, sentRequests];
+    res.status(200).json(friendsList);
 }
 
 const acceptFriendRequest = async (req, res) => {
     const { id } = req.session.user;
-    const id2 = req.body.user_id;
+    const id2 = req.body.userId;
     const db = req.app.get('db');
     await db.accept_friend_request([id, id2]).catch(error => console.log(error));
-    res.sendStatus(200);
+    const friends = await db.get_friends_by_user([id]).catch(error => console.log(error));
+    const pending = await db.get_friend_requests_by_user([id]).catch(error => console.log(error));
+    const sentRequests = await db.get_pending_friend_requests([id]).catch(error => console.log(error));
+    for (let friend of friends) {
+        let countries = await db.get_countries_by_user([friend.user_id]).catch(error => console.log(error));
+        let countriesArr = countries.map(e => e = e.country_name);
+        friend.visitedList = countriesArr;
+    }
+    const friendsList = [friends, pending, sentRequests];
+    res.status(200).json(friendsList);
 }
 
 module.exports = {
