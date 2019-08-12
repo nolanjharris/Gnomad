@@ -3,7 +3,8 @@
 
 .sidebar {
     // display: none;
-    @include flexSpaceBetween(column);
+    @include flexCenter(column);
+    justify-content: flex-start;
     height: 100vh;
     width: fit-content;
     position: fixed;
@@ -11,7 +12,7 @@
     left: 0;
     z-index: 10;
     background-color: rgba(255, 255, 255, 0.5);
-    padding: 10px;
+    padding: 15px;
     align-items: flex-start;
 
     #sideBarTitle {
@@ -47,23 +48,43 @@
         }
 
         #profileInfo {
+            margin: 20px 0;
+            @include flexCenter(column);
+            width: 100%;
+
             // display: none;
+            img {
+                height: 75px;
+                width: 75px;
+                border-radius: 50%;
+                margin-bottom: 10px;
+            }
 
             h3 {
-                font-size: 1em;
+                font-size: .8em;
                 color: $brand-color-dark;
                 margin-top: 20px;
             }
 
             h4 {
-                font-size: 2em;
+                font-size: 1.6em;
                 color: $brand-color;
                 margin-bottom: 20px;
             }
 
-            a {
-                font-size: 1.2em;
-                color: $dark-color;
+            button {
+                border: 1px solid $brand-color;
+                height: 1.9em;
+                width: 100%;
+                font-size: 1em;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: $brand-color-dark;
+                margin-bottom: 10px;
+            }
+
+            #openProfile {
+                background-color: $brand-color-dark;
+                color: rgba(255, 255, 255, 0.7);
             }
         }
     }
@@ -146,7 +167,7 @@
     }
 
     .closed {
-        display: none;
+        display: none !important;
     }
 
     #empty {

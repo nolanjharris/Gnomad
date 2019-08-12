@@ -71,6 +71,7 @@ const addFriendRequest = async (req, res) => {
         friend.visitedList = countriesArr;
     }
     const friendsList = [friends, pending, sentRequests];
+    console.log(friendsList);
     res.status(200).json(friendsList);
 }
 

@@ -8,17 +8,72 @@
     top: 0;
     left: 0;
     z-index: 5;
+    font-family: $content-font;
 
     #profileContainer {
+        position: relative;
         padding: 30px;
         width: 80%;
         height: 80%;
         background-color: #fff;
         overflow-y: auto;
         z-index: 10;
-        border-radius: 10px;
+        border-radius: 3px;
         box-shadow: 0px 0px 4px 4px #b9b9b9;
         @include flexSpaceBetween(column);
+
+        &>button {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        #profileTitle {
+            @include flexSpaceAround(column);
+            width: 100%;
+
+            #profilePic {
+                @include flexSpaceAround(row);
+                height: 200px;
+                width: 60%;
+
+                img {
+                    height: 150px;
+                    width: 150px;
+                }
+
+                div {
+                    height: 60%;
+                    @include flexSpaceAround(column);
+
+                    h1 {
+                        font-size: 4em;
+                        color: $brand-color-dark;
+                    }
+
+                    h3 {
+                        font-size: 2.5em;
+                        color: $brand-color;
+                    }
+                }
+            }
+
+            #profileInfo {
+                @include flexSpaceAround(column);
+
+                button {
+                    border: 1px solid $brand-color;
+                    height: 1.9em;
+                    width: 100%;
+                    font-size: 1em;
+                    background-color: rgba(255, 255, 255, 0.1);
+                    color: $brand-color-dark;
+                    margin-bottom: 10px;
+                }
+
+            }
+        }
     }
+
 
 }

@@ -1,7 +1,7 @@
 let bcrypt = require('bcryptjs');
 
 let register = async (req, res) => {
-    let { firstName, lastName, username, password } = req.body;
+    let { firstName, lastName, username, password, userColor } = req.body;
     if (!firstName || !lastName || !username || !password) {
         res.status(406).json({
             error: "please fill in all information"
@@ -13,7 +13,7 @@ let register = async (req, res) => {
             res.status(409).json("Username already taken");
         } else {
             let hash = await bcrypt.hash(password, 10);
-            let newUser = await db.create_user([firstName, lastName, username, hash]);
+            let newUser = await db.create_user([firstName, lastName, username, hash, userColor]);
             console.log(newUser);
             req.session.user = {
                 username,
@@ -42,6 +42,7 @@ let login = async (req, res) => {
                 firstName: user[0].first_name,
                 lastName: user[0].last_name,
                 country_color: user[0].country_color,
+                profile_pic: user[0].profile_pic,
                 id: user[0].user_id
             }
 

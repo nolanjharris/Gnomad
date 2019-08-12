@@ -1,111 +1,112 @@
-import axios from 'axios';
+import axios from "axios";
 
 const initialState = {
-    loggedIn: false,
-    userId: '',
-    username: '',
-    firstName: '',
-    lastName: '',
-    loading: false,
-    error: false,
-    errorMessage: '',
-    userColor: ''
-}
+  loggedIn: false,
+  userId: "",
+  username: "",
+  firstName: "",
+  lastName: "",
+  profilePic: "",
+  loading: false,
+  error: false,
+  errorMessage: "",
+  userColor: ""
+};
 
-const LOGIN_USER = 'LOGIN_USER';
-const REGISTER_USER = 'REGISTER_USER';
-const LOGOUT_USER = 'LOGOUT_USER';
+const LOGIN_USER = "LOGIN_USER";
+const REGISTER_USER = "REGISTER_USER";
+const LOGOUT_USER = "LOGOUT_USER";
 
 export function loginUser(user) {
-    return {
-        type: LOGIN_USER,
-        payload: axios.post('/auth/login', user)
-            .then(res => {
-                return res.data
-            })
-        // .catch(error => console.log(error))
-    }
+  return {
+    type: LOGIN_USER,
+    payload: axios.post("/auth/login", user).then(res => {
+      return res.data;
+    })
+    // .catch(error => console.log(error))
+  };
 }
 
 export function registerUser(user) {
-    return {
-        type: REGISTER_USER,
-        payload: axios.post('/auth/register', user)
-            .then(res => res.data)
-        // .catch(error => console.log(error))
-    }
+  return {
+    type: REGISTER_USER,
+    payload: axios.post("/auth/register", user).then(res => res.data)
+    // .catch(error => console.log(error))
+  };
 }
 
 export function logoutUser() {
-    return {
-        type: LOGOUT_USER,
-        payload: axios.get('/auth/logout').catch(error => console.log(error))
-    }
+  return {
+    type: LOGOUT_USER,
+    payload: axios.get("/auth/logout").catch(error => console.log(error))
+  };
 }
 
 export default function reducer(state = initialState, action) {
-    const { type, payload } = action;
-    switch (type) {
-        case `${LOGIN_USER}_FULFILLED`:
-            return {
-                ...state,
-                username: payload.username,
-                firstName: payload.firstName,
-                lastName: payload.lastName,
-                userId: payload.id,
-                loggedIn: true,
-                loading: false,
-                error: false,
-                errorMessage: '',
-                userColor: payload.country_color
-            };
-        case `${LOGIN_USER}_PENDING`:
-            return {
-                ...state,
-                loading: true
-            };
-        case `${LOGIN_USER}_REJECTED`:
-            return {
-                ...state,
-                loading: false,
-                loggedIn: false,
-                error: true,
-                errorMessage: 'Username or password is incorrect.'
-            }
-        case `${REGISTER_USER}_FULFILLED`:
-            console.log("you are registered")
-            return {
-                ...state,
-                username: payload.username,
-                firstName: payload.firstName,
-                lastName: payload.lastName,
-                userId: payload.id,
-                loggedIn: true,
-                loading: false,
-                error: false,
-                errorMessage: ''
-            }
-        case `${REGISTER_USER}_PENDING`:
-            return {
-                ...state,
-                loading: true
-            }
-        case `${REGISTER_USER}_REJECTED`:
-            return {
-                ...state,
-                loading: false,
-                loggedIn: false,
-                error: true,
-                errorMessage: 'That username is taken. Please try again.'
-            }
-        case `${LOGOUT_USER}_FULFILLED`:
-            console.log('Logged you out!')
-            return initialState;
-        case `${LOGOUT_USER}_PENDING`:
-            return {
-                ...state,
-                loading: true
-            }
-        default: return state;
-    }
+  const { type, payload } = action;
+  switch (type) {
+    case `${LOGIN_USER}_FULFILLED`:
+      return {
+        ...state,
+        username: payload.username,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        userId: payload.id,
+        profilePic: payload.profile_pic,
+        loggedIn: true,
+        loading: false,
+        error: false,
+        errorMessage: "",
+        userColor: payload.country_color
+      };
+    case `${LOGIN_USER}_PENDING`:
+      return {
+        ...state,
+        loading: true
+      };
+    case `${LOGIN_USER}_REJECTED`:
+      return {
+        ...state,
+        loading: false,
+        loggedIn: false,
+        error: true,
+        errorMessage: "Username or password is incorrect."
+      };
+    case `${REGISTER_USER}_FULFILLED`:
+      console.log("you are registered");
+      return {
+        ...state,
+        username: payload.username,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        userId: payload.id,
+        loggedIn: true,
+        loading: false,
+        error: false,
+        errorMessage: ""
+      };
+    case `${REGISTER_USER}_PENDING`:
+      return {
+        ...state,
+        loading: true
+      };
+    case `${REGISTER_USER}_REJECTED`:
+      return {
+        ...state,
+        loading: false,
+        loggedIn: false,
+        error: true,
+        errorMessage: "That username is taken. Please try again."
+      };
+    case `${LOGOUT_USER}_FULFILLED`:
+      console.log("Logged you out!");
+      return initialState;
+    case `${LOGOUT_USER}_PENDING`:
+      return {
+        ...state,
+        loading: true
+      };
+    default:
+      return state;
+  }
 }
