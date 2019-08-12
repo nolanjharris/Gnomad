@@ -116,7 +116,10 @@ export default function reducer(state = initialState, action) {
         displayFriendsCountries: display
       };
     case RESET_MAP:
-      return initialState;
+      return {
+        ...initialState,
+        geojson: state.geojson
+      };
     default:
       return state;
   }

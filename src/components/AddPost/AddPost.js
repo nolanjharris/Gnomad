@@ -112,7 +112,7 @@ class AddPost extends Component {
     const widget = window.cloudinary.createUploadWidget(
       {
         cloudName: "dytja9xnd",
-        uploadPreset: "profilePictures",
+        uploadPreset: "travels",
         sources: ["local", "url", "dropbox", "facebook", "instagram"]
       },
       (error, result) => {

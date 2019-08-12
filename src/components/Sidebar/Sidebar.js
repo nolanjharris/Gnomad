@@ -43,7 +43,7 @@ class Sidebar extends Component {
   }
 
   getFriendsList = async () => {
-    await this.props.requestFriendsList(this.props.userId);
+    // await this.props.requestFriendsList(this.props.userId);
     this.props.toggleFriendsCountries();
     this.props.toggleLegend();
   };
@@ -161,26 +161,29 @@ class Sidebar extends Component {
           >
             menu
           </Icon>
-          {this.props.loggedIn && (
-            <div className={this.state.displayClass} id="profileInfo">
-              <img
-                src={
-                  this.props.profilePic
-                    ? this.props.profilePic
-                    : defaultProfilePic
-                }
-                alt="profile"
-              />
-              <h4>&{this.props.username}</h4>
-              <button id="openProfile" onClick={this.handleProfileOpen}>
-                Profile
-              </button>
-              <button onClick={this.handleLogout}>logout</button>
-            </div>
-          )}
+          {this.props.loggedIn &&
+            (this.props.friendsList.length === 0
+              ? this.props.requestFriendsList(this.props.userId)
+              : true) && (
+              <div className={this.state.displayClass} id="profileInfo">
+                <img
+                  src={
+                    this.props.profilePic
+                      ? this.props.profilePic
+                      : defaultProfilePic
+                  }
+                  alt="profile"
+                />
+                <h4>&{this.props.username}</h4>
+                <button id="openProfile" onClick={this.handleProfileOpen}>
+                  Profile
+                </button>
+                <button onClick={this.handleLogout}>logout</button>
+              </div>
+            )}
         </div>
         <div className="menuItems">
-          <div className="iconDiv">
+          <div className={`iconDiv ${this.props.loggedIn ? null : "closed"}`}>
             <div className="iconContainer notifications">
               <div id="notificationsIcon">
                 <div id="notify" />
@@ -193,32 +196,45 @@ class Sidebar extends Component {
                   notifications
                 </i>
               </div>
-              <div>
+              {this.state.notificationsDisplay === "open" ? (
                 <button
                   onClick={this.handleNotifications}
-                  className={`${this.state.displayClass} ${
-                    this.state.notificationsDisplay === "closed"
-                      ? "open"
-                      : "closed"
-                  }`}
+                  className={this.state.displayClass}
                 >
                   Notifications
+                  <i className="material-icons">arrow_back_ios</i>
                 </button>
-              </div>
+              ) : (
+                <button
+                  onClick={this.handleNotifications}
+                  className={this.state.displayClass}
+                >
+                  Notifications
+                  <i className="material-icons">arrow_forward_ios</i>
+                </button>
+              )}
+            </div>
+          </div>
+          {this.state.notificationsDisplay === "open" && (
+            <div id="notificationsPanel">
               <div className={this.state.notificationsDisplay}>
+                <h1>Friend Requests</h1>
                 {this.props.pendingFriendRequests.map(e => {
                   return (
                     <div>
-                      <p>{e.username}</p>
+                      <p>&{e.username}</p>
                       <button onClick={() => this.handleAcceptFriendRequest(e)}>
                         Accept Request
                       </button>
                     </div>
                   );
                 })}
+                {this.props.pendingFriendRequests.length === 0 && (
+                  <h2>No new requests</h2>
+                )}
               </div>
             </div>
-          </div>
+          )}
           <div className="iconDiv">
             <i
               onClick={this.handleSlideToggle}
@@ -232,7 +248,9 @@ class Sidebar extends Component {
               onChange={this.handleSearch}
               placeholder="Country Search"
               value={this.state.searchValue}
-              className={this.state.displayClass}
+              className={`${this.state.displayClass} ${
+                this.state.notificationsDisplay === "closed" ? "open" : "closed"
+              }`}
               type="text"
             />
             {this.state.searchValue && this.state.searchResults.length > 0 && (
@@ -262,7 +280,9 @@ class Sidebar extends Component {
               onClick={this.handleClearSearch}
               onChange={this.handleSearchedContinent}
               value={this.state.continent}
-              className={this.state.displayClass}
+              className={`${this.state.displayClass} ${
+                this.state.notificationsDisplay === "closed" ? "open" : "closed"
+              }`}
             >
               <option value="" disabled>
                 Continent View
@@ -288,12 +308,14 @@ class Sidebar extends Component {
             </div>
             <button
               onClick={this.handleEarthView}
-              className={this.state.displayClass}
+              className={`${this.state.displayClass} ${
+                this.state.notificationsDisplay === "closed" ? "open" : "closed"
+              }`}
             >
               World View
             </button>
           </div>
-          <div className="iconDiv">
+          <div className={`iconDiv ${this.props.loggedIn ? null : "closed"}`}>
             <i
               onClick={this.getFriendsList}
               color="action"
@@ -304,7 +326,9 @@ class Sidebar extends Component {
             </i>
             <button
               onClick={this.getFriendsList}
-              className={this.state.displayClass}
+              className={`${this.state.displayClass} ${
+                this.state.notificationsDisplay === "closed" ? "open" : "closed"
+              }`}
             >
               Toggle Friends
             </button>

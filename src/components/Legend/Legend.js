@@ -3,7 +3,8 @@ import "./Legend.scss";
 import { connect } from "react-redux";
 import {
   sendFriendRequest,
-  toggleFriend
+  toggleFriend,
+  updateFriendsColor
 } from "../../redux/reducers/userReducer";
 import Switch from "react-switch";
 import { CirclePicker } from "react-color";
@@ -16,6 +17,7 @@ class Legend extends Component {
       friendsTab: "open",
       users: [],
       color: "",
+      friendColorId: 0,
       colorPicker: false
     };
   }
@@ -55,12 +57,15 @@ class Legend extends Component {
     this.props.toggleFriend(user.user_id);
   };
 
-  handleToggleColorPicker = color => {
-    this.setState({ colorPicker: !this.state.colorPicker });
+  handleToggleColorPicker = id => {
+    console.log(id);
+    this.setState({ colorPicker: !this.state.colorPicker, friendColorId: id });
   };
 
   handleChooseColor = color => {
-    console.log(color);
+    console.log(this.state.friendColorId);
+    this.props.updateFriendsColor(this.state.friendColorId, color.hex);
+    this.handleToggleColorPicker(this.state.friendColorId);
   };
 
   render() {
@@ -108,7 +113,7 @@ class Legend extends Component {
                 <div key={`legendFriend${i}`}>
                   <div
                     className="legendFriend"
-                    style={{ backgroundColor: `${friend.country_color}` }}
+                    style={{ backgroundColor: `${friend.friend_color}` }}
                   />
                   <div className="legendFriendInfo">
                     <Switch
@@ -126,7 +131,9 @@ class Legend extends Component {
                     <div className="colorSwatch">
                       <div className="color">
                         <i
-                          onClick={this.handleToggleColorPicker}
+                          onClick={() =>
+                            this.handleToggleColorPicker(friend.user_id)
+                          }
                           className="material-icons"
                           style={{ color: friend.countryColor }}
                         >
@@ -180,5 +187,5 @@ function mapStateToProps(reduxState) {
 
 export default connect(
   mapStateToProps,
-  { sendFriendRequest, toggleFriend }
+  { sendFriendRequest, toggleFriend, updateFriendsColor }
 )(Legend);

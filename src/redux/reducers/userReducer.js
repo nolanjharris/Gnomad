@@ -23,6 +23,7 @@ const CLOSE_PROFILE = "CLOSE_PROFILE";
 const REQUEST_FRIENDS_LIST = "REQUEST_FRIENDS_LIST";
 const SEND_FRIEND_REQUEST = "SEND_FRIEND_REQUEST";
 const ACCEPT_FRIEND_REQUEST = "ACCEPT_FRIEND_REQUEST";
+const UPDATE_FRIENDS_COLOR = "UPDATE_FRIEND_COLOR";
 const REQUEST_ALL_USERS = "REQUEST_ALL_USERS";
 const TOGGLE_LEGEND = "TOGGLE_LEGEND";
 const TOGGLE_FRIEND = "TOGGLE_FRIEND";
@@ -95,6 +96,15 @@ export function acceptFriendRequest(id) {
     type: ACCEPT_FRIEND_REQUEST,
     payload: axios
       .put("/api/user/friends/accept", { userId: id })
+      .then(res => res.data)
+  };
+}
+
+export function updateFriendsColor(userId, friendColor) {
+  return {
+    type: UPDATE_FRIENDS_COLOR,
+    payload: axios
+      .put("/api/user/friends/color", { userId, friendColor })
       .then(res => res.data)
   };
 }
@@ -266,6 +276,19 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         friendsList: friends
+      };
+    case `${UPDATE_FRIENDS_COLOR}_FULFILLED`:
+      console.log(payload);
+      let friendIndex = state.friendsList.findIndex(
+        e => e.user_id === payload.userId
+      );
+      console.log(state.friendsList[friendIndex]);
+      let updatedFriend = [...state.friendsList];
+      updatedFriend[friendIndex].friend_color = payload.friendColor;
+      console.log(updatedFriend);
+      return {
+        ...state,
+        friendsList: updatedFriend
       };
     case RESET_USER:
       return initialState;

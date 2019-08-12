@@ -18,10 +18,10 @@ class FriendsMap extends Component {
                 data={this.props.feature}
                 style={() => ({
                   stroke: true,
-                  color: `${friend.country_color}`,
+                  color: `${friend.friend_color}`,
                   weight: 3,
                   opacity: 0.1,
-                  fillColor: `${friend.country_color}`,
+                  fillColor: `${friend.friend_color}`,
                   fillOpacity: 0.2
                 })}
               >
