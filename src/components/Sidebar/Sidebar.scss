@@ -1,259 +1,266 @@
 @import "../../App.scss";
 
 .sidebar {
-  // display: none;
-  @include flexCenter(column);
-  justify-content: flex-start;
-  height: 100vh;
-  width: fit-content;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 15px;
-  align-items: flex-start;
+    // display: none;
+    @include flexCenter(column);
+    justify-content: flex-start;
+    height: 100vh;
+    width: fit-content;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 15px;
+    align-items: flex-start;
 
-  #sideBarTitle {
-    // position: absolute;
-    // top: 0;
-    height: 30%;
-    align-items: center;
-    // justify-content: flex-start;
-    align-items: center;
-    #menuIcon {
-      display: none;
-    }
+    #sideBarTitle {
+        // position: absolute;
+        // top: 0;
+        height: 30%;
+        align-items: center;
+        // justify-content: flex-start;
+        align-items: center;
 
-    h1 {
-      font-size: 2.5em;
-      color: $accent-color;
-      font-family: $content-font;
-      letter-spacing: 7px;
-      margin-left: 4px;
-      @include flexCenter(row);
-      align-items: flex-end;
-
-      img {
-        height: 65px;
-        margin-right: 5px;
-      }
-
-      span {
-        color: $brand-color-dark;
-        line-height: 0.75;
-      }
-    }
-
-    #profileInfo {
-      margin: 20px 0;
-      @include flexCenter(column);
-      width: 100%;
-
-      //   display: none;
-      img {
-        height: 75px;
-        width: 75px;
-        border-radius: 50%;
-        margin-bottom: 10px;
-      }
-
-      h3 {
-        font-size: 0.8em;
-        color: $brand-color-dark;
-        margin-top: 20px;
-      }
-
-      h4 {
-        font-size: 1.6em;
-        color: $brand-color;
-        margin-bottom: 20px;
-      }
-
-      button {
-        border: 1px solid $brand-color;
-        height: 1.9em;
-        width: 100%;
-        font-size: 1em;
-        background-color: rgba(255, 255, 255, 0.1);
-        color: $brand-color-dark;
-        margin-bottom: 10px;
-      }
-
-      #openProfile {
-        background-color: $brand-color-dark;
-        color: rgba(255, 255, 255, 0.7);
-      }
-    }
-  }
-
-  .menuItems {
-    width: 95%;
-    height: 40%;
-
-    @include flexSpaceBetween(column);
-
-    .iconDiv {
-      @include flexSpaceBetween(row);
-      width: 100%;
-      height: 150px;
-      padding-left: 15px;
-      position: relative;
-      i {
-        color: $brand-color-dark;
-      }
-
-      .notifications {
-        @include flexSpaceBetween(row);
-        width: 100%;
-
-        #notificationsIcon {
-          width: fit-content;
-          position: relative;
-
-          #notify {
-            height: 10px;
-            width: 10px;
-            background-color: rgb(219, 76, 76);
-            position: absolute;
-            top: 0;
-            right: 0;
-            z-index: 10000;
-            border-radius: 50%;
-          }
+        #menuIcon {
+            display: none;
         }
-      }
 
-      button {
-        border: 1px solid $brand-color;
-        height: 1.9em;
-        width: 160px;
-        font-size: 1em;
-        background-color: rgba(255, 255, 255, 0.1);
-        color: $brand-color-dark;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+        h1 {
+            font-size: 2.5em;
+            color: $accent-color;
+            font-family: $content-font;
+            letter-spacing: 7px;
+            margin-left: 4px;
+            @include flexCenter(row);
+            align-items: flex-end;
 
-      select,
-      input {
-        height: 1.7em;
-        width: 160px;
-        margin-left: 10px;
-        background-color: rgba(255, 255, 255, 0.5);
-        color: $brand-color-dark;
-        text-align: center;
-        border: 1px solid $brand-color;
-        border-radius: 1px;
-        font-size: 1.1em;
-        font-family: $content-font;
-      }
+            img {
+                height: 65px;
+                margin-right: 5px;
+            }
 
-      select {
-        text-align-last: center;
-      }
+            span {
+                color: $brand-color-dark;
+                line-height: 0.75;
+            }
+        }
 
-      input {
-        height: 1.5em;
-      }
+        #profileInfo {
+            margin: 20px 0;
+            @include flexCenter(column);
+            width: 100%;
+
+            //   display: none;
+            img {
+                height: 75px;
+                width: 75px;
+                border-radius: 50%;
+                margin-bottom: 10px;
+            }
+
+            h3 {
+                font-size: 0.8em;
+                color: $brand-color-dark;
+                margin-top: 20px;
+            }
+
+            h4 {
+                font-size: 1.6em;
+                color: $brand-color;
+                margin-bottom: 20px;
+            }
+
+            button {
+                border: 1px solid $brand-color;
+                height: 1.9em;
+                width: 100%;
+                font-size: 1em;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: $brand-color-dark;
+                margin-bottom: 10px;
+            }
+
+            #openProfile {
+                background-color: $brand-color-dark;
+                color: rgba(255, 255, 255, 0.7);
+            }
+        }
     }
-    #notificationsPanel {
-      width: 150px;
-      height: 31%;
-      position: absolute;
-      padding: 0 5px;
-      top: 37%;
-      right: 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      //   background-color: rgba(255, 255, 255, 0.4);
-      color: $brand-color-dark;
-      h1 {
-        border-bottom: 1px solid $brand-color;
-        margin-bottom: 10px;
-      }
-      button {
-        border: 1px solid $brand-color;
-        height: 1.7em;
-        width: 140px;
-        font-size: 0.9em;
-        background-color: $brand-color;
-        color: $white-color;
-        font-family: $content-font;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+
+    .menuItems {
+        width: 95%;
+        height: 40%;
+
+        @include flexSpaceBetween(column);
+
+        .iconDiv {
+            @include flexSpaceBetween(row);
+            width: 100%;
+            height: 150px;
+            padding-left: 15px;
+            position: relative;
+
+            i {
+                color: $brand-color-dark;
+            }
+
+            .notifications {
+                @include flexSpaceBetween(row);
+                width: 100%;
+
+                #notificationsIcon {
+                    width: fit-content;
+                    position: relative;
+
+                    #notify {
+                        height: 10px;
+                        width: 10px;
+                        background-color: rgb(219, 76, 76);
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        z-index: 10000;
+                        border-radius: 50%;
+                    }
+                }
+            }
+
+            button {
+                border: 1px solid $brand-color;
+                height: 1.9em;
+                width: 160px;
+                font-size: 1em;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: $brand-color-dark;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            select,
+            input {
+                height: 1.7em;
+                width: 160px;
+                margin-left: 10px;
+                background-color: rgba(255, 255, 255, 0.5);
+                color: $brand-color-dark;
+                text-align: center;
+                border: 1px solid $brand-color;
+                border-radius: 1px;
+                font-size: 1.1em;
+                font-family: $content-font;
+            }
+
+            select {
+                text-align-last: center;
+            }
+
+            input {
+                height: 1.5em;
+            }
+        }
+
+        #notificationsPanel {
+            width: 150px;
+            height: 31%;
+            position: absolute;
+            padding: 0 5px;
+            top: 37%;
+            right: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            //   background-color: rgba(255, 255, 255, 0.4);
+            color: $brand-color-dark;
+            z-index: 100000;
+
+            h1 {
+                border-bottom: 1px solid $brand-color;
+                margin-bottom: 10px;
+            }
+
+            button {
+                border: 1px solid $brand-color;
+                height: 1.7em;
+                width: 140px;
+                font-size: 0.9em;
+                background-color: $brand-color;
+                color: $white-color;
+                font-family: $content-font;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 5px;
+            }
+        }
     }
-  }
 
-  .open {
-    display: inline-block;
-  }
+    .open {
+        display: inline-block;
+    }
 
-  .closed {
-    display: none !important;
-  }
+    .closed {
+        display: none !important;
+    }
 
-  #empty {
-    height: 30%;
-  }
+    #empty {
+        height: 30%;
+    }
 }
 
 @keyframes openSidebar {
-  from {
-    width: 0;
-  }
+    from {
+        width: 0;
+    }
 
-  to {
-    width: fit-content;
-  }
+    to {
+        width: fit-content;
+    }
 }
 
 @keyframes closeSidebar {
-  from {
-    width: fit-content;
-  }
+    from {
+        width: fit-content;
+    }
 
-  to {
-    width: 0;
-  }
+    to {
+        width: 0;
+    }
 }
 
 #sideNav {
-  background-color: $white-color;
-  opacity: 0.9;
-  color: $brand-color-dark;
-  font-family: $content-font;
-  @include flexCenter(column);
-
-  .navText {
-    color: $brand-color-dark !important;
-  }
-
-  #toggleContainer {
-    width: 100%;
-  }
-
-  #toggle {
-    width: 100%;
-    background-color: $brand-color;
-    float: left;
-  }
-
-  #icon {
-    color: $brand-color;
-    font-size: 3em;
-  }
-
-  .sidenav---navtext---1AE_f {
+    background-color: $white-color;
+    opacity: 0.9;
     color: $brand-color-dark;
-    font-size: 1.8em;
-  }
+    font-family: $content-font;
+    @include flexCenter(column);
 
-  input {
-    height: 1.8em;
-  }
+    .navText {
+        color: $brand-color-dark !important;
+    }
+
+    #toggleContainer {
+        width: 100%;
+    }
+
+    #toggle {
+        width: 100%;
+        background-color: $brand-color;
+        float: left;
+    }
+
+    #icon {
+        color: $brand-color;
+        font-size: 3em;
+    }
+
+    .sidenav---navtext---1AE_f {
+        color: $brand-color-dark;
+        font-size: 1.8em;
+    }
+
+    input {
+        height: 1.8em;
+    }
 }

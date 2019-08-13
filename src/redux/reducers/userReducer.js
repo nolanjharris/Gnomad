@@ -10,7 +10,9 @@ const initialState = {
   requested: false,
   profileOpen: false,
   allUsers: [],
-  legendOpen: false
+  legendOpen: false,
+  friendProfileOpen: false,
+  friendProfileInfo: []
 };
 
 const REQUEST_VISITED_LIST = "REQUEST_VISITED_LIST";
@@ -24,9 +26,11 @@ const REQUEST_FRIENDS_LIST = "REQUEST_FRIENDS_LIST";
 const SEND_FRIEND_REQUEST = "SEND_FRIEND_REQUEST";
 const ACCEPT_FRIEND_REQUEST = "ACCEPT_FRIEND_REQUEST";
 const UPDATE_FRIENDS_COLOR = "UPDATE_FRIEND_COLOR";
+const TOGGLE_FRIEND = "TOGGLE_FRIEND";
 const REQUEST_ALL_USERS = "REQUEST_ALL_USERS";
 const TOGGLE_LEGEND = "TOGGLE_LEGEND";
-const TOGGLE_FRIEND = "TOGGLE_FRIEND";
+const OPEN_FRIENDS_PROFILE = "OPEN_FRIENDS_PROFILE";
+const CLOSE_FRIENDS_PROFILE = "CLOSE_FRIENDS_PROFILE";
 
 export function requestVisitedList(id) {
   return {
@@ -106,6 +110,19 @@ export function updateFriendsColor(userId, friendColor) {
     payload: axios
       .put("/api/user/friends/color", { userId, friendColor })
       .then(res => res.data)
+  };
+}
+
+export function openFriendsProfile(userId) {
+  return {
+    type: OPEN_FRIENDS_PROFILE,
+    payload: userId
+  };
+}
+
+export function closeFriendsProfile() {
+  return {
+    type: CLOSE_FRIENDS_PROFILE
   };
 }
 
@@ -250,6 +267,23 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case OPEN_FRIENDS_PROFILE:
+      let friendsIndex = state.friendsList.findIndex(
+        e => e.user_id === payload
+      );
+      let friendInfo = [{ ...state.friendsList[friendsIndex] }];
+      console.log(friendInfo);
+      return {
+        ...state,
+        friendProfileInfo: friendInfo,
+        friendProfileOpen: true
+      };
+    case CLOSE_FRIENDS_PROFILE:
+      return {
+        ...state,
+        friendProfileInfo: [],
+        friendProfileOpen: false
       };
     case `${REQUEST_ALL_USERS}_FULFILLED`:
       return {

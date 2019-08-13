@@ -1,0 +1,65 @@
+@import '../../App.scss';
+
+#friendProfile {
+    width: 100vw;
+    height: 100vh;
+    @include flexCenter(row);
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    #friendProfileContainer {
+        position: relative;
+        z-index: 1000;
+        border-radius: 3px;
+        width: 80%;
+        height: 80%;
+        overflow-y: auto;
+        background-color: white;
+        font-family: $content-font;
+        @include flexSpaceAround(column);
+        justify-content: flex-start;
+
+        #closeProfile {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        #friendProfileTitle {
+            width: 90%;
+            height: 40%;
+            @include flexCenter(column);
+
+            #friendProfilePic {
+                height: 10vw;
+                width: 10vw;
+                border-radius: 50%;
+                @include flexCenter(row);
+
+                img {
+                    height: 90%;
+                    width: 90%;
+                    border-radius: 50%
+                }
+            }
+
+            h1 {
+                font-size: 2.5em;
+                color: $brand-color-dark;
+                margin-top: 10px;
+            }
+
+            h3 {
+                font-size: 1.7em;
+                color: $brand-color;
+                margin-top: 5px;
+            }
+        }
+
+        #friendProfilePost {
+            height: fit-content;
+            width: 80%;
+        }
+    }
+}

@@ -48,6 +48,7 @@ class Sidebar extends Component {
     this.props.toggleLegend();
   };
   handleLogout = async () => {
+    this.setState({ notificationsDisplay: "closed" });
     await this.props.logoutUser();
     this.props.resetPost();
     this.props.resetUser();
@@ -178,7 +179,7 @@ class Sidebar extends Component {
                 <button id="openProfile" onClick={this.handleProfileOpen}>
                   Profile
                 </button>
-                <button onClick={this.handleLogout}>logout</button>
+                <button onClick={this.handleLogout}>Logout</button>
               </div>
             )}
         </div>
@@ -186,7 +187,9 @@ class Sidebar extends Component {
           <div className={`iconDiv ${this.props.loggedIn ? null : "closed"}`}>
             <div className="iconContainer notifications">
               <div id="notificationsIcon">
-                <div id="notify" />
+                {this.props.pendingFriendRequests.length > 0 && (
+                  <div id="notify" />
+                )}
                 <i
                   onClick={this.handleNotifications}
                   color="action"
@@ -219,16 +222,19 @@ class Sidebar extends Component {
             <div id="notificationsPanel">
               <div className={this.state.notificationsDisplay}>
                 <h1>Friend Requests</h1>
-                {this.props.pendingFriendRequests.map(e => {
-                  return (
-                    <div>
-                      <p>&{e.username}</p>
-                      <button onClick={() => this.handleAcceptFriendRequest(e)}>
-                        Accept Request
-                      </button>
-                    </div>
-                  );
-                })}
+                {this.props.pendingFriendRequests.length > 0 &&
+                  this.props.pendingFriendRequests.map(e => {
+                    return (
+                      <div>
+                        <p>&{e.username}</p>
+                        <button
+                          onClick={() => this.handleAcceptFriendRequest(e)}
+                        >
+                          Accept Request
+                        </button>
+                      </div>
+                    );
+                  })}
                 {this.props.pendingFriendRequests.length === 0 && (
                   <h2>No new requests</h2>
                 )}

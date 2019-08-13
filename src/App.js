@@ -9,6 +9,7 @@ import AddPost from "./components/AddPost/AddPost";
 import ViewPosts from "./components/ViewPosts/ViewPosts";
 import Profile from "./components/Profile/Profile";
 import Legend from "./components/Legend/Legend";
+import FriendProfile from "./components/FriendProfile/FriendProfile";
 
 function App(props) {
   return (
@@ -20,6 +21,7 @@ function App(props) {
       {props.viewPosts && <ViewPosts />}
       {props.profileOpen && <Profile />}
       {props.legendOpen && <Legend />}
+      {props.friendProfileOpen && <FriendProfile />}
     </div>
   );
 }
@@ -35,7 +37,8 @@ function mapStateToProps(reduxState) {
     searchMap: reduxState.map.searchMap,
     geojson: reduxState.map.geojson,
     profileOpen: reduxState.user.profileOpen,
-    legendOpen: reduxState.user.legendOpen
+    legendOpen: reduxState.user.legendOpen,
+    friendProfileOpen: reduxState.user.friendProfileOpen
   };
 }
 

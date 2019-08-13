@@ -53,22 +53,19 @@ class ProfilePost extends Component {
             maxBounds={[[90, 180], [-90, -180]]}
           >
             <TileLayer
-              url="https://api.mapbox.com/styles/v1/nolanjames/cjyzw8gsf0v4t1coya5i7hm16/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoibm9sYW5qYW1lcyIsImEiOiJjanlrdDdyaXYwMTc1M2NsaW1lbHk4OWJlIn0.iggyHj94yOeanu2cdVezug"
-              attribution={
-                'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
-              }
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+              attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
             />
             <FeatureGroup onAdd={this.onFeatureGroupAdd}>
               <GeoJSON
                 data={this.props.country}
                 style={() => ({
-                  stroke: false,
+                  stroke: true,
                   color: "#4a83ec",
-                  weight: 2,
-                  fillColor: "#1a1d62",
-                  fillOpacity: 0.1
+                  weight: 4,
+                  opacity: 0.05,
+                  fillColor: "#4a83ec",
+                  fillOpacity: 0.2
                 })}
               />
             </FeatureGroup>

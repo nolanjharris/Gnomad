@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import {
   sendFriendRequest,
   toggleFriend,
-  updateFriendsColor
+  updateFriendsColor,
+  openFriendsProfile
 } from "../../redux/reducers/userReducer";
 import Switch from "react-switch";
 import { CirclePicker } from "react-color";
@@ -127,7 +128,13 @@ class Legend extends Component {
                       checkedIcon={false}
                       boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
                     />
-                    <p>&{friend.username}</p>
+                    <p
+                      onClick={() =>
+                        this.props.openFriendsProfile(friend.user_id)
+                      }
+                    >
+                      &{friend.username}
+                    </p>
                     <div className="colorSwatch">
                       <div className="color">
                         <i
@@ -187,5 +194,5 @@ function mapStateToProps(reduxState) {
 
 export default connect(
   mapStateToProps,
-  { sendFriendRequest, toggleFriend, updateFriendsColor }
+  { sendFriendRequest, toggleFriend, updateFriendsColor, openFriendsProfile }
 )(Legend);

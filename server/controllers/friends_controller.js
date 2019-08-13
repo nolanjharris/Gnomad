@@ -1,6 +1,6 @@
 const getFriendsByUser = async (req, res) => {
   const { id } = req.params;
-  const db = await req.app.get("db");
+  const db = req.app.get("db");
   const friends = await db
     .get_friends_by_user([id])
     .catch(error => console.log(error));
@@ -16,6 +16,16 @@ const getFriendsByUser = async (req, res) => {
       .catch(error => console.log(error));
     let countriesArr = countries.map(e => (e = e.country_name));
     friend.visitedList = countriesArr;
+    friend.posts = await db
+      .get_posts_by_user([friend.user_id])
+      .catch(error => console.log(error));
+    for (let post of friend.posts) {
+      let images = await db
+        .get_images_of_post([post.post_id])
+        .catch(error => console.log(error));
+      let imageArr = images.map(e => (e = e.image_url));
+      post.image_urls = imageArr;
+    }
   }
   const friendsList = [friends, pending, sentRequests];
   res.status(200).json(friendsList);
@@ -41,6 +51,16 @@ const addFriendRequest = async (req, res) => {
       .catch(error => console.log(error));
     let countriesArr = countries.map(e => (e = e.country_name));
     friend.visitedList = countriesArr;
+    friend.posts = await db
+      .get_posts_by_user([friend.user_id])
+      .catch(error => console.log(error));
+    for (let post of friend.posts) {
+      let images = await db
+        .get_images_of_post([post.post_id])
+        .catch(error => console.log(error));
+      let imageArr = images.map(e => (e = e.image_url));
+      post.image_urls = imageArr;
+    }
   }
   const friendsList = [friends, pending, sentRequests];
   console.log(friendsList);
@@ -67,6 +87,16 @@ const acceptFriendRequest = async (req, res) => {
       .catch(error => console.log(error));
     let countriesArr = countries.map(e => (e = e.country_name));
     friend.visitedList = countriesArr;
+    friend.posts = await db
+      .get_posts_by_user([friend.user_id])
+      .catch(error => console.log(error));
+    for (let post of friend.posts) {
+      let images = await db
+        .get_images_of_post([post.post_id])
+        .catch(error => console.log(error));
+      let imageArr = images.map(e => (e = e.image_url));
+      post.image_urls = imageArr;
+    }
   }
   const friendsList = [friends, pending, sentRequests];
   res.status(200).json(friendsList);
