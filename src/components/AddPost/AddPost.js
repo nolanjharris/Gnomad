@@ -15,13 +15,13 @@ import { requestVisitedList } from "../../redux/reducers/userReducer";
 import "./AddPost.scss";
 import TextField from "@material-ui/core/TextField";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
+import { lightBlue } from "@material-ui/core/colors";
 import { ThemeProvider } from "@material-ui/styles";
 import ImageScroll from "../ImageScroll/ImageScroll";
 
 const theme = createMuiTheme({
   palette: {
-    primary: green
+    primary: lightBlue
   }
 });
 
@@ -122,7 +122,9 @@ class AddPost extends Component {
     return (
       <div id="addPost">
         <div id="postContainer">
-          <button onClick={this.backToMap}>Back to Map</button>
+          <i className="material-icons" onClick={this.backToMap}>
+            close
+          </i>
           <div id="postTitle">
             <LeafletMap
               id="countryMap"
@@ -164,7 +166,10 @@ class AddPost extends Component {
                   helperText={`When did you visit ${countryName}?`}
                   type="date"
                   format="DD-MM-YYYY"
-                  style={{ margin: 10, width: "100%" }}
+                  style={{
+                    margin: 10,
+                    width: "100%"
+                  }}
                   margin="normal"
                   variant="outlined"
                   InputLabelProps={{

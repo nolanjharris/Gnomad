@@ -6,7 +6,7 @@
   margin: 20px 0;
   border: 1px solid $brand-color;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 1px;
   @include flexSpaceBetween(column);
 
   .profilePostMain {
@@ -14,38 +14,39 @@
     width: 100%;
 
     .profileMap {
-      height: 400px;
+      height: 200px;
       width: 40%;
-      border-radius: 10px;
+      border-radius: 1px;
     }
 
     #profilePostContent {
       @include flexSpaceAround(column);
       width: 60%;
-
-      height: 350px;
+      height: fit-content;
+      max-height: 200px;
 
       h1 {
-        font-size: 3.5em;
+        font-size: 2.5em;
         font-family: $header-font;
         color: $brand-color-dark;
+        margin-bottom: 10px;
       }
 
       h3 {
-        font-size: 2em;
+        font-size: 1.3em;
         font-family: $header-font;
         color: $brand-color;
       }
 
       button {
         width: 80%;
-        height: 50px;
-        border: none;
-        border-radius: 5px;
-        background-color: $brand-color-dark;
-        color: $white-color;
-        font-size: 1.5em;
+        height: 40px;
+        border: 1px solid $brand-color;
+        border-radius: 1px;
+        color: $brand-color-dark;
+        font-size: 1em;
         margin: 15px;
+        background: #fff;
       }
     }
   }

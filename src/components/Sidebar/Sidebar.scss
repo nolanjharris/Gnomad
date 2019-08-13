@@ -52,11 +52,19 @@
             width: 100%;
 
             //   display: none;
-            img {
-                height: 75px;
-                width: 75px;
+            #profilePicDiv {
+                height: 85px;
+                width: 85px;
                 border-radius: 50%;
+                @include flexCenter(column);
                 margin-bottom: 10px;
+
+                img {
+                    height: 75px;
+                    width: 75px;
+                    border-radius: 50%;
+                    // margin-bottom: 10px;
+                }
             }
 
             h3 {
@@ -79,6 +87,10 @@
                 background-color: rgba(255, 255, 255, 0.1);
                 color: $brand-color-dark;
                 margin-bottom: 10px;
+
+                &:hover {
+                    cursor: pointer;
+                }
             }
 
             #openProfile {
@@ -103,6 +115,10 @@
 
             i {
                 color: $brand-color-dark;
+
+                &:hover {
+                    cursor: pointer;
+                }
             }
 
             .notifications {
@@ -126,6 +142,8 @@
                 }
             }
 
+
+
             button {
                 border: 1px solid $brand-color;
                 height: 1.9em;
@@ -136,7 +154,12 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+
+                &:hover {
+                    cursor: pointer;
+                }
             }
+
 
             select,
             input {
@@ -154,10 +177,18 @@
 
             select {
                 text-align-last: center;
+
+                &:hover {
+                    cursor: pointer;
+                }
             }
 
             input {
                 height: 1.5em;
+
+                &::placeholder {
+                    color: $brand-color;
+                }
             }
         }
 
@@ -192,6 +223,39 @@
                 align-items: center;
                 justify-content: center;
                 margin: 5px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        #searchIconDiv {
+            // position: relative;
+            // background-color: red;
+
+            #countrySearchResults {
+                position: absolute;
+                top: 72%;
+                right: 0;
+                max-height: 300px;
+                width: 160px;
+                overflow-y: auto;
+                z-index: 100000;
+                background-color: #fff;
+                font-size: 1.1em;
+                opacity: .9;
+
+                p {
+                    padding: 3px;
+                    color: $brand-color-dark;
+                }
+
+                p:hover {
+                    background-color: $brand-color;
+                    color: $white-color;
+                    cursor: pointer;
+                }
             }
         }
     }

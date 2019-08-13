@@ -47,9 +47,25 @@ const deleteCountryFromUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const db = req.app.get("db");
+  const db = await req.app.get("db");
   const users = await db.get_all_users().catch(error => console.log(error));
   res.status(200).json(users);
+};
+
+const updateProfilePicture = async (req, res) => {
+  const { profilePic } = req.body;
+  const { id } = req.session.user;
+  const db = req.app.get("db");
+  db.update_profile_pic([id, profilePic]).catch(error => console.log(error));
+  res.status(200).json(profilePic);
+};
+
+const updateUserColor = async (req, res) => {
+  const { userColor } = req.body;
+  const { id } = req.session.user;
+  const db = req.app.get("db");
+  db.update_user_color([id, userColor]).catch(error => console.log(error));
+  res.status(200).json(userColor);
 };
 
 module.exports = {
@@ -57,5 +73,7 @@ module.exports = {
   getCountriesByUser,
   addCountryToUser,
   deleteCountryFromUser,
-  getAllUsers
+  getAllUsers,
+  updateProfilePicture,
+  updateUserColor
 };

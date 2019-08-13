@@ -21,10 +21,18 @@
             font-family: $content-font;
             font-size: 1em;
             color: $brand-color-dark;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         .focused {
             background: rgba(255, 255, 255, 1);
+
+            &:hover {
+                cursor: default;
+            }
         }
     }
 
@@ -76,6 +84,11 @@
 
                     p {
                         font-size: 1em;
+
+                        &:hover {
+                            cursor: pointer;
+                            color: $white-color;
+                        }
                     }
 
                     .colorSwatch {
@@ -88,6 +101,10 @@
 
                         i {
                             margin-top: 3px;
+
+                            &:hover {
+                                cursor: pointer;
+                            }
                         }
                     }
                 }
@@ -129,6 +146,10 @@
                     font-size: .8em;
                     color: $white-color;
                     border-radius: 2px;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
                 }
             }
         }

@@ -205,7 +205,8 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        profileOpen: true
+        profileOpen: true,
+        friendProfileOpen: false
       };
     case CLOSE_PROFILE:
       return {
@@ -277,7 +278,8 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         friendProfileInfo: friendInfo,
-        friendProfileOpen: true
+        friendProfileOpen: true,
+        profileOpen: false
       };
     case CLOSE_FRIENDS_PROFILE:
       return {
@@ -312,14 +314,11 @@ export default function reducer(state = initialState, action) {
         friendsList: friends
       };
     case `${UPDATE_FRIENDS_COLOR}_FULFILLED`:
-      console.log(payload);
       let friendIndex = state.friendsList.findIndex(
         e => e.user_id === payload.userId
       );
-      console.log(state.friendsList[friendIndex]);
       let updatedFriend = [...state.friendsList];
       updatedFriend[friendIndex].friend_color = payload.friendColor;
-      console.log(updatedFriend);
       return {
         ...state,
         friendsList: updatedFriend

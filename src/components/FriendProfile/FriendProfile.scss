@@ -1,65 +1,132 @@
 @import '../../App.scss';
 
 #friendProfile {
-    width: 100vw;
     height: 100vh;
-    @include flexCenter(row);
+    width: 100vw;
+    @include flexCenter(column);
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 5;
+    font-family: $content-font;
 
     #friendProfileContainer {
         position: relative;
-        z-index: 1000;
-        border-radius: 3px;
+        padding: 30px;
         width: 80%;
         height: 80%;
+        background-color: #fff;
         overflow-y: auto;
-        background-color: white;
-        font-family: $content-font;
-        @include flexSpaceAround(column);
+        opacity: .8;
+        z-index: 10;
+        border-radius: 3px;
+        box-shadow: 0px 0px 4px 4px #b9b9b9;
+        @include flexCenter(column);
         justify-content: flex-start;
 
-        #closeProfile {
+        &>i {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 15px;
+            left: 15px;
         }
 
         #friendProfileTitle {
-            width: 90%;
-            height: 40%;
-            @include flexCenter(column);
+            @include flexSpaceAround(column);
+            // justify-content: flex-start;
+            height: 100%;
+            width: 80%;
+            // height: 80vh;
+            min-height: fit-content;
 
             #friendProfilePic {
-                height: 10vw;
-                width: 10vw;
-                border-radius: 50%;
                 @include flexCenter(row);
+                height: 20vw;
+                min-height: 175px;
+                width: 20vw;
+                min-width: 175px;
+                border-radius: 50%;
 
                 img {
                     height: 90%;
                     width: 90%;
-                    border-radius: 50%
+                    border-radius: 50%;
                 }
+
             }
 
-            h1 {
-                font-size: 2.5em;
-                color: $brand-color-dark;
-                margin-top: 10px;
+            #friendProfileContent {
+                height: fit-content;
+                min-height: 50%;
+                width: 50%;
+                min-width: 220px;
+                @include flexSpaceAround(column);
+
+                // overflow-y: auto;
+                #colorPicker {
+                    margin: 15px 0;
+                }
+
+                h1 {
+                    font-size: 3.5em;
+                    color: $brand-color-dark;
+                }
+
+                h3 {
+                    font-size: 2.5em;
+                    color: $brand-color;
+                }
+
+                h4 {
+                    font-size: 1.5em;
+                    color: $accent-color;
+                }
+
+                button {
+                    border: 1px solid $brand-color;
+                    border-radius: 2px;
+                    min-height: 40px;
+                    width: 100%;
+                    font-size: 1em;
+                    background-color: rgba(255, 255, 255, 0.1);
+                    color: $brand-color-dark;
+                    margin-bottom: 10px;
+                }
+
+                .visitedList {
+                    background-color: $brand-color-dark;
+                    color: $white-color;
+                }
+
             }
 
-            h3 {
-                font-size: 1.7em;
-                color: $brand-color;
-                margin-top: 5px;
-            }
         }
 
-        #friendProfilePost {
+        #friendProfileInfo {
+            @include flexSpaceAround(column);
+            justify-content: space-between;
             height: fit-content;
             width: 80%;
+
+            #friendProfilePost {
+                width: 80%;
+            }
+
+            #profileImages {
+                width: 100%;
+                // height: fit-content;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                // object-fit: auto;
+
+                img {
+                    max-height: 175px;
+                    flex: 1;
+                    width: auto;
+                    height: auto;
+                    object-fit: cover;
+                }
+            }
         }
     }
 }

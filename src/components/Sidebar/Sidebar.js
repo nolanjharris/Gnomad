@@ -129,7 +129,8 @@ class Sidebar extends Component {
     let display = this.state.displayClass === "closed" ? "open" : "closed";
     this.setState({
       menuOpen: !this.state.menuOpen,
-      displayClass: display
+      displayClass: display,
+      notificationsDisplay: "closed"
     });
   };
 
@@ -138,6 +139,7 @@ class Sidebar extends Component {
       this.state.notificationsDisplay === "closed" ? "open" : "closed";
     this.setState({ notificationsDisplay: display });
   };
+
   render() {
     if (this.props.friendsList > 0) {
       let unfriended = this.props.allUsers.filter(
@@ -146,6 +148,7 @@ class Sidebar extends Component {
       );
       console.log(unfriended);
     }
+
     return (
       <div className="sidebar">
         <div id="sideBarTitle" onClick={this.handleSlideToggle}>
@@ -167,14 +170,19 @@ class Sidebar extends Component {
               ? this.props.requestFriendsList(this.props.userId)
               : true) && (
               <div className={this.state.displayClass} id="profileInfo">
-                <img
-                  src={
-                    this.props.profilePic
-                      ? this.props.profilePic
-                      : defaultProfilePic
-                  }
-                  alt="profile"
-                />
+                <div
+                  id="profilePicDiv"
+                  style={{ backgroundColor: this.props.userColor }}
+                >
+                  <img
+                    src={
+                      this.props.profilePic
+                        ? this.props.profilePic
+                        : defaultProfilePic
+                    }
+                    alt="profile"
+                  />
+                </div>
                 <h4>&{this.props.username}</h4>
                 <button id="openProfile" onClick={this.handleProfileOpen}>
                   Profile
@@ -191,7 +199,7 @@ class Sidebar extends Component {
                   <div id="notify" />
                 )}
                 <i
-                  onClick={this.handleNotifications}
+                  onClick={this.handleSlideToggle}
                   color="action"
                   className="material-icons"
                   style={{ fontSize: "1.5em" }}
@@ -205,7 +213,7 @@ class Sidebar extends Component {
                   className={this.state.displayClass}
                 >
                   Notifications
-                  <i className="material-icons">arrow_back_ios</i>
+                  <i className="material-icons">arrow_drop_up</i>
                 </button>
               ) : (
                 <button
@@ -213,7 +221,7 @@ class Sidebar extends Component {
                   className={this.state.displayClass}
                 >
                   Notifications
-                  <i className="material-icons">arrow_forward_ios</i>
+                  <i className="material-icons">arrow_drop_down</i>
                 </button>
               )}
             </div>
@@ -241,7 +249,7 @@ class Sidebar extends Component {
               </div>
             </div>
           )}
-          <div className="iconDiv">
+          <div className="iconDiv" id="searchIconDiv">
             <i
               onClick={this.handleSlideToggle}
               color="disabled"
@@ -250,26 +258,30 @@ class Sidebar extends Component {
             >
               search
             </i>
-            <input
-              onChange={this.handleSearch}
-              placeholder="Country Search"
-              value={this.state.searchValue}
-              className={`${this.state.displayClass} ${
-                this.state.notificationsDisplay === "closed" ? "open" : "closed"
-              }`}
-              type="text"
-            />
-            {this.state.searchValue && this.state.searchResults.length > 0 && (
-              <div>
-                {this.state.searchResults.map((e, i) => {
-                  return (
-                    <p onClick={() => this.handleSearchedCountry(e)} key={i}>
-                      {e.properties.name}
-                    </p>
-                  );
-                })}
-              </div>
-            )}
+            <div id="searchIconDiv">
+              <input
+                onChange={this.handleSearch}
+                placeholder="Country Search"
+                value={this.state.searchValue}
+                className={`${this.state.displayClass} ${
+                  this.state.notificationsDisplay === "closed"
+                    ? "open"
+                    : "closed"
+                }`}
+                type="text"
+              />
+              {this.state.searchValue && this.state.searchResults.length > 0 && (
+                <div id="countrySearchResults">
+                  {this.state.searchResults.map((e, i) => {
+                    return (
+                      <p onClick={() => this.handleSearchedCountry(e)} key={i}>
+                        {e.properties.name}
+                      </p>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
           <div className="iconDiv">
             <div className="iconContianer">
@@ -356,7 +368,8 @@ function mapStateToProps(reduxState) {
     friendsList: reduxState.user.friendsList,
     pendingFriendRequests: reduxState.user.pendingFriendRequests,
     sentFriendRequests: reduxState.user.sentFriendRequests,
-    profilePic: reduxState.auth.profilePic
+    profilePic: reduxState.auth.profilePic,
+    userColor: reduxState.auth.userColor
   };
 }
 

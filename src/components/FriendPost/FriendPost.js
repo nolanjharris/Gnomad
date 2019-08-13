@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import "./ProfilePost.scss";
-import ImageScroll from "../ImageScroll/ImageScroll";
-import {
-  removeUserCountry,
-  closeProfile
-} from "../../redux/reducers/userReducer";
+import "./FriendPost.scss";
 import { connect } from "react-redux";
+import ImageScroll from "../ImageScroll/ImageScroll";
 import {
   Map as LeafletMap,
   FeatureGroup,
@@ -13,7 +9,7 @@ import {
   TileLayer
 } from "react-leaflet";
 
-class ProfilePost extends Component {
+class FriendPost extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +17,7 @@ class ProfilePost extends Component {
     };
   }
   onFeatureGroupAdd = e => {
-    this.refs.profileMap.leafletElement.fitBounds(e.target.getBounds());
+    this.refs.friendMap.leafletElement.fitBounds(e.target.getBounds());
   };
 
   handleContentToggle = () => {
@@ -29,21 +25,16 @@ class ProfilePost extends Component {
     this.setState({ contentClass: newClass });
   };
 
-  handleRemoveCountry = country => {
-    this.props.removeUserCountry(country);
-    this.props.closeProfile();
-  };
-
   render() {
-    let post = this.props.posts.filter(
-      e => e.country_name === this.props.country.properties.name.toLowerCase()
+    let countryBounds = this.props.geojson.features.filter(
+      e => e.properties.name.toLowerCase() === this.props.post.country_name
     );
     return (
       <div className="profilePost">
         <div className="profilePostMain">
           <LeafletMap
-            className="profileMap"
-            ref="profileMap"
+            id="friendMap"
+            ref="friendMap"
             center={[26.588527, 8.4375]}
             zoom={2}
             zoomControl={false}
@@ -58,7 +49,7 @@ class ProfilePost extends Component {
             />
             <FeatureGroup onAdd={this.onFeatureGroupAdd}>
               <GeoJSON
-                data={this.props.country}
+                data={countryBounds[0]}
                 style={() => ({
                   stroke: true,
                   color: `${this.props.userColor}`,
@@ -71,28 +62,21 @@ class ProfilePost extends Component {
             </FeatureGroup>
           </LeafletMap>
           <div id="profilePostContent">
-            <h1>{this.props.country.properties.name}</h1>
-            <h3>You Visited on {post[0] ? post[0].upload_date : null}</h3>
-            <button onClick={this.handleContentToggle}>Show Your Post</button>
-            <button
-              onClick={() =>
-                this.handleRemoveCountry(
-                  this.props.country.properties.name.toLowerCase()
-                )
-              }
-            >
-              Remove Country From Your List
+            <h1>{countryBounds[0].properties.name}</h1>
+            <h3>You Visited on {this.props.post.upload_date}</h3>
+            <button onClick={this.handleContentToggle}>
+              Show {this.props.username}'s Post
             </button>
           </div>
         </div>
         <div id="profilePostContent" className={this.state.contentClass}>
-          {post[0] && post[0].image_urls.length > 0 && (
-            <ImageScroll imgArr={post[0].image_urls} />
+          {this.props.post.image_urls.length > 0 && (
+            <ImageScroll imgArr={this.props.post.image_urls} />
           )}
           <h5>Description</h5>
-          <p>{post[0] && post[0].post_content.split("!RECOMMENDATIONS!")[0]}</p>
+          <p>{this.props.post.post_content.split("!RECOMMENDATIONS!")[0]}</p>
           <h5>Recommendations</h5>
-          <p>{post[0] && post[0].post_content.split("!RECOMMENDATIONS!")[1]}</p>
+          <p>{this.props.post.post_content.split("!RECOMMENDATIONS!")[1]}</p>
         </div>
       </div>
     );
@@ -102,11 +86,8 @@ class ProfilePost extends Component {
 function mapStateToProps(reduxState) {
   return {
     posts: reduxState.user.posts,
-    userColor: reduxState.auth.userColor
+    geojson: reduxState.map.geojson
   };
 }
 
-export default connect(
-  mapStateToProps,
-  { removeUserCountry, closeProfile }
-)(ProfilePost);
+export default connect(mapStateToProps)(FriendPost);

@@ -16,6 +16,8 @@ const initialState = {
 const LOGIN_USER = "LOGIN_USER";
 const REGISTER_USER = "REGISTER_USER";
 const LOGOUT_USER = "LOGOUT_USER";
+const UPDATE_PROFILE_PIC = "UPDATE_PROFILE_PIC";
+const UPDATE_USER_COLOR = "UPDATE_USER_COLOR";
 
 export function loginUser(user) {
   return {
@@ -39,6 +41,24 @@ export function logoutUser() {
   return {
     type: LOGOUT_USER,
     payload: axios.get("/auth/logout").catch(error => console.log(error))
+  };
+}
+
+export function updateProfilePic(profilePic) {
+  return {
+    type: UPDATE_PROFILE_PIC,
+    payload: axios
+      .put("/api/user/profile", { profilePic })
+      .then(res => res.data)
+  };
+}
+
+export function updateUserColor(color) {
+  return {
+    type: UPDATE_USER_COLOR,
+    payload: axios
+      .put("/api/user/color", { userColor: color })
+      .then(res => res.data)
   };
 }
 
@@ -102,6 +122,28 @@ export default function reducer(state = initialState, action) {
       console.log("Logged you out!");
       return initialState;
     case `${LOGOUT_USER}_PENDING`:
+      return {
+        ...state,
+        loading: true
+      };
+    case `${UPDATE_PROFILE_PIC}_FULFILLED`:
+      return {
+        ...state,
+        profilePic: payload,
+        loading: false
+      };
+    case `${UPDATE_PROFILE_PIC}_PENDING`:
+      return {
+        ...state,
+        loading: true
+      };
+    case `${UPDATE_USER_COLOR}_FULFILLED`:
+      return {
+        ...state,
+        loading: false,
+        userColor: payload
+      };
+    case `${UPDATE_USER_COLOR}_PENDING`:
       return {
         ...state,
         loading: true

@@ -17,12 +17,14 @@
     height: 80%;
     background-color: #fff;
     overflow-y: auto;
+    opacity: .8;
     z-index: 10;
     border-radius: 3px;
     box-shadow: 0px 0px 4px 4px #b9b9b9;
-    @include flexSpaceBetween(column);
+    @include flexCenter(column);
+    justify-content: flex-start;
 
-    & > button {
+    &>i {
       position: absolute;
       top: 15px;
       left: 15px;
@@ -30,46 +32,95 @@
 
     #profileTitle {
       @include flexSpaceAround(column);
-      width: 100%;
+      // justify-content: flex-start;
+      height: 100%;
+      width: 80%;
+      // height: 80vh;
+      min-height: fit-content;
 
       #profilePic {
-        @include flexSpaceAround(row);
-        height: 200px;
-        width: 60%;
+        @include flexCenter(row);
+        height: 20vw;
+        min-height: 175px;
+        width: 20vw;
+        min-width: 175px;
+        border-radius: 50%;
 
         img {
-          height: 150px;
-          width: 150px;
+          height: 90%;
+          width: 90%;
           border-radius: 50%;
         }
 
-        div {
-          height: 60%;
-          @include flexSpaceAround(column);
-
-          h1 {
-            font-size: 4em;
-            color: $brand-color-dark;
-          }
-
-          h3 {
-            font-size: 2.5em;
-            color: $brand-color;
-          }
-        }
       }
 
-      #profileInfo {
+      #profileContent {
+        height: fit-content;
+        min-height: 50%;
+        width: 50%;
+        min-width: 220px;
         @include flexSpaceAround(column);
+
+        // overflow-y: auto;
+        #colorPicker {
+          margin: 15px 0;
+        }
+
+        h1 {
+          font-size: 3.5em;
+          color: $brand-color-dark;
+        }
+
+        h3 {
+          font-size: 2.5em;
+          color: $brand-color;
+        }
+
+        h4 {
+          font-size: 1.5em;
+          color: $accent-color;
+        }
 
         button {
           border: 1px solid $brand-color;
-          height: 1.9em;
+          border-radius: 2px;
+          min-height: 40px;
           width: 100%;
           font-size: 1em;
           background-color: rgba(255, 255, 255, 0.1);
           color: $brand-color-dark;
           margin-bottom: 10px;
+        }
+
+        #visitedList {
+          background-color: $brand-color-dark;
+          color: $white-color;
+        }
+
+      }
+
+    }
+
+    #profileInfo {
+      @include flexSpaceAround(column);
+      justify-content: space-between;
+      height: fit-content;
+      width: 80%;
+
+      #profileImages {
+        width: 100%;
+        // height: fit-content;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        // object-fit: auto;
+
+        img {
+          max-height: 175px;
+          flex: 1;
+          width: auto;
+          height: auto;
+          object-fit: cover;
         }
       }
     }

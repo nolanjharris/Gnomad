@@ -2,16 +2,21 @@ import React, { Component } from "react";
 import "./FriendProfile.scss";
 import { connect } from "react-redux";
 import defaultProfilePic from "../../default_profile_photo.png";
-import FriendPostMap from "../FriendPostMap/FriendPostMap";
-import { closeFriendsProfile } from "../../redux/reducers/userReducer";
-import ImageScroll from "../ImageScroll/ImageScroll";
+import FriendPost from "../FriendPost/FriendPost";
+import {
+  closeFriendsProfile,
+  updateFriendsColor
+} from "../../redux/reducers/userReducer";
+import { CirclePicker } from "react-color";
 
 class FriendProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       posts: false,
-      images: false
+      showImages: false,
+      images: [],
+      colorPicker: false
     };
   }
 
@@ -20,11 +25,36 @@ class FriendProfile extends Component {
   };
 
   handleTogglePosts = () => {
-    this.setState({ posts: !this.state.posts });
+    this.setState({
+      posts: !this.state.posts,
+      showImages: false,
+      colorPicker: false
+    });
+  };
+
+  handleToggleColorPicker = () => {
+    this.setState({ colorPicker: !this.state.colorPicker });
   };
 
   handleToggleImages = () => {
-    this.setState({ images: !this.state.images });
+    let images = [];
+    this.props.friendProfileInfo[0].posts.map(e => {
+      return e.image_urls.map(i => images.push(i));
+    });
+    this.setState({
+      images,
+      showImages: !this.state.showImages,
+      colorPicker: false,
+      posts: false
+    });
+    console.log(images);
+  };
+
+  handleChooseColor = color => {
+    this.props.updateFriendsColor(
+      this.props.friendProfileInfo[0].user_id,
+      color.hex
+    );
   };
 
   render() {
@@ -35,11 +65,12 @@ class FriendProfile extends Component {
       username,
       posts,
       visitedList,
-      friend_color
+      user_id
     } = this.props.friendProfileInfo[0];
+    let friendIndex = this.props.friendsList.findIndex(
+      e => e.user_id === user_id
+    );
     const countryCount = visitedList.length;
-    let images = [];
-    posts.map(post => (images = [...images, posts.image_urls]));
     return (
       <div id="friendProfile">
         <div id="friendProfileContainer">
@@ -53,7 +84,11 @@ class FriendProfile extends Component {
           <div id="friendProfileTitle">
             <div
               id="friendProfilePic"
-              style={{ backgroundColor: `${friend_color}` }}
+              style={{
+                backgroundColor: `${
+                  this.props.friendsList[friendIndex].friend_color
+                }`
+              }}
             >
               {profile_pic ? (
                 <img src={profile_pic} alt="friend profile" />
@@ -61,35 +96,58 @@ class FriendProfile extends Component {
                 <img src={defaultProfilePic} alt="" />
               )}
             </div>
-            <h1>
-              {first_name} {last_name}
-            </h1>
-            <h3>&{username}</h3>
-          </div>
-          <div>
-            <h5>Visited a total of {countryCount} countries</h5>
-            <button>View Visited List</button>
-            <button onClick={this.handleTogglePosts}>View Posts</button>
-            <button onClick={this.handleToggleImages}>Show All Photos</button>
-          </div>
-          {this.state.posts && (
-            <div id="friendProfilePost">
-              {posts.map(post => {
-                return (
-                  <div className="friendPost">
-                    <FriendPostMap post={post} />
-                    <h2>{post.country_name}</h2>
-                    <h3>{post.upload_date}</h3>
-                    {post.image_urls.length > 0 && (
-                      <ImageScroll imgArr={post.image_urls} />
-                    )}
-                    <p>{post.post_content.split("!RECOMMENDATIONS!")[0]}</p>
-                    <p>{post.post_content.split("!RECOMMENDATIONS!")[1]}</p>
-                  </div>
-                );
-              })}
+            <div id="friendProfileContent">
+              <h1>
+                {first_name} {last_name}
+              </h1>
+              <h3>&{username}</h3>
+
+              <h4>
+                {username} has visited {countryCount}{" "}
+                {countryCount === 1 ? "countries" : "country"}!
+              </h4>
+              <button onClick={this.handleToggleColorPicker}>
+                Update Visited-Country Color
+              </button>
+              {this.state.colorPicker && (
+                <div id="colorPicker">
+                  <CirclePicker onChangeComplete={this.handleChooseColor} />
+                </div>
+              )}
+              <button className="visitedList" onClick={this.handleTogglePosts}>
+                View Visited List
+              </button>
+              <button className="visitedList" onClick={this.handleToggleImages}>
+                Show All Photos
+              </button>
             </div>
-          )}
+          </div>
+          <div id="friendProfileInfo">
+            {this.state.posts && (
+              <div id="friendProfilePost">
+                {posts.map((post, i) => {
+                  return (
+                    <div key={`friendsPost${i}`} className="friendPost">
+                      <FriendPost
+                        username={username}
+                        userColor={
+                          this.props.friendsList[friendIndex].friend_color
+                        }
+                        post={post}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {this.state.showImages && (
+              <div id="profileImages">
+                {this.state.images.map((image, i) => {
+                  return <img src={image} key={`travels${i}`} alt="travels" />;
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -99,11 +157,12 @@ class FriendProfile extends Component {
 function mapStateToProps(reduxState) {
   return {
     friendProfileInfo: reduxState.user.friendProfileInfo,
-    geojson: reduxState.map.geojson
+    geojson: reduxState.map.geojson,
+    friendsList: reduxState.user.friendsList
   };
 }
 
 export default connect(
   mapStateToProps,
-  { closeFriendsProfile }
+  { closeFriendsProfile, updateFriendsColor }
 )(FriendProfile);

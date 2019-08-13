@@ -3,21 +3,30 @@ import "./Profile.scss";
 import defaultProfilePic from "../../default_profile_photo.png";
 import { connect } from "react-redux";
 import { closeProfile } from "../../redux/reducers/userReducer";
+import {
+  updateProfilePic,
+  updateUserColor
+} from "../../redux/reducers/authReducer";
 import ProfilePost from "../ProfilePost/ProfilePost";
+import { CirclePicker } from "react-color";
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       countryInfo: [],
-      visitedList: []
+      visitedList: [],
+      showPosts: false,
+      showImages: false,
+      images: []
     };
   }
 
   componentDidMount() {
     this.setState({
       countryInfo: this.props.visitedListGeojson,
-      visitedList: this.props.visitedList
+      visitedList: this.props.visitedList,
+      colorPicker: false
     });
   }
 
@@ -29,37 +38,107 @@ class Profile extends Component {
     return result;
   };
 
+  checkUploadResult = (error, resultEvent) => {
+    if (resultEvent.event === "success") {
+      this.props.updateProfilePic(resultEvent.info.secure_url);
+    }
+  };
+
+  handleShowPosts = () => {
+    this.setState({ showPosts: !this.state.showPosts, showImages: false });
+  };
+
+  handleShowImages = () => {
+    let images = [];
+    this.props.posts.map(e => {
+      return e.image_urls.map(i => images.push(i));
+    });
+    this.setState({
+      images,
+      showImages: !this.state.showImages,
+      showPosts: false
+    });
+  };
+
+  handleToggleColorPicker = () => {
+    this.setState({ colorPicker: !this.state.colorPicker });
+  };
+
+  handleChooseColor = color => {
+    this.props.updateUserColor(color.hex);
+  };
+
   render() {
-    console.log(this.state.countryInfo);
+    const widget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: "dytja9xnd",
+        uploadPreset: "profilePictures",
+        sources: ["local", "url", "dropbox", "facebook", "instagram"]
+      },
+      (error, result) => {
+        this.checkUploadResult(error, result);
+      }
+    );
+    let countryCount = this.props.visitedList.length;
     return (
       <div id="profile">
         <div id="profileContainer">
-          <button onClick={this.props.closeProfile}>Back To Map</button>
+          <i className="material-icons" onClick={this.props.closeProfile}>
+            close
+          </i>
           <div id="profileTitle">
-            <div id="profilePic">
+            <div
+              id="profilePic"
+              style={{ backgroundColor: this.props.userColor }}
+            >
               <img
                 src={
                   this.props.profilePic
                     ? this.props.profilePic
                     : defaultProfilePic
                 }
-                alt=""
+                alt="profile face"
               />
-              <div>
-                <h1>
-                  {this.props.firstName} {this.props.lastName}
-                </h1>
-                <h3>&{this.props.username}</h3>
-              </div>
             </div>
-            <div id="profileInfo">
-              <button>Update Profile Picture</button>
+            <div id="profileContent">
+              <h1>
+                {this.props.firstName} {this.props.lastName}
+              </h1>
+              <h3>&{this.props.username}</h3>
+              <h4>You have visited {countryCount} countries!</h4>
+              <button onClick={() => widget.open()}>
+                Update Profile Picture
+              </button>
+              <button onClick={this.handleToggleColorPicker}>
+                Update Visited-Country Color
+              </button>
+              {this.state.colorPicker && (
+                <div id="colorPicker">
+                  <CirclePicker onChangeComplete={this.handleChooseColor} />
+                </div>
+              )}
+              <button id="visitedList" onClick={this.handleShowPosts}>
+                {this.state.showPosts ? "Hide" : "Show"} Visited List
+              </button>
+              <button id="visitedList" onClick={this.handleShowImages}>
+                {this.state.showImages ? "Hide" : "Show"} Your Photos
+              </button>
             </div>
           </div>
-          {this.state.countryInfo.length > 0 &&
-            this.state.countryInfo.map((country, i) => {
-              return <ProfilePost key={i} country={country} />;
-            })}
+          <div id="profileInfo">
+            {this.state.showPosts &&
+              this.state.countryInfo.length > 0 &&
+              this.state.countryInfo.map((country, i) => {
+                return <ProfilePost key={i} country={country} />;
+              })}
+            {this.state.showImages && (
+              <div id="profileImages">
+                {this.state.images.map((image, i) => {
+                  return <img src={image} key={`travels${i}`} alt="travels" />;
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -81,5 +160,5 @@ function mapStateToProps(reduxState) {
 
 export default connect(
   mapStateToProps,
-  { closeProfile }
+  { closeProfile, updateProfilePic, updateUserColor }
 )(Profile);

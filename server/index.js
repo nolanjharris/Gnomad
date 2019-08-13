@@ -16,7 +16,9 @@ const {
   getPostsByUser,
   getCountriesByUser,
   addCountryToUser,
-  deleteCountryFromUser
+  deleteCountryFromUser,
+  updateProfilePicture,
+  updateUserColor
 } = user_controller;
 const {
   addFriendRequest,
@@ -57,6 +59,8 @@ app.get("/api/user/:id/posts", getPostsByUser);
 app.get("/api/user/:id/country", getCountriesByUser);
 app.post("/api/user/country/:country", checkForUser, addCountryToUser);
 app.delete("/api/user/country/:country", checkForUser, deleteCountryFromUser);
+app.put("/api/user/profile", updateProfilePicture);
+app.put("/api/user/color", updateUserColor);
 
 // Friends Endpoints
 app.get("/api/user/friends/:id", getFriendsByUser);
