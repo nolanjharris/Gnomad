@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import logo from "../../logo.png";
 import "./LoginRegisterPopup.scss";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import TextField from "material-ui/TextField";
@@ -61,11 +62,13 @@ class LoginRegisterPopup extends Component {
         <div id="login-register-popup-content">
           <div id="login-title-div">
             <h2>
-              Welcome to <span>G</span>nomad!
+              GN
+              <img src={logo} alt="gnomad logo" />
+              MAD
             </h2>
             <div>
               <p>
-                {this.state.register ? "Register now" : "Login"} to start
+                {this.state.register ? "Register to start " : "Login to keep "}
                 mapping your adventures!
               </p>
               {!this.state.register ? (
@@ -76,59 +79,68 @@ class LoginRegisterPopup extends Component {
                 <h4>
                   Already have an account?{" "}
                   <a href="#" onClick={this.handleRegisterToggle}>
-                    Click here to sign in!
+                    Sign in!
                   </a>
                 </h4>
               )}
             </div>
           </div>
-          <MuiThemeProvider id="loginRegisterForm">
-            <>
-              {this.state.register && (
-                <>
-                  <TextField
-                    name="firstName"
-                    floatingLabelText="First Name"
-                    onChange={this.handleChange}
-                  />
-                  <TextField
-                    name="lastName"
-                    floatingLabelText="Last Name"
-                    onChange={this.handleChange}
-                  />
-                </>
-              )}
-              <TextField
-                name="username"
-                floatingLabelText="Username"
-                onChange={this.handleChange}
-              />
-              <TextField
-                name="password"
-                floatingLabelText="Password"
-                type="password"
-                onChange={this.handleChange}
-              />
-              {this.props.error && (
-                <h4 id="error">{this.props.errorMessage}</h4>
-              )}
-              {!this.state.register ? (
-                <RaisedButton
-                  className="btn"
-                  label="Login"
-                  primary={true}
-                  onClick={this.handleLogin}
+          <div id="loginRegisterForm">
+            {this.state.register && (
+              <>
+                <input
+                  name="firstName"
+                  onChange={this.handleChange}
+                  placeholder="First Name"
+                  type="text"
                 />
-              ) : (
-                <RaisedButton
-                  className="btn"
-                  label="Register"
-                  primary={true}
-                  onClick={this.handleRegister}
+                <input
+                  name="lastName"
+                  onChange={this.handleChange}
+                  placeholder="Last Name"
+                  type="text"
                 />
-              )}
-            </>
-          </MuiThemeProvider>
+                <input
+                  name="username"
+                  onChange={this.handleChange}
+                  placeholder="Username"
+                  type="text"
+                />
+                <input
+                  name="password"
+                  onChange={this.handleChange}
+                  placeholder="Password"
+                  type="password"
+                />
+              </>
+            )}
+            {!this.state.register && (
+              <>
+                <input
+                  name="username"
+                  onChange={this.handleChange}
+                  placeholder="Username"
+                  type="text"
+                />
+                <input
+                  name="password"
+                  onChange={this.handleChange}
+                  placeholder="Password"
+                  type="password"
+                />
+              </>
+            )}
+            {this.props.error && <h4 id="error">{this.props.errorMessage}</h4>}
+            {!this.state.register ? (
+              <button className="btn" onClick={this.handleLogin}>
+                Login
+              </button>
+            ) : (
+              <button className="btn" onClick={this.handleRegister}>
+                Register
+              </button>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -153,3 +165,53 @@ export default connect(
     requestFriendsList
   }
 )(LoginRegisterPopup);
+
+{
+  /* <MuiThemeProvider>
+              <>
+                {this.state.register && (
+                  <>
+                    <TextField
+                      name="firstName"
+                      floatingLabelText="First Name"
+                      onChange={this.handleChange}
+                    />
+                    <TextField
+                      name="lastName"
+                      floatingLabelText="Last Name"
+                      onChange={this.handleChange}
+                    />
+                  </>
+                )}
+                <TextField
+                  name="username"
+                  floatingLabelText="Username"
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  name="password"
+                  floatingLabelText="Password"
+                  type="password"
+                  onChange={this.handleChange}
+                />
+                {this.props.error && (
+                  <h4 id="error">{this.props.errorMessage}</h4>
+                )}
+                {!this.state.register ? (
+                  <RaisedButton
+                    className="btn"
+                    label="Login"
+                    primary={true}
+                    onClick={this.handleLogin}
+                  />
+                ) : (
+                  <RaisedButton
+                    className="btn"
+                    label="Register"
+                    primary={true}
+                    onClick={this.handleRegister}
+                  />
+                )}
+              </>
+            </MuiThemeProvider> */
+}

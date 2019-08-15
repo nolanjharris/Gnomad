@@ -9,51 +9,125 @@
     top: 0;
     left: 0;
     @include flexCenter(row);
+    // align-items: flex-start;
+    font-family: $content-font;
+
+    @media screen and (max-width: $break-tablet) {
+        justify-content: flex-end;
+    }
 
     #login-register-popup-content {
         padding: 20px;
-        font-family: $content-font;
         @include flexSpaceBetween(column);
-        height: 50vh;
-        width: 40vw;
+        height: 60vh;
+        width: 60vw;
+        max-width: 650px;
         background: #fff;
         z-index: 10;
-        border-radius: 3px;
+        border-radius: 1px;
+        opacity: .8;
         box-shadow: 0px 0px 4px 4px #b9b9b9;
+
+        @media screen and (max-width: $break-desktop) {
+            width: 60vw;
+            height: 70vh;
+        }
+
+        @media screen and (max-width: $break-tablet) {
+            height: 80vh;
+            width: 70vw;
+        }
+
+        @media screen and (max-width: $break-mobile) {
+            width: 70vw;
+            height: 70vh;
+        }
 
         #login-title-div {
             @include flexSpaceBetween(column);
-            height: 25%;
+            height: 30%;
 
             h2 {
-                font-size: 3.7em;
-                color: $brand-color;
+                font-size: 3em;
+                color: $brand-color-dark;
 
-                span {
-                    color: $accent-color;
+                img {
+                    height: 1.5em;
+                    margin-bottom: -2px;
+                }
+
+                @media screen and (max-width: $break-desktop) {
+                    font-size: 2.8em;
+
+                    img {
+                        // height: 1.6em;
+                    }
+                }
+
+                @media screen and (max-width: $break-tablet) {
+                    // font-size: 2em;
+                    // height: 1.3em;
                 }
             }
 
             div {
                 @include flexSpaceBetween(column);
-                height: 40%;
+                height: 31%;
 
 
                 p {
-                    font-size: 1.5em;
+                    font-size: 1.4em;
                     color: $brand-color-dark;
+
+                    @media screen and (max-width: $break-mobile) {
+                        font-size: 1em;
+                    }
                 }
             }
         }
 
         #loginRegisterForm {
-            height: 40%;
-            @include flexSpaceBetween(column);
+            width: 50%;
+            overflow: hidden;
+            height: 60%;
+            @include flexCenter(column);
 
-            .btn {
-                background-color: $accent-color;
-                margin-top: 20px;
+            // align-items: flex-start;
+            @media screen and (max-width: $break-tablet) {
+                width: 90%;
+                height: 60%;
             }
+
+            input {
+                height: 30px;
+                width: 100%;
+                font-size: 1em;
+                margin-bottom: 20px;
+                border: none;
+                background-color: none;
+                border-bottom: 2px solid $brand-color-dark;
+
+                &::placeholder {
+                    color: $brand-color;
+                }
+
+            }
+
+            button {
+                background-color: #fff;
+                border: 1px solid $brand-color;
+                height: 50px;
+                font-size: 1.2em;
+                width: 100%;
+                margin-top: 20px;
+                font-family: $content-font;
+                color: $brand-color-dark;
+
+                @media screen and (max-width: $break-tablet) {
+                    height: 40px;
+                }
+            }
+
         }
 
     }

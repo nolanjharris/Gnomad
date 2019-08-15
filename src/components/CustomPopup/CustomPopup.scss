@@ -1,0 +1,30 @@
+@import '../../App.scss';
+
+
+#customPopup {
+    height: fit-content;
+    width: 100%;
+    @include flexSpaceBetween(column);
+    padding: 10px 0;
+    align-items: center;
+
+    p {
+        font-size: 2em;
+        color: $brand-color-dark;
+        margin: 0 0 10px 0;
+    }
+
+    #popupButtons {
+        height: fit-content;
+        width: 310px;
+        @include flexSpaceBetween(row);
+
+        button {
+            border: 1px solid $brand-color;
+            background: #fff;
+            color: $brand-color-dark;
+            width: 150px;
+            height: 40px;
+        }
+    }
+}

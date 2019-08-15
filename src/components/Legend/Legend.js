@@ -5,7 +5,8 @@ import {
   sendFriendRequest,
   toggleFriend,
   updateFriendsColor,
-  openFriendsProfile
+  openFriendsProfile,
+  toggleLegend
 } from "../../redux/reducers/userReducer";
 import Switch from "react-switch";
 import { CirclePicker } from "react-color";
@@ -42,10 +43,10 @@ class Legend extends Component {
 
   handleUserSearch = e => {
     let users = this.props.allUsers.filter(
-      user => user.username !== this.props.username
+      user => user.username.toLowerCase() !== this.props.username.toLowerCase()
     );
     let foundUsers = users.filter(user =>
-      user.username.includes(e.target.value)
+      user.username.toLowerCase().includes(e.target.value.toLowerCase())
     );
     this.setState({ users: foundUsers });
   };
@@ -194,5 +195,11 @@ function mapStateToProps(reduxState) {
 
 export default connect(
   mapStateToProps,
-  { sendFriendRequest, toggleFriend, updateFriendsColor, openFriendsProfile }
+  {
+    sendFriendRequest,
+    toggleFriend,
+    toggleLegend,
+    updateFriendsColor,
+    openFriendsProfile
+  }
 )(Legend);

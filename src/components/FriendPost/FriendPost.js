@@ -33,12 +33,20 @@ class FriendPost extends Component {
       <div className="profilePost">
         <div className="profilePostMain">
           <LeafletMap
-            id="friendMap"
+            className="profileMap"
             ref="friendMap"
             center={[26.588527, 8.4375]}
-            zoom={2}
+            dragging={false}
+            doubleClickZoom={false}
+            zoomSnap={false}
+            zoomDelta={false}
+            trackResize={false}
+            touchZoom={false}
+            scrollWheelZoom={false}
+            tap={false}
+            zoom={1}
             zoomControl={false}
-            minZoom={2}
+            minZoom={1}
             maxZoom={6}
             maxBoundsViscosity={1}
             maxBounds={[[90, 180], [-90, -180]]}
@@ -63,7 +71,7 @@ class FriendPost extends Component {
           </LeafletMap>
           <div id="profilePostContent">
             <h1>{countryBounds[0].properties.name}</h1>
-            <h3>You Visited on {this.props.post.upload_date}</h3>
+            <h3>Visited on {this.props.post.upload_date}</h3>
             <button onClick={this.handleContentToggle}>
               Show {this.props.username}'s Post
             </button>

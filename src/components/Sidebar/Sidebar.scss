@@ -2,7 +2,7 @@
 
 .sidebar {
     // display: none;
-    @include flexCenter(column);
+    @include flexSpaceBetween(column);
     justify-content: flex-start;
     height: 100vh;
     width: fit-content;
@@ -11,16 +11,21 @@
     left: 0;
     z-index: 10;
     background-color: rgba(255, 255, 255, 0.5);
-    padding: 15px;
+    padding: 5px;
     align-items: flex-start;
+
+    &:focus {
+        outline: none;
+    }
 
     #sideBarTitle {
         // position: absolute;
         // top: 0;
-        height: 30%;
+        height: 50%;
         align-items: center;
         // justify-content: flex-start;
         align-items: center;
+        margin-left: 2px;
 
         #menuIcon {
             display: none;
@@ -51,6 +56,10 @@
             @include flexCenter(column);
             width: 100%;
 
+            @media screen and (max-width: $break-mobile) {
+                margin: 10px 0;
+            }
+
             //   display: none;
             #profilePicDiv {
                 height: 85px;
@@ -77,6 +86,11 @@
                 font-size: 1.6em;
                 color: $brand-color;
                 margin-bottom: 20px;
+
+                @media screen and (max-width: $break-mobile) {
+                    margin-bottom: 10px;
+                    font-size: 1.4em;
+                }
             }
 
             button {
@@ -100,9 +114,35 @@
         }
     }
 
+    #toggleMenuIcon {
+        height: 5%;
+        width: calc(100% + 5px);
+        margin-left: -5px;
+        // margin-left: 15px;
+        color: $brand-color-dark;
+        padding-right: 5px;
+        @include flexCenter(row);
+        justify-content: flex-start;
+        // background-color: $brand-color-dark;
+        // border-top: 1px solid $brand-color-dark;
+        // border-bottom: 1px solid $brand-color-dark;
+
+        &:hover {
+            background-color: $brand-color-dark;
+            color: $white-color;
+            // border-top: 1px solid $brand-color-dark;
+            // border-bottom: 1px solid $brand-color-dark;
+        }
+
+        i {
+            padding-left: 10px;
+            font-size: 34px !important;
+        }
+    }
+
     .menuItems {
         width: 95%;
-        height: 40%;
+        height: 50%;
 
         @include flexSpaceBetween(column);
 
@@ -110,7 +150,7 @@
             @include flexSpaceBetween(row);
             width: 100%;
             height: 150px;
-            padding-left: 15px;
+            padding-left: 20px;
             position: relative;
 
             i {
@@ -194,15 +234,16 @@
 
         #notificationsPanel {
             width: 150px;
-            height: 31%;
+            height: 35%;
             position: absolute;
-            padding: 0 5px;
-            top: 37%;
-            right: 18px;
+            padding: 10px 5px;
+            top: 60%;
+            right: 9px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            //   background-color: rgba(255, 255, 255, 0.4);
+            overflow-y: auto;
+            background-color: rgba(255, 255, 255, 0.4);
             color: $brand-color-dark;
             z-index: 100000;
 
@@ -236,9 +277,9 @@
 
             #countrySearchResults {
                 position: absolute;
-                top: 72%;
+                top: 85%;
                 right: 0;
-                max-height: 300px;
+                max-height: 150px;
                 width: 160px;
                 overflow-y: auto;
                 z-index: 100000;

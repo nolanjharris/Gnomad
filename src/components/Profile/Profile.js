@@ -18,6 +18,7 @@ class Profile extends Component {
       visitedList: [],
       showPosts: false,
       showImages: false,
+      colorPicker: false,
       images: []
     };
   }
@@ -45,7 +46,11 @@ class Profile extends Component {
   };
 
   handleShowPosts = () => {
-    this.setState({ showPosts: !this.state.showPosts, showImages: false });
+    this.setState({
+      showPosts: !this.state.showPosts,
+      showImages: false,
+      colorPicker: false
+    });
   };
 
   handleShowImages = () => {
@@ -56,12 +61,17 @@ class Profile extends Component {
     this.setState({
       images,
       showImages: !this.state.showImages,
-      showPosts: false
+      showPosts: false,
+      colorPicker: false
     });
   };
 
   handleToggleColorPicker = () => {
-    this.setState({ colorPicker: !this.state.colorPicker });
+    this.setState({
+      colorPicker: !this.state.colorPicker,
+      showPosts: false,
+      showImages: false
+    });
   };
 
   handleChooseColor = color => {

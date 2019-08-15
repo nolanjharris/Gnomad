@@ -10,33 +10,54 @@
   z-index: 5;
   font-family: $content-font;
 
+  @media screen and (max-width: $break-tablet) {
+    align-items: flex-end;
+  }
+
   #profileContainer {
     position: relative;
-    padding: 30px;
+    padding: 20px;
     width: 80%;
     height: 80%;
     background-color: #fff;
     overflow-y: auto;
-    opacity: .8;
+    opacity: .9;
     z-index: 10;
     border-radius: 3px;
     box-shadow: 0px 0px 4px 4px #b9b9b9;
     @include flexCenter(column);
     justify-content: flex-start;
 
+    @media screen and (max-width: $break-tablet) {
+      width: 73%;
+      height: 80%;
+      padding: 20px;
+    }
+
     &>i {
       position: absolute;
       top: 15px;
       left: 15px;
+
+      @media screen and (max-width: $break-mobile) {
+        top: 7px;
+        left: 7px;
+      }
     }
 
     #profileTitle {
       @include flexSpaceAround(column);
       // justify-content: flex-start;
-      height: 100%;
+      min-height: 100%;
       width: 80%;
       // height: 80vh;
-      min-height: fit-content;
+      // height: fit-content;
+      margin-bottom: 70px;
+
+      @media screen and (max-width: $break-mobile) {
+        width: 100%;
+        margin-bottom: 0;
+      }
 
       #profilePic {
         @include flexCenter(row);
@@ -45,6 +66,7 @@
         width: 20vw;
         min-width: 175px;
         border-radius: 50%;
+        margin-top: 30px;
 
         img {
           height: 90%;
@@ -57,9 +79,14 @@
       #profileContent {
         height: fit-content;
         min-height: 50%;
-        width: 50%;
+        width: 70%;
         min-width: 220px;
         @include flexSpaceAround(column);
+        justify-content: flex-start;
+
+        @media screen and (max-width: $break-tablet) {
+          min-height: 60%;
+        }
 
         // overflow-y: auto;
         #colorPicker {
@@ -69,16 +96,32 @@
         h1 {
           font-size: 3.5em;
           color: $brand-color-dark;
+
+          @media screen and (max-width: $break-tablet) {
+            font-size: 2.2em;
+          }
         }
 
         h3 {
           font-size: 2.5em;
           color: $brand-color;
+
+          @media screen and (max-width: $break-tablet) {
+            font-size: 1.7em;
+            margin-bottom: 5px;
+          }
         }
 
         h4 {
           font-size: 1.5em;
           color: $accent-color;
+          margin-bottom: 20px;
+
+          @media screen and (max-width: $break-tablet) {
+            font-size: 1em;
+            margin-bottom: 10px;
+
+          }
         }
 
         button {
@@ -90,6 +133,11 @@
           background-color: rgba(255, 255, 255, 0.1);
           color: $brand-color-dark;
           margin-bottom: 10px;
+
+          @media screen and (max-width: $break-tablet) {
+            font-size: .9em;
+            min-height: 35px;
+          }
         }
 
         #visitedList {
@@ -104,8 +152,12 @@
     #profileInfo {
       @include flexSpaceAround(column);
       justify-content: space-between;
-      height: fit-content;
+      min-height: fit-content;
       width: 80%;
+
+      @media screen and (max-width: $break-tablet) {
+        width: 90%;
+      }
 
       #profileImages {
         width: 100%;
@@ -114,13 +166,28 @@
         flex-wrap: wrap;
         justify-content: space-around;
         // object-fit: auto;
+        margin-top: 30px;
+
+        @media screen and (max-width: $break-tablet) {
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+        }
 
         img {
           max-height: 175px;
+
           flex: 1;
           width: auto;
           height: auto;
           object-fit: cover;
+
+          @media screen and (max-width: $break-tablet) {
+            max-height: 100%;
+            height: auto;
+            width: 90%;
+            object-fit: contain;
+          }
         }
       }
     }

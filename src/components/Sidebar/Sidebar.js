@@ -46,6 +46,7 @@ class Sidebar extends Component {
     // await this.props.requestFriendsList(this.props.userId);
     this.props.toggleFriendsCountries();
     this.props.toggleLegend();
+    this.setState({ menuOpen: false, displayClass: "closed" });
   };
   handleLogout = async () => {
     this.setState({ notificationsDisplay: "closed" });
@@ -70,6 +71,7 @@ class Sidebar extends Component {
   handleSearchedCountry = country => {
     this.props.searchMap();
     this.props.updateBounds(country);
+    this.handleSlideToggle();
     this.setState({ searchResults: [], searchValue: "" });
     setTimeout(() => {
       this.props.exitSearch();
@@ -84,6 +86,7 @@ class Sidebar extends Component {
 
   handleSearchedContinent = e => {
     this.setState({ continent: e.target.value });
+    this.handleSlideToggle();
     // this.props.exitSearch();
     let foundContinent = continents.features.filter(
       continent => continent.properties.name === e.target.value
@@ -96,6 +99,11 @@ class Sidebar extends Component {
 
   handleEarthView = async () => {
     this.props.searchMap();
+    this.setState({
+      menuOpen: false,
+      displayClass: "closed",
+      notificationsDisplay: "closed"
+    });
     await this.props.updateBounds(continents.features[6]);
     this.props.exitSearch();
   };
@@ -191,6 +199,7 @@ class Sidebar extends Component {
               </div>
             )}
         </div>
+
         <div className="menuItems">
           <div className={`iconDiv ${this.props.loggedIn ? null : "closed"}`}>
             <div className="iconContainer notifications">

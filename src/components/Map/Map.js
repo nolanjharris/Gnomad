@@ -63,10 +63,10 @@ class Map extends Component {
         <LeafletMap
           id="map"
           ref="map"
-          center={[30, 8]}
+          center={[23.725012, 15.644531]}
           zoom={3}
           zoomControl={false}
-          minZoom={3}
+          minZoom={2}
           LatLng="wrap"
           maxZoom={7}
           maxBoundsViscosity={1}

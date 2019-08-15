@@ -9,6 +9,10 @@ monospace;
 $content-font: 'Karla',
 sans-serif;
 
+$break-mobile: 400px;
+$break-tablet: 728px;
+$break-desktop: 998px;
+
 @mixin flexCenter($direction) {
     display: flex;
     justify-content: center;

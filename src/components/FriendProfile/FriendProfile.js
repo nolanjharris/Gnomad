@@ -33,7 +33,11 @@ class FriendProfile extends Component {
   };
 
   handleToggleColorPicker = () => {
-    this.setState({ colorPicker: !this.state.colorPicker });
+    this.setState({
+      colorPicker: !this.state.colorPicker,
+      showImages: false,
+      posts: false
+    });
   };
 
   handleToggleImages = () => {

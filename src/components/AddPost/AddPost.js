@@ -183,44 +183,50 @@ class AddPost extends Component {
               </button>
             </div>
           </div>
-          {this.state.imgArr.length > 0 && (
-            <ImageScroll imgArr={this.state.imgArr} />
-          )}
-          <ThemeProvider theme={theme}>
-            <TextField
-              value={this.state.description}
-              id="postDescription"
-              name="description"
-              onChange={this.handleChange}
-              label="Describe your Experience!"
-              rowsMax="10"
-              style={{ margin: 10, width: "80%" }}
-              helperText="What was great about your trip?"
-              multiline
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-            <TextField
-              value={this.state.recommendations}
-              id="postSuggestion"
-              name="recommendations"
-              onChange={this.handleChange}
-              label="What would you recommend?"
-              rowsMax="10"
-              style={{ margin: 30, width: "80%" }}
-              helperText="What activites would you suggest to others who visit?"
-              multiline
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </ThemeProvider>
-          <button onClick={this.handleSubmit}>Submit Post</button>
+          <div id="addPostContent">
+            {this.state.imgArr.length > 0 && (
+              <div id="addPostImages">
+                <ImageScroll imgArr={this.state.imgArr} />
+              </div>
+            )}
+            <div id="textFields">
+              <ThemeProvider theme={theme}>
+                <TextField
+                  value={this.state.description}
+                  id="postDescription"
+                  name="description"
+                  onChange={this.handleChange}
+                  label="Describe your Experience!"
+                  rowsMax="10"
+                  style={{ width: "80%" }}
+                  helperText="What was great about your trip?"
+                  multiline
+                  margin="normal"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+                <TextField
+                  value={this.state.recommendations}
+                  id="postSuggestion"
+                  name="recommendations"
+                  onChange={this.handleChange}
+                  label="What would you recommend?"
+                  rowsMax="10"
+                  style={{ margin: 30, width: "80%" }}
+                  helperText="What activites would you suggest to others who visit?"
+                  multiline
+                  margin="normal"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+              </ThemeProvider>
+              <button onClick={this.handleSubmit}>Submit Post</button>
+            </div>
+          </div>
         </div>
       </div>
     );
