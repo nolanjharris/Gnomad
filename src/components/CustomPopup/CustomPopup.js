@@ -10,6 +10,7 @@ import {
 
 function CustomPopup(props) {
   const popup = React.createRef();
+
   const handleAddToVisited = () => {
     props.openPostForm(props.feature);
     closePopusOnClick();
