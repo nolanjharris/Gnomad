@@ -18,7 +18,7 @@ function CustomPopup(props) {
 
   const handlePostsByCountry = () => {
     props.requestCountryPosts(props.feature).then();
-    props.closePopup();
+    closePopusOnClick();
   };
 
   const closePopusOnClick = () => {

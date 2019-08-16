@@ -108,7 +108,7 @@ class FriendProfile extends Component {
 
               <h4>
                 {username} has visited {countryCount}{" "}
-                {countryCount === 1 ? "countries" : "country"}!
+                {countryCount === 1 ? "country" : "countries"}!
               </h4>
               <button onClick={this.handleToggleColorPicker}>
                 Update Visited-Country Color

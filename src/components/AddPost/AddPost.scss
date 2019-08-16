@@ -28,7 +28,6 @@
 
         justify-content: flex-start;
 
-        @media screen and (max-width: $break-tablet) {}
 
         i {
             position: absolute;
@@ -42,7 +41,7 @@
         }
 
         #postTitle {
-            @include flexSpaceAround(row);
+            @include flexSpaceBetween(row);
             width: 80%;
             min-height: 50%;
             margin-bottom: 30px;
@@ -102,8 +101,9 @@
 
             #addPostImages {
                 height: 30%;
-                width: 100%;
+                width: 80%;
                 margin-bottom: 20px;
+                margin: auto;
             }
 
             #textFields {

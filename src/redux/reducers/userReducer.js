@@ -215,19 +215,32 @@ export default function reducer(state = initialState, action) {
         profileOpen: false
       };
     case `${REQUEST_FRIENDS_LIST}_FULFILLED`:
-      unfriended = state.allUsers.filter(
-        user =>
-          payload[0].findIndex(friend => friend.username === user.username) < 0
-      );
-      payload[0].map(friend => (friend.visible = true));
-      return {
-        ...state,
-        loading: false,
-        allUsers: unfriended,
-        friendsList: payload[0],
-        pendingFriendRequests: payload[1],
-        sentFriendRequests: payload[2]
-      };
+      unfriended = state.allusers;
+      // console.log(payload);
+      if (payload[0].length > 0) {
+        unfriended = state.allUsers.filter(
+          user =>
+            payload[0].findIndex(friend => friend.username === user.username) <
+            0
+        );
+        payload[0].map(friend => (friend.visible = false));
+        return {
+          ...state,
+          loading: false,
+          allUsers: unfriended,
+          friendsList: payload[0],
+          pendingFriendRequests: payload[1],
+          sentFriendRequests: payload[2]
+        };
+      } else {
+        return {
+          ...state,
+          loading: false,
+          friendsList: payload[0],
+          pendingFriendRequests: payload[1],
+          sentFriendRequests: payload[2]
+        };
+      }
     case `${REQUEST_FRIENDS_LIST}_PENDING`:
       return {
         ...state,
@@ -255,7 +268,7 @@ export default function reducer(state = initialState, action) {
         user =>
           payload[0].findIndex(friend => friend.username === user.username) < 0
       );
-      payload[0].map(friend => (friend.visible = true));
+      payload[0].map(friend => (friend.visible = false));
       return {
         ...state,
         loading: false,

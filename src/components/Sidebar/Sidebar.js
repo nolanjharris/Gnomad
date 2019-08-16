@@ -51,9 +51,9 @@ class Sidebar extends Component {
   handleLogout = async () => {
     this.setState({ notificationsDisplay: "closed" });
     await this.props.logoutUser();
-    this.props.resetPost();
-    this.props.resetUser();
-    this.props.resetMap();
+    await this.props.resetPost();
+    await this.props.resetUser();
+    await this.props.resetMap();
     await this.props.requestAllUsers();
   };
 
@@ -149,13 +149,13 @@ class Sidebar extends Component {
   };
 
   render() {
-    if (this.props.friendsList > 0) {
-      let unfriended = this.props.allUsers.filter(
-        e =>
-          this.props.friendsList.findIndex(a => a.username === e.username) < 0
-      );
-      console.log(unfriended);
-    }
+    // if (this.props.friendsList > 0) {
+    //   let unfriended = this.props.allUsers.filter(
+    //     e =>
+    //       this.props.friendsList.findIndex(a => a.username === e.username) < 0
+    //   );
+    //   console.log(unfriended);
+    // }
 
     return (
       <div className="sidebar">
@@ -342,24 +342,6 @@ class Sidebar extends Component {
               World View
             </button>
           </div>
-          <div className={`iconDiv ${this.props.loggedIn ? null : "closed"}`}>
-            <i
-              onClick={this.getFriendsList}
-              color="action"
-              className="material-icons"
-              style={{ fontSize: "1.5em" }}
-            >
-              people
-            </i>
-            <button
-              onClick={this.getFriendsList}
-              className={`${this.state.displayClass} ${
-                this.state.notificationsDisplay === "closed" ? "open" : "closed"
-              }`}
-            >
-              Toggle Friends
-            </button>
-          </div>
         </div>
       </div>
     );
@@ -403,3 +385,22 @@ export default connect(
     requestAllUsers
   }
 )(Sidebar);
+
+/* <div className={`iconDiv ${this.props.loggedIn ? null : "closed"}`}>
+            <i
+              onClick={this.getFriendsList}
+              color="action"
+              className="material-icons"
+              style={{ fontSize: "1.5em" }}
+            >
+              people
+            </i>
+            <button
+              onClick={this.getFriendsList}
+              className={`${this.state.displayClass} ${
+                this.state.notificationsDisplay === "closed" ? "open" : "closed"
+              }`}
+            >
+              Toggle Friends
+            </button>
+          </div> */

@@ -10,6 +10,7 @@ import ViewPosts from "./components/ViewPosts/ViewPosts";
 import Profile from "./components/Profile/Profile";
 import Legend from "./components/Legend/Legend";
 import FriendProfile from "./components/FriendProfile/FriendProfile";
+import Loading from "./components/Loading/Loading";
 
 function App(props) {
   return (
@@ -20,8 +21,9 @@ function App(props) {
       {props.addPost && <AddPost />}
       {props.viewPosts && <ViewPosts />}
       {props.profileOpen && <Profile />}
-      {props.legendOpen && <Legend />}
+      {props.loggedIn && <Legend />}
       {props.friendProfileOpen && <FriendProfile />}
+      {props.authLoading ? <Loading /> : null}
     </div>
   );
 }
@@ -38,7 +40,11 @@ function mapStateToProps(reduxState) {
     geojson: reduxState.map.geojson,
     profileOpen: reduxState.user.profileOpen,
     legendOpen: reduxState.user.legendOpen,
-    friendProfileOpen: reduxState.user.friendProfileOpen
+    friendProfileOpen: reduxState.user.friendProfileOpen,
+    friendsList: reduxState.user.friendsList,
+    authLoading: reduxState.auth.loading,
+    postLoading: reduxState.post.loading,
+    userLoading: reduxState.user.loading
   };
 }
 

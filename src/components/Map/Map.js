@@ -58,24 +58,25 @@ class Map extends Component {
       "S. America",
       "Europe"
     ];
+    let zoom = 2;
+    if (window.innerWidth > 1200 || window.innerWidth < 500) {
+      zoom = 3;
+    }
     return (
       <div>
         <LeafletMap
           id="map"
           ref="map"
           center={[23.725012, 15.644531]}
-          zoom={3}
+          zoom={zoom}
           zoomControl={false}
-          minZoom={2}
+          minZoom={zoom}
           LatLng="wrap"
           maxZoom={7}
           maxBoundsViscosity={1}
           maxBounds={[[90, 180], [-90, -180]]}
         >
-          <TileLayer
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-            attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
-          />
+          <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}" />
 
           <FeatureGroup>
             {this.props.geojson.features &&

@@ -5,11 +5,61 @@
     bottom: 20px;
     right: 15px;
     z-index: 1000;
-    opacity: .8;
+    opacity: .9;
+    // width: 0 !important;
+
+    @media screen and (max-width: $break-tablet) {
+        bottom: 0;
+        right: 0;
+    }
+
+    &.hide {
+        right: 0;
+        width: 0 !important;
+
+        #legendContainer {
+            width: 0;
+        }
+
+        #legendTabs {
+            button {
+                display: none;
+            }
+        }
+    }
+
+    #legendSlideIcon {
+        height: 200px;
+        width: 44px;
+        position: absolute;
+        bottom: 0px;
+        left: -44px;
+        opacity: .9;
+        background-color: #fff;
+        @include flexCenter(column);
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+        // border: 1px solid $brand-color-dark;
+        // background-color: $brand-color;
+        color: $brand-color-dark;
+
+        i {
+            font-size: 30px;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: $break-tablet) {
+            height: 160px;
+        }
+    }
 
     #legendTabs {
         display: flex;
         justify-content: flex-start;
+        padding-left: 10px;
 
         button {
             height: 30px;
@@ -17,7 +67,7 @@
             border: none;
             border-top-right-radius: 3px;
             border-top-left-radius: 3px;
-            background: rgb(238, 238, 238);
+            background: rgb(221, 221, 221);
             font-family: $content-font;
             font-size: 1em;
             color: $brand-color-dark;
@@ -46,6 +96,13 @@
         overflow-y: auto;
         overflow-x: hidden;
 
+        @media screen and (max-width: $break-tablet) {
+            height: 160px;
+            width: 200px;
+        }
+
+
+
         #legendFriendsTab {
             width: 100%;
             height: 100%;
@@ -56,10 +113,26 @@
                 padding: 8px;
             }
 
+            #toggleAllFriends {
+                border-bottom: 1px solid $brand-color-dark;
+                @include flexSpaceBetween(row);
+
+                .react-switch {
+                    margin-left: 7px;
+                }
+
+                p {
+                    margin-right: 10px;
+                    font-weight: bold;
+                }
+            }
+
             &>div {
                 position: relative;
                 height: 40px;
-                @include flexCenter(column);
+                @include flexCenter(row);
+
+
 
                 .legendFriend {
                     opacity: .4;
@@ -68,7 +141,23 @@
                     left: 0;
                     width: 100%;
                     height: 100%;
+
                 }
+
+                p {
+                    z-index: 10000;
+                    color: $brand-color-dark !important;
+                }
+
+                img {
+                    max-height: 30px;
+                    width: 30px;
+                    margin-right: 10px;
+                    border-radius: 50%;
+                    z-index: 10000;
+                }
+
+
 
                 .legendFriendInfo {
                     height: 100%;
@@ -129,6 +218,11 @@
                 font-size: 1.1em;
                 font-family: $content-font;
                 margin: 5px 0;
+
+                @media screen and (max-width: $break-tablet) {
+                    height: 1.2em;
+                    font-size: 1em;
+                }
             }
 
             .userSearch {
@@ -136,6 +230,12 @@
                 height: 30px;
                 width: 80%;
                 margin: 3px 0;
+
+                @media screen and (max-width: $break-tablet) {
+                    font-size: .9em;
+                    height: 25px;
+                    width: 90%;
+                }
 
                 button {
                     height: 30px;
@@ -146,6 +246,12 @@
                     font-size: .8em;
                     color: $white-color;
                     border-radius: 2px;
+
+                    @media screen and (max-width: $break-tablet) {
+                        height: 25px;
+                        font-size: .75em;
+                        width: 45%;
+                    }
 
                     &:hover {
                         cursor: pointer;
@@ -162,4 +268,6 @@
     .open {
         display: block;
     }
+
+
 }

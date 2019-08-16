@@ -10,6 +10,13 @@ const getFriendsByUser = async (req, res) => {
   const sentRequests = await db
     .get_pending_friend_requests([id])
     .catch(error => console.log(error));
+  if (
+    friends.length === 0 &&
+    pending.length === 0 &&
+    sentRequests.length === 0
+  ) {
+    return res.status(200).json([[], [], []]);
+  }
   for (let friend of friends) {
     let countries = await db
       .get_countries_by_user([friend.user_id])

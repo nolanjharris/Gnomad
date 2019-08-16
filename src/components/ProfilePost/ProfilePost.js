@@ -5,6 +5,10 @@ import {
   removeUserCountry,
   closeProfile
 } from "../../redux/reducers/userReducer";
+import {
+  openEditPostForm,
+  editProfilePost
+} from "../../redux/reducers/postReducer";
 import { connect } from "react-redux";
 import {
   Map as LeafletMap,
@@ -34,6 +38,13 @@ class ProfilePost extends Component {
     this.props.closeProfile();
   };
 
+  handleEdit = async (post, country) => {
+    await this.props.editProfilePost(post);
+    this.props.openEditPostForm(post[0].post_id, country);
+    this.props.closeProfile();
+    console.log(country);
+  };
+
   render() {
     let post = this.props.posts.filter(
       e => e.country_name === this.props.country.properties.name.toLowerCase()
@@ -60,10 +71,7 @@ class ProfilePost extends Component {
             maxBoundsViscosity={1}
             maxBounds={[[90, 180], [-90, -180]]}
           >
-            <TileLayer
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-              attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
-            />
+            <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}" />
             <FeatureGroup onAdd={this.onFeatureGroupAdd}>
               <GeoJSON
                 data={this.props.country}
@@ -101,6 +109,15 @@ class ProfilePost extends Component {
           <p>{post[0] && post[0].post_content.split("!RECOMMENDATIONS!")[0]}</p>
           <h5>Recommendations</h5>
           <p>{post[0] && post[0].post_content.split("!RECOMMENDATIONS!")[1]}</p>
+          <div id="editDelete">
+            <i
+              className="material-icons"
+              onClick={() => this.handleEdit(post, this.props.country)}
+            >
+              edit
+            </i>
+            <i className="material-icons">delete</i>
+          </div>
         </div>
       </div>
     );
@@ -116,5 +133,5 @@ function mapStateToProps(reduxState) {
 
 export default connect(
   mapStateToProps,
-  { removeUserCountry, closeProfile }
+  { removeUserCountry, closeProfile, openEditPostForm, editProfilePost }
 )(ProfilePost);

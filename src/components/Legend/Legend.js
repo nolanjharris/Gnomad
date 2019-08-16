@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Legend.scss";
 import { connect } from "react-redux";
+import defaultProfilePic from "../../default_profile_photo.png";
 import {
   sendFriendRequest,
   toggleFriend,
@@ -8,6 +9,7 @@ import {
   openFriendsProfile,
   toggleLegend
 } from "../../redux/reducers/userReducer";
+import { toggleFriendsCountries } from "../../redux/reducers/mapReducer";
 import Switch from "react-switch";
 import { CirclePicker } from "react-color";
 
@@ -20,9 +22,21 @@ class Legend extends Component {
       users: [],
       color: "",
       friendColorId: 0,
-      colorPicker: false
+      colorPicker: false,
+      legendOpen: false,
+      allFriends: false
     };
   }
+
+  componentDidMount() {
+    // this.props.toggleFriendsCountries();
+  }
+
+  handleToggleLegend = () => {
+    // this.props.toggleFriendsCountries();
+    this.props.toggleLegend();
+    this.setState({ legendOpen: !this.state.legendOpen });
+  };
 
   handleFindToggle = () => {
     let users = this.props.allUsers.filter(
@@ -39,6 +53,16 @@ class Legend extends Component {
 
   handleFriendsToggle = () => {
     this.setState({ findTab: "closed", friendsTab: "open" });
+  };
+
+  handleToggleAllFriends = async () => {
+    await this.props.toggleFriendsCountries();
+    await this.props.friendsList.map(user => {
+      return user.visible === !this.props.displayFriendsCountries
+        ? this.props.toggleFriend(user.user_id)
+        : user;
+    });
+    // this.setState({ allFriends: !this.state.allFriends });
   };
 
   handleUserSearch = e => {
@@ -72,7 +96,10 @@ class Legend extends Component {
 
   render() {
     return (
-      <div id="mapLegend">
+      <div id="mapLegend" className={this.state.legendOpen ? "show" : "hide"}>
+        <div onClick={this.handleToggleLegend} id="legendSlideIcon">
+          <i className="material-icons">people</i>
+        </div>
         {this.state.colorPicker && (
           <CirclePicker
             color={this.state.color}
@@ -98,6 +125,7 @@ class Legend extends Component {
             {this.props.username && (
               <div>
                 <div
+                  id="currentUser"
                   className="legendFriend"
                   style={{
                     backgroundColor: `${
@@ -105,9 +133,33 @@ class Legend extends Component {
                     }`
                   }}
                 />
+                <img
+                  src={
+                    this.props.profilePic
+                      ? this.props.profilePic
+                      : defaultProfilePic
+                  }
+                  alt="profile"
+                />
                 <p style={{ color: "rgb(35, 35, 35)" }}>
                   &{this.props.username}
                 </p>
+              </div>
+            )}
+            {this.props.friendsList.length > 0 && (
+              <div id="toggleAllFriends">
+                <Switch
+                  onChange={this.handleToggleAllFriends}
+                  checked={this.props.displayFriendsCountries}
+                  height={15}
+                  width={30}
+                  className="react-switch"
+                  handleDiameter={17}
+                  uncheckedIcon={false}
+                  checkedIcon={false}
+                  boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                />
+                <p>Show Friends</p>
               </div>
             )}
             {this.props.friendsList.map((friend, i) => {
@@ -127,12 +179,16 @@ class Legend extends Component {
                       handleDiameter={15}
                       uncheckedIcon={false}
                       checkedIcon={false}
+                      disabled={
+                        this.props.displayFriendsCountries ? false : true
+                      }
                       boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
                     />
                     <p
-                      onClick={() =>
-                        this.props.openFriendsProfile(friend.user_id)
-                      }
+                      onClick={() => {
+                        this.props.openFriendsProfile(friend.user_id);
+                        this.handleToggleLegend();
+                      }}
                     >
                       &{friend.username}
                     </p>
@@ -189,7 +245,9 @@ function mapStateToProps(reduxState) {
     allUsers: reduxState.user.allUsers,
     username: reduxState.auth.username,
     userColor: reduxState.auth.userColor,
-    sentFriendRequests: reduxState.user.sentFriendRequests
+    sentFriendRequests: reduxState.user.sentFriendRequests,
+    profilePic: reduxState.auth.profilePic,
+    displayFriendsCountries: reduxState.map.displayFriendsCountries
   };
 }
 
@@ -200,6 +258,7 @@ export default connect(
     toggleFriend,
     toggleLegend,
     updateFriendsColor,
-    openFriendsProfile
+    openFriendsProfile,
+    toggleFriendsCountries
   }
 )(Legend);

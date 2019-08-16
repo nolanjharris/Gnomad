@@ -3,9 +3,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import logo from "../../logo.png";
 import "./LoginRegisterPopup.scss";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import TextField from "material-ui/TextField";
-import RaisedButton from "material-ui/RaisedButton";
 import { loginUser, registerUser } from "../../redux/reducers/authReducer";
 import {
   requestVisitedList,
@@ -165,53 +162,3 @@ export default connect(
     requestFriendsList
   }
 )(LoginRegisterPopup);
-
-{
-  /* <MuiThemeProvider>
-              <>
-                {this.state.register && (
-                  <>
-                    <TextField
-                      name="firstName"
-                      floatingLabelText="First Name"
-                      onChange={this.handleChange}
-                    />
-                    <TextField
-                      name="lastName"
-                      floatingLabelText="Last Name"
-                      onChange={this.handleChange}
-                    />
-                  </>
-                )}
-                <TextField
-                  name="username"
-                  floatingLabelText="Username"
-                  onChange={this.handleChange}
-                />
-                <TextField
-                  name="password"
-                  floatingLabelText="Password"
-                  type="password"
-                  onChange={this.handleChange}
-                />
-                {this.props.error && (
-                  <h4 id="error">{this.props.errorMessage}</h4>
-                )}
-                {!this.state.register ? (
-                  <RaisedButton
-                    className="btn"
-                    label="Login"
-                    primary={true}
-                    onClick={this.handleLogin}
-                  />
-                ) : (
-                  <RaisedButton
-                    className="btn"
-                    label="Register"
-                    primary={true}
-                    onClick={this.handleRegister}
-                  />
-                )}
-              </>
-            </MuiThemeProvider> */
-}

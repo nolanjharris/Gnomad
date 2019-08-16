@@ -51,10 +51,7 @@ class FriendPost extends Component {
             maxBoundsViscosity={1}
             maxBounds={[[90, 180], [-90, -180]]}
           >
-            <TileLayer
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-              attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
-            />
+            <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}" />
             <FeatureGroup onAdd={this.onFeatureGroupAdd}>
               <GeoJSON
                 data={countryBounds[0]}
