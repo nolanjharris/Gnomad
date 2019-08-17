@@ -40,7 +40,6 @@ export function requestVisitedList(id) {
 }
 
 export function requestUserPosts(id) {
-  console.log(id);
   return {
     type: REQUEST_USER_POSTS,
     payload: axios.get(`/api/user/${id}/posts`).then(res => res.data)
@@ -165,7 +164,6 @@ export default function reducer(state = initialState, action) {
         loading: true
       };
     case `${REQUEST_USER_POSTS}_FULFILLED`:
-      console.log(payload);
       return {
         ...state,
         posts: payload,
@@ -216,7 +214,6 @@ export default function reducer(state = initialState, action) {
       };
     case `${REQUEST_FRIENDS_LIST}_FULFILLED`:
       unfriended = state.allusers;
-      // console.log(payload);
       if (payload[0].length > 0) {
         unfriended = state.allUsers.filter(
           user =>
@@ -251,7 +248,6 @@ export default function reducer(state = initialState, action) {
         user =>
           payload[0].findIndex(friend => friend.username === user.username) < 0
       );
-      console.log(payload);
       return {
         ...state,
         loading: false,
@@ -287,7 +283,6 @@ export default function reducer(state = initialState, action) {
         e => e.user_id === payload
       );
       let friendInfo = [{ ...state.friendsList[friendsIndex] }];
-      console.log(friendInfo);
       return {
         ...state,
         friendProfileInfo: friendInfo,
@@ -321,7 +316,6 @@ export default function reducer(state = initialState, action) {
       let toggle = !state.friendsList[foundIndex].visible;
       friends = [...state.friendsList];
       friends[foundIndex].visible = toggle;
-      console.log(friends);
       return {
         ...state,
         friendsList: friends

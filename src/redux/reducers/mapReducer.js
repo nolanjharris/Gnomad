@@ -99,7 +99,6 @@ export default function reducer(state = initialState, action) {
             : null;
         })
       );
-      console.log(visited);
       return {
         ...state,
         visitedListGeojson: visited

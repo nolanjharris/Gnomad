@@ -178,6 +178,10 @@
                             cursor: pointer;
                             color: $white-color;
                         }
+
+                        @media screen and (max-width: $break-tablet) {
+                            font-size: .8em;
+                        }
                     }
 
                     .colorSwatch {
@@ -239,7 +243,7 @@
 
                 button {
                     height: 30px;
-                    width: 40%;
+                    width: 35%;
                     border: none;
                     background: $brand-color-dark;
                     font-family: $content-font;
@@ -250,7 +254,7 @@
                     @media screen and (max-width: $break-tablet) {
                         height: 25px;
                         font-size: .75em;
-                        width: 45%;
+                        width: 40%;
                     }
 
                     &:hover {

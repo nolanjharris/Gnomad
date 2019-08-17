@@ -47,7 +47,6 @@ class Legend extends Component {
         sent => sent.username !== user.username
       )
     );
-    console.log(users);
     this.setState({ findTab: "open", friendsTab: "closed", users });
   };
 
@@ -84,12 +83,10 @@ class Legend extends Component {
   };
 
   handleToggleColorPicker = id => {
-    console.log(id);
     this.setState({ colorPicker: !this.state.colorPicker, friendColorId: id });
   };
 
   handleChooseColor = color => {
-    console.log(this.state.friendColorId);
     this.props.updateFriendsColor(this.state.friendColorId, color.hex);
     this.handleToggleColorPicker(this.state.friendColorId);
   };
@@ -104,6 +101,8 @@ class Legend extends Component {
           <CirclePicker
             color={this.state.color}
             onChangeComplete={this.handleChooseColor}
+            width={window.innerWidth < 728 ? 210 : 254}
+            circleSize={window.innerWidth < 728 ? 20 : 28}
           />
         )}
         <div id="legendTabs">

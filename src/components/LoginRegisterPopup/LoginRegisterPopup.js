@@ -48,9 +48,6 @@ class LoginRegisterPopup extends Component {
       userColor: "#0868a3"
     };
     this.props.registerUser(user);
-    // axios.post('/auth/register', { user }).then(res => {
-    //     console.log('Registered and Logged in as ' + res.data.user)
-    // })
   };
 
   render() {

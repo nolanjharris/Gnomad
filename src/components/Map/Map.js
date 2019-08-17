@@ -28,10 +28,7 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    // this.props.requestVisitedList(this.props.userId);
     this.setState({ visitedList: this.props.visitedList });
-    // let geoJson = { ...worldGeoJSON }
-    // geoJson = geoJson.features[167].geometry.coordinates.splice(17, 1)
     this.props.updateGeojson(worldGeoJSON);
     this.props.requestAllUsers();
   }

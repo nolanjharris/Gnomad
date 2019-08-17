@@ -42,7 +42,6 @@ class ProfilePost extends Component {
     await this.props.editProfilePost(post);
     this.props.openEditPostForm(post[0].post_id, country);
     this.props.closeProfile();
-    console.log(country);
   };
 
   render() {

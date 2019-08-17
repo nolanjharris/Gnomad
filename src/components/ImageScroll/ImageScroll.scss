@@ -9,11 +9,12 @@
     justify-content: flex-start;
     margin-bottom: 30px;
     margin-top: 0;
-    // object-fit: none;
 
     img {
+        object-fit: scale-down;
         display: inline-block;
         max-height: 100%;
+        width: auto;
         margin-right: 5px;
     }
 

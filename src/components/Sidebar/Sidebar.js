@@ -63,7 +63,6 @@ class Sidebar extends Component {
         .toLowerCase()
         .includes(e.target.value.toLowerCase())
     );
-    console.log();
     this.setState({ searchResults: results, searchValue: e.target.value });
     this.props.exitSearch();
   };
@@ -91,7 +90,6 @@ class Sidebar extends Component {
     let foundContinent = continents.features.filter(
       continent => continent.properties.name === e.target.value
     );
-    console.log(foundContinent);
     this.props.searchMap();
     this.props.updateBounds(foundContinent[0]);
     // this.props.updateBounds(continents.features[6]);
@@ -113,18 +111,14 @@ class Sidebar extends Component {
       user.username.toLowerCase().includes(e.target.value.toLowerCase())
     );
     this.setState({ usernameResults: foundUser, username: e.target.value });
-    console.log(foundUser);
   };
 
   handleAddFriend = async user => {
-    console.log(user.user_id);
     await sendFriendRequest(user.user_id);
   };
 
   handleAcceptFriendRequest = async user => {
-    await this.props
-      .acceptFriendRequest(user.user_id)
-      .then(res => console.log(user.user_id));
+    await this.props.acceptFriendRequest(user.user_id);
   };
 
   handleProfileOpen = () => {

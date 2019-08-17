@@ -51,7 +51,6 @@ class FriendProfile extends Component {
       colorPicker: false,
       posts: false
     });
-    console.log(images);
   };
 
   handleChooseColor = color => {

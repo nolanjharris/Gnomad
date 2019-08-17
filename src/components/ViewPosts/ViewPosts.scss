@@ -22,7 +22,7 @@
         overflow-y: auto;
         z-index: 10;
         border-radius: 2px;
-        box-shadow: 0px 0px 4px 4px #b9b9b9;
+        box-shadow: 0px 0px 4px 4px #c0c0c0;
         color: $brand-color-dark;
         position: relative;
         @include flexCenter(column);
@@ -41,8 +41,8 @@
             width: fit-content;
 
             @media screen and (max-width: $break-tablet) {
-                top: 5px;
-                left: 5px;
+                top: 3px;
+                left: 3px;
             }
         }
 
@@ -52,12 +52,14 @@
             min-height: 50%;
             // height: fit-content;
             font-family: $header-font;
+            padding: 10px;
+            box-shadow: 0px 0px 4px 4px #d1d1d1;
 
             @media screen and (max-width: $break-tablet) {
-                min-height: 60%;
+                min-height: 95%;
                 flex-direction: column;
                 margin: 10px 0;
-                padding: 5px;
+                padding: 10px;
                 justify-content: flex-start;
             }
 
@@ -69,15 +71,45 @@
                 @media screen and (max-width: $break-tablet) {
                     width: 100%;
                     margin-bottom: 20px;
-                    height: 250px;
+                    height: 100%;
                 }
             }
 
             &>div {
                 width: 50%;
+                height: 100%;
+                @include flexSpaceAround(column);
+
+                @media screen and (max-width: $break-tablet) {
+                    width: 100%;
+                }
 
                 h1 {
-                    font-size: 3em;
+                    font-size: 4em;
+                    line-height: 1.4;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    img {
+                        max-height: 1em;
+                        box-shadow: 0px 0px 2px 2px #d3d3d3;
+                        margin-right: 10px;
+                    }
+
+                    @media screen and (max-width: $break-tablet) {
+                        font-size: 3em;
+                    }
+                }
+
+                &>div {
+                    height: 50%;
+                    width: 100%;
+                    @include flexSpaceBetween(column);
+
+                    @media screen and (max-width: $break-tablet) {
+                        font-size: .9em;
+                    }
                 }
             }
 

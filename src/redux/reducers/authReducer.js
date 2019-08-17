@@ -93,7 +93,6 @@ export default function reducer(state = initialState, action) {
         errorMessage: "Username or password is incorrect."
       };
     case `${REGISTER_USER}_FULFILLED`:
-      console.log("you are registered");
       return {
         ...state,
         username: payload.username,
@@ -119,7 +118,6 @@ export default function reducer(state = initialState, action) {
         errorMessage: "That username is taken. Please try again."
       };
     case `${LOGOUT_USER}_FULFILLED`:
-      console.log("Logged you out!");
       return initialState;
     case `${LOGOUT_USER}_PENDING`:
       return {

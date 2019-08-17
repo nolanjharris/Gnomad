@@ -28,7 +28,7 @@
         color: #000;
         border-radius: 50%;
         background: url('../../world-map.png') 0 0 repeat / 630px;
-        box-shadow: inset 10px 0 20px 6px rgba(82, 82, 82, 0.664);
+        box-shadow: inset 10px 0 20px 6px rgba(179, 179, 179, 0.664);
 
         /* [5] Position things in a 3d space */
         transform-style: preserve-3d;
@@ -48,7 +48,7 @@
 
             /* [4] Give it some shape and shadow */
             border-radius: 50%;
-            box-shadow: -10px 10px 20px 20px rgba(218, 218, 218, 0.3) inset;
+            box-shadow: -3px 3px 5px 5px rgba(228, 228, 228, 0.3) inset;
         }
 
         &:before {

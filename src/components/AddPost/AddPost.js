@@ -42,7 +42,6 @@ class AddPost extends Component {
       let postIndex = this.props.posts.findIndex(
         e => e.post_id === this.props.editPost[1]
       );
-      console.log(this.props.postCountry);
       const { image_urls, post_content, upload_date } = this.props.posts[
         postIndex
       ];

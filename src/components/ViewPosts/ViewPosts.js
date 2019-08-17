@@ -38,7 +38,6 @@ class ViewPosts extends Component {
 
   handleEdit = (id, country) => {
     this.props.openEditPostForm(id, country);
-    console.log(country);
   };
 
   handleDelete = id => {
@@ -58,11 +57,20 @@ class ViewPosts extends Component {
               id="countryMapView"
               ref="countryMapView"
               center={[26.588527, 8.4375]}
-              zoom={3}
-              zoomControl={false}
-              minZoom={3}
-              maxBoundsViscosity={1}
-              maxBounds={[[90, 180], [-90, -180]]}
+            dragging={false}
+            doubleClickZoom={false}
+            zoomSnap={false}
+            zoomDelta={false}
+            trackResize={false}
+            touchZoom={false}
+            scrollWheelZoom={false}
+            tap={false}
+            zoom={1}
+            zoomControl={false}
+            minZoom={1}
+            maxZoom={6}
+            maxBoundsViscosity={1}
+            maxBounds={[[90, 180], [-90, -180]]}
             >
               <TileLayer url="https://api.mapbox.com/styles/v1/nolanjames/cjyzw8gsf0v4t1coya5i7hm16/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoibm9sYW5qYW1lcyIsImEiOiJjanlrdDdyaXYwMTc1M2NsaW1lbHk4OWJlIn0.iggyHj94yOeanu2cdVezug" />
               <FeatureGroup onAdd={this.onFeatureGroupAdd}>
@@ -80,7 +88,34 @@ class ViewPosts extends Component {
               </FeatureGroup>
             </LeafletMap>
             <div>
-              <h1>{this.props.postCountry.properties.name}</h1>
+              <h1>
+                <img src={this.props.countryInfo.flag} alt="country flag" />
+                {this.props.postCountry.properties.name}
+              </h1>
+              <div>
+                {this.props.postCountry.properties.name.toLowerCase() !==
+                  this.props.countryInfo.nativename && (
+                  <h2>Native Name: {this.props.countryInfo.nativeName}</h2>
+                )}
+                <h3>
+                  Languages:
+                  {this.props.countryInfo.languages.map((e, i) => {
+                    return this.props.countryInfo.languages.length - 1 === i ||
+                      this.props.countryInfo.languages.length === 1
+                      ? e.name
+                      : e.name + ",";
+                  })}
+                </h3>
+                <h3>
+                  <strong>Population:</strong>{" "}
+                  {this.props.countryInfo.population.toLocaleString()}
+                </h3>
+                <h3>Capital City: {this.props.countryInfo.capital}</h3>
+                <h3>
+                  Currency: ({this.props.countryInfo.currencies[0].symbol})
+                  {this.props.countryInfo.currencies[0].name}
+                </h3>
+              </div>
             </div>
           </div>
           {this.props.posts.map((post, i) => {
@@ -133,7 +168,8 @@ function mapStateToProps(reduxState) {
   return {
     userId: reduxState.auth.userId,
     posts: reduxState.post.posts,
-    postCountry: reduxState.post.postCountry
+    postCountry: reduxState.post.postCountry,
+    countryInfo: reduxState.post.postCountryInfo
   };
 }
 

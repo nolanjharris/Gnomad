@@ -6,7 +6,7 @@ function ImageScroll(props) {
     <div id="imageScrollDiv">
       {props.imgArr.length > 0 &&
         props.imgArr.map((url, i) => {
-          return <img src={url} alt={`country${i}`} />;
+          return <img src={url} key={`countryPhoto${i}`} alt={`country${i}`} />;
         })}
     </div>
   );

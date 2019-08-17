@@ -4,6 +4,7 @@ const initialState = {
   addPost: false,
   editPost: [false, ""],
   viewPosts: false,
+  postCountryInfo: {},
   postCountry: [],
   posts: [],
   loading: false
@@ -41,10 +42,10 @@ export function openEditPostForm(id, country) {
   };
 }
 
-export function openViewPosts(country) {
+export function openViewPosts(country, countryInfo) {
   return {
     type: OPEN_VIEW_POSTS,
-    payload: country
+    payload: [country, countryInfo]
   };
 }
 
@@ -54,13 +55,13 @@ export function closeViewPosts() {
   };
 }
 
-export function requestCountryPosts(country) {
+export function requestCountryPosts(country, countryInfo) {
   let countryName = country.properties.name.toLowerCase();
   return {
     type: REQUEST_COUNTRY_POSTS,
     payload: axios
       .get(`/api/posts/${countryName}`)
-      .then(res => [res.data, country])
+      .then(res => [res.data, country, countryInfo])
   };
 }
 
@@ -105,7 +106,8 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         viewPosts: true,
-        postCountry: payload,
+        postCountry: payload[0],
+        countryInfo: payload[1],
         editPosts: [false, ""]
       };
     case CLOSE_VIEW_POSTS:
@@ -147,6 +149,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         posts: payload[0],
         postCountry: payload[1],
+        postCountryInfo: payload[2],
         loading: false,
         addPost: false,
         viewPosts: true,
