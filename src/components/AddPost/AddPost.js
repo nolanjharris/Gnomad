@@ -129,9 +129,18 @@ class AddPost extends Component {
               id="countryMap"
               ref="countryMap"
               center={[26.588527, 8.4375]}
-              zoom={3}
+              dragging={false}
+              doubleClickZoom={false}
+              zoomSnap={false}
+              zoomDelta={false}
+              trackResize={false}
+              touchZoom={false}
+              scrollWheelZoom={false}
+              tap={false}
+              zoom={1}
               zoomControl={false}
-              minZoom={3}
+              minZoom={1}
+              maxZoom={6}
               maxBoundsViscosity={1}
               maxBounds={[[90, 180], [-90, -180]]}
             >
