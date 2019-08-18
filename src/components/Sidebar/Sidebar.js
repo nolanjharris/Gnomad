@@ -196,16 +196,14 @@ class Sidebar extends Component {
         </div>
 
         <div className="menuItems">
-          <div
-            className={`iconDiv ${this.props.loggedIn ? null : "closed"}`}
-            onClick={this.handleSlideToggle}
-          >
+          <div className={`iconDiv ${this.props.loggedIn ? null : "closed"}`}>
             <div className="iconContainer notifications">
               <div id="notificationsIcon">
                 {this.props.pendingFriendRequests.length > 0 && (
                   <div id="notify" />
                 )}
                 <i
+                  onClick={this.handleSlideToggle}
                   color="action"
                   className="material-icons"
                   style={{ fontSize: "1.5em" }}
@@ -255,12 +253,9 @@ class Sidebar extends Component {
               </div>
             </div>
           )}
-          <div
-            className="iconDiv"
-            onClick={this.handleSlideToggle}
-            id="searchIconDiv"
-          >
+          <div className="iconDiv" id="searchIconDiv">
             <i
+              onClick={this.handleSlideToggle}
               color="disabled"
               className="material-icons"
               style={{ fontSize: "1.5em" }}
@@ -280,7 +275,7 @@ class Sidebar extends Component {
                 type="text"
               />
               {this.state.searchValue && this.state.searchResults.length > 0 && (
-                <div id="countrySearchResults" onClick={this.handleSlideToggle}>
+                <div id="countrySearchResults">
                   {this.state.searchResults.map((e, i) => {
                     return (
                       <p onClick={() => this.handleSearchedCountry(e)} key={i}>
@@ -292,7 +287,7 @@ class Sidebar extends Component {
               )}
             </div>
           </div>
-          <div className="iconDiv" onClick={this.handleSlideToggle}>
+          <div className="iconDiv">
             <div className="iconContianer">
               <i
                 onClick={this.handleSlideToggle}
