@@ -30,8 +30,12 @@
             border: 1px solid $brand-color;
             background: #fff;
             color: $brand-color-dark;
-            width: 90px;
+            width: 48%;
             height: 40px;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 }

@@ -40,6 +40,10 @@
             @include flexCenter(row);
             align-items: flex-end;
 
+            &:hover {
+                cursor: pointer;
+            }
+
             img {
                 height: 65px;
                 margin-right: 5px;

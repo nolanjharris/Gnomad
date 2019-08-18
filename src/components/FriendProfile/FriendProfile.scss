@@ -10,6 +10,10 @@
     z-index: 5;
     font-family: $content-font;
 
+    button:hover {
+        cursor: pointer;
+    }
+
     @media screen and (max-width: $break-tablet) {
         align-items: flex-end;
     }
@@ -39,6 +43,10 @@
             position: absolute;
             top: 15px;
             left: 15px;
+
+            &:hover {
+                cursor: pointer;
+            }
 
             @media screen and (max-width: $break-tablet) {
                 top: 7px;
