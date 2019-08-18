@@ -17,7 +17,7 @@
     #friendProfileContainer {
         position: relative;
         padding: 30px;
-        padding-top: 15px;
+        padding-top: 0;
         width: 80%;
         height: 80%;
         background-color: #fff;
@@ -49,10 +49,10 @@
         #friendProfileTitle {
             @include flexSpaceAround(column);
             // justify-content: flex-start;
-            height: 80%;
+            min-height: 100%;
             width: 80%;
             // height: 80vh;
-            min-height: fit-content;
+            // min-height: fit-content;
 
             @media screen and (max-width: $break-tablet) {
                 width: 100%;
@@ -84,7 +84,7 @@
                 justify-content: flex-start;
 
                 @media screen and (max-width: $break-tablet) {
-                    min-height: 60%;
+                    min-height: 50%;
                 }
 
                 // overflow-y: auto;
@@ -149,17 +149,17 @@
 
         #friendProfileInfo {
             @include flexSpaceAround(column);
-            justify-content: space-between;
+            // justify-content: space-between;
             height: fit-content;
             width: 80%;
-            margin-top: 40px;
+            // margin-top: 40px;
 
             @media screen and (max-width: $break-tablet) {
-                width: 90%;
+                width: 80%;
             }
 
             #friendProfilePost {
-                width: 90%;
+                width: 100%;
             }
 
             #profileImages {

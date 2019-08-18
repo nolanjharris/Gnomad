@@ -49,7 +49,7 @@ class Sidebar extends Component {
     this.setState({ menuOpen: false, displayClass: "closed" });
   };
   handleLogout = async () => {
-    this.setState({ notificationsDisplay: "closed" });
+    this.setState({ notificationsDisplay: "closed", menuOpen: false });
     await this.props.logoutUser();
     await this.props.resetPost();
     await this.props.resetUser();
@@ -71,7 +71,7 @@ class Sidebar extends Component {
     this.props.searchMap();
     this.props.updateBounds(country);
     this.handleSlideToggle();
-    this.setState({ searchResults: [], searchValue: "" });
+    this.setState({ searchResults: [], searchValue: "", menuOpen: false });
     setTimeout(() => {
       this.props.exitSearch();
     }, 200);
@@ -84,7 +84,7 @@ class Sidebar extends Component {
   };
 
   handleSearchedContinent = e => {
-    this.setState({ continent: e.target.value });
+    this.setState({ continent: e.target.value, menuOpen: false });
     this.handleSlideToggle();
     // this.props.exitSearch();
     let foundContinent = continents.features.filter(
@@ -124,6 +124,7 @@ class Sidebar extends Component {
   handleProfileOpen = () => {
     this.props.requestUserPosts(this.props.userId);
     this.props.updateVisitedGeojson(this.props.visitedList);
+    this.setState({ menuOpen: false });
     this.props.openProfile();
   };
 
@@ -195,14 +196,16 @@ class Sidebar extends Component {
         </div>
 
         <div className="menuItems">
-          <div className={`iconDiv ${this.props.loggedIn ? null : "closed"}`}>
+          <div
+            className={`iconDiv ${this.props.loggedIn ? null : "closed"}`}
+            onClick={this.handleSlideToggle}
+          >
             <div className="iconContainer notifications">
               <div id="notificationsIcon">
                 {this.props.pendingFriendRequests.length > 0 && (
                   <div id="notify" />
                 )}
                 <i
-                  onClick={this.handleSlideToggle}
                   color="action"
                   className="material-icons"
                   style={{ fontSize: "1.5em" }}
@@ -252,9 +255,12 @@ class Sidebar extends Component {
               </div>
             </div>
           )}
-          <div className="iconDiv" id="searchIconDiv">
+          <div
+            className="iconDiv"
+            onClick={this.handleSlideToggle}
+            id="searchIconDiv"
+          >
             <i
-              onClick={this.handleSlideToggle}
               color="disabled"
               className="material-icons"
               style={{ fontSize: "1.5em" }}
@@ -274,7 +280,7 @@ class Sidebar extends Component {
                 type="text"
               />
               {this.state.searchValue && this.state.searchResults.length > 0 && (
-                <div id="countrySearchResults">
+                <div id="countrySearchResults" onClick={this.handleSlideToggle}>
                   {this.state.searchResults.map((e, i) => {
                     return (
                       <p onClick={() => this.handleSearchedCountry(e)} key={i}>
@@ -286,7 +292,7 @@ class Sidebar extends Component {
               )}
             </div>
           </div>
-          <div className="iconDiv">
+          <div className="iconDiv" onClick={this.handleSlideToggle}>
             <div className="iconContianer">
               <i
                 onClick={this.handleSlideToggle}

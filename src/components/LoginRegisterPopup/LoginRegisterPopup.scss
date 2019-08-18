@@ -48,7 +48,7 @@
             height: 30%;
 
             h2 {
-                font-size: 5em;
+                font-size: 4em;
                 color: $brand-color-dark;
 
                 img {
@@ -57,7 +57,7 @@
                 }
 
                 @media screen and (max-width: $break-desktop) {
-                    font-size: 5em;
+                    font-size: 3.5em;
 
                     img {
                         // height: 1.6em;
