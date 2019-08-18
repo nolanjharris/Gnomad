@@ -77,11 +77,11 @@
 
             #friendProfileContent {
                 height: fit-content;
-                min-height: 50%;
-                width: 50%;
+                min-height: 40%;
+                width: 40%;
                 min-width: 220px;
                 @include flexSpaceAround(column);
-                justify-content: flex-start;
+                // justify-content: flex-start;
 
                 @media screen and (max-width: $break-tablet) {
                     min-height: 50%;
