@@ -229,7 +229,14 @@ class AddPost extends Component {
                   }}
                 />
               </ThemeProvider>
-              <button onClick={this.handleSubmit}>Submit Post</button>
+              <button
+                onClick={() => {
+                  this.handleSubmit();
+                  widget.close();
+                }}
+              >
+                Submit Post
+              </button>
             </div>
           </div>
         </div>

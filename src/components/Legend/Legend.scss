@@ -16,6 +16,7 @@
     &.hide {
         right: 0;
         width: 0 !important;
+        animation: slideIn 500ms linear;
 
         #legendContainer {
             width: 0;

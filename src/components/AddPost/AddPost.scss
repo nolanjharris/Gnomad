@@ -9,6 +9,7 @@
     top: 0;
     left: 0;
     z-index: 5;
+    opacity: .9;
 
     @media screen and (max-width: $break-tablet) {
         align-items: flex-end;

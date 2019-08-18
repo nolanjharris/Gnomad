@@ -8,6 +8,7 @@
     top: 0;
     left: 0;
     z-index: 5;
+    opacity: .9;
 
     @media screen and (max-width: $break-tablet) {
         align-items: flex-end;
@@ -98,7 +99,7 @@
                     }
 
                     @media screen and (max-width: $break-tablet) {
-                        font-size: 3em;
+                        font-size: 2em;
                     }
                 }
 
