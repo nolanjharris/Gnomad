@@ -149,6 +149,8 @@ export default function reducer(state = initialState, action) {
   const { type, payload } = action;
   let unfriended;
   let friends;
+  let friendInfo;
+  let friendsIndex;
   switch (type) {
     case `${REQUEST_VISITED_LIST}_FULFILLED`:
       let request = payload === [] ? false : true;
@@ -279,10 +281,8 @@ export default function reducer(state = initialState, action) {
         loading: true
       };
     case OPEN_FRIENDS_PROFILE:
-      let friendsIndex = state.friendsList.findIndex(
-        e => e.user_id === payload
-      );
-      let friendInfo = [{ ...state.friendsList[friendsIndex] }];
+      friendsIndex = state.friendsList.findIndex(e => e.user_id === payload);
+      friendInfo = [{ ...state.friendsList[friendsIndex] }];
       return {
         ...state,
         friendProfileInfo: friendInfo,

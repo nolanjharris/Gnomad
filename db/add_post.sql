@@ -4,10 +4,11 @@ VALUES
 ($1, (SELECT country_id FROM country WHERE country_name = $2));
 
 INSERT INTO posts
-(user_id, country_id, post_content, upload_date)
+(user_id, country_id, post_content, upload_date, likes)
 VALUES
 ($1, 
 (SELECT country_id FROM country WHERE country_name = $2),
 $3,
-$4)
+$4,
+0)
 returning *;

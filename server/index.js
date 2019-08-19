@@ -26,7 +26,14 @@ const {
   getFriendsByUser,
   updateFriendsColor
 } = friends_controller;
-const { getPostsByCountry, addPost, editPost, deletePost } = post_controller;
+const {
+  getPostsByCountry,
+  addPost,
+  editPost,
+  deletePost,
+  likePost,
+  unlikePost
+} = post_controller;
 const { register, login, logout } = auth_controller;
 
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env;
@@ -73,6 +80,8 @@ app.get("/api/posts/:country", getPostsByCountry);
 app.post("/api/posts", checkForUser, addPost);
 app.put("/api/posts/:country", checkForUser, editPost);
 app.delete("/api/posts/:id", checkForUser, deletePost);
+app.post("/api/posts/like/:postId", likePost);
+app.put("/api/posts/unlike/:postId", unlikePost);
 
 // Countries GeoJSON Endpoint
 app.get("/api/countries", getCountriesGeoJSON);

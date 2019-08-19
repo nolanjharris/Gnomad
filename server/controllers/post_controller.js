@@ -1,5 +1,6 @@
 const getPostsByCountry = async (req, res) => {
   const { country } = req.params;
+  const { id } = req.session.user;
   const db = req.app.get("db");
   const posts = await db.get_posts_by_country([country]);
   for (let post of posts) {
@@ -8,6 +9,14 @@ const getPostsByCountry = async (req, res) => {
       .catch(error => console.log(error));
     let imageArr = images.map(e => (e = e.image_url));
     post.image_urls = imageArr;
+    let userLiked = await db
+      .check_user_liked_post([id, post.post_id])
+      .catch(error => console.log(error));
+    if (userLiked.length > 0 && userLiked[0].liked) {
+      post.userLiked = true;
+    } else {
+      post.userLiked = false;
+    }
   }
   res.status(200).json(posts);
 };
@@ -51,9 +60,27 @@ const deletePost = async (req, res) => {
   res.sendStatus(200);
 };
 
+const likePost = async (req, res) => {
+  const { postId } = req.params;
+  const { id } = req.session.user;
+  const db = req.app.get("db");
+  await db.add_like_to_post([postId, id]).catch(error => console.log(error));
+  res.sendStatus(200);
+};
+
+const unlikePost = async (req, res) => {
+  const { postId } = req.params;
+  const { id } = req.session.user;
+  const db = req.app.get("db");
+  await db.unlike_post([id, postId]).catch(error => console.log(error));
+  res.sendStatus(200);
+};
+
 module.exports = {
   getPostsByCountry,
   addPost,
   editPost,
-  deletePost
+  deletePost,
+  likePost,
+  unlikePost
 };

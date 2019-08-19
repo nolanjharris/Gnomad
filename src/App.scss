@@ -38,6 +38,11 @@ button:focus {
     flex-direction: $direction;
 }
 
+%header-h2 {
+    font-size: 4em;
+    color: $brand-color-dark;
+}
+
 body {
     font-family: $header-font;
     overflow: hidden;
@@ -49,4 +54,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.liked {
+    color: $accent-color;
 }

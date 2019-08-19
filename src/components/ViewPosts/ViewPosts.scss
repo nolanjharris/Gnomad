@@ -10,6 +10,10 @@
     z-index: 5;
     opacity: .9;
 
+    i:hover {
+        cursor: pointer
+    }
+
     @media screen and (max-width: $break-tablet) {
         align-items: flex-end;
         overflow-y: auto;
@@ -133,10 +137,17 @@
             box-shadow: 0px 0px 3px 3px #e9e9e9;
             width: 90%;
 
+            #viewPostsImageScroll {
+                padding: 0;
+                // margin: -10px;
+                max-width: 100%;
+            }
+
             #postProfilePic {
                 max-height: 80px;
                 width: auto;
                 border-radius: 50%;
+                margin-top: 5px;
             }
 
             h2 {
@@ -164,19 +175,42 @@
                 }
             }
 
-            #editDelete {
-                @include flexSpaceAround(row);
-                justify-content: flex-end;
+            #postIcons {
+                @include flexSpaceBetween(row);
+                width: 100%;
 
-                i {
+                #like {
+                    display: flex;
+                    justify-content: flex-start;
                     width: fit-content;
-                    margin: 5px;
+                    align-items: center;
+
+                    i {
+                        width: fit-content;
+                        margin: 5px;
+                        margin-right: 10px;
+                    }
+
+                    p {
+                        font-size: 1.1em;
+                        line-height: 1.5em;
+                    }
                 }
 
-            }
+                #editDelete {
+                    @include flexSpaceAround(row);
+                    justify-content: flex-end;
 
-            * {
-                width: 100%;
+                    i {
+                        width: fit-content;
+                        margin: 5px;
+                    }
+
+                }
+
+                * {
+                    width: 100%;
+                }
             }
         }
 

@@ -167,5 +167,8 @@ function mapStateToProps(reduxState) {
 
 export default connect(
   mapStateToProps,
-  { closeFriendsProfile, updateFriendsColor }
+  {
+    closeFriendsProfile,
+    updateFriendsColor
+  }
 )(FriendProfile);

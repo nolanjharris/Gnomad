@@ -32,6 +32,14 @@ const getFriendsByUser = async (req, res) => {
         .catch(error => console.log(error));
       let imageArr = images.map(e => (e = e.image_url));
       post.image_urls = imageArr;
+      let userLiked = await db
+        .check_user_liked_post([id, post.post_id])
+        .catch(error => console.log(error));
+      if (userLiked.length > 0 && userLiked[0].liked) {
+        post.userLiked = true;
+      } else {
+        post.userLiked = false;
+      }
     }
   }
   const friendsList = [friends, pending, sentRequests];
@@ -67,6 +75,14 @@ const addFriendRequest = async (req, res) => {
         .catch(error => console.log(error));
       let imageArr = images.map(e => (e = e.image_url));
       post.image_urls = imageArr;
+      let userLiked = await db
+        .check_user_liked_post([id, post.post_id])
+        .catch(error => console.log(error));
+      if (userLiked.length > 0 && userLiked[0].liked) {
+        post.userLiked = true;
+      } else {
+        post.userLiked = false;
+      }
     }
   }
   const friendsList = [friends, pending, sentRequests];
@@ -102,6 +118,14 @@ const acceptFriendRequest = async (req, res) => {
         .catch(error => console.log(error));
       let imageArr = images.map(e => (e = e.image_url));
       post.image_urls = imageArr;
+      let userLiked = await db
+        .check_user_liked_post([id, post.post_id])
+        .catch(error => console.log(error));
+      if (userLiked.length > 0 && userLiked[0].liked) {
+        post.userLiked = true;
+      } else {
+        post.userLiked = false;
+      }
     }
   }
   const friendsList = [friends, pending, sentRequests];

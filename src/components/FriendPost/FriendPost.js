@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "./FriendPost.scss";
 import { connect } from "react-redux";
 import ImageScroll from "../ImageScroll/ImageScroll";
+import { likePost, unlikePost } from "../../redux/reducers/postReducer";
+import { requestFriendsList } from "../../redux/reducers/userReducer";
 import {
   Map as LeafletMap,
   FeatureGroup,
@@ -91,8 +93,12 @@ class FriendPost extends Component {
 function mapStateToProps(reduxState) {
   return {
     posts: reduxState.user.posts,
-    geojson: reduxState.map.geojson
+    geojson: reduxState.map.geojson,
+    userId: reduxState.auth.userId
   };
 }
 
-export default connect(mapStateToProps)(FriendPost);
+export default connect(
+  mapStateToProps,
+  { likePost, unlikePost, requestFriendsList }
+)(FriendPost);

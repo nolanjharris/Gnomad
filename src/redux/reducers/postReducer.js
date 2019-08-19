@@ -21,6 +21,8 @@ const OPEN_VIEW_POSTS = "OPEN_VIEW_POSTS";
 const CLOSE_VIEW_POSTS = "CLOSE_VIEW_POSTS";
 const RESET_POST = "RESET_POST";
 const EDIT_PROFILE_POST = "EDIT_PROFILE_POST";
+const LIKE_POST = "LIKE_POST";
+const UNLIKE_POST = "UNLIKE_POST";
 
 export function openPostForm(country) {
   return {
@@ -99,6 +101,20 @@ export function editProfilePost(post) {
   };
 }
 
+export function likePost(postId) {
+  return {
+    type: LIKE_POST,
+    payload: axios.post(`/api/posts/like/${postId}`)
+  };
+}
+
+export function unlikePost(postId) {
+  return {
+    type: UNLIKE_POST,
+    payload: axios.put(`/api/posts/unlike/${postId}`)
+  };
+}
+
 export default function reducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
@@ -160,7 +176,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         loading: true,
         addPost: false,
-        viewPosts: false,
+        // viewPosts: false,
         editPosts: [false, ""]
       };
     case `${ADD_POST}_FULFILLED`:
@@ -217,6 +233,26 @@ export default function reducer(state = initialState, action) {
         loading: false,
         viewPosts: false,
         posts: payload
+      };
+    case `${LIKE_POST}_FULFILLED`:
+      return {
+        ...state,
+        loading: false
+      };
+    case `${LIKE_POST}_PENDING`:
+      return {
+        ...state,
+        loading: true
+      };
+    case `${UNLIKE_POST}_FULFILLED`:
+      return {
+        ...state,
+        loading: false
+      };
+    case `${UNLIKE_POST}_PENDING`:
+      return {
+        ...state,
+        loading: true
       };
     case RESET_POST:
       return initialState;

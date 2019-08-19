@@ -6,7 +6,9 @@ import {
   closeViewPosts,
   deletePost,
   openEditPostForm,
-  requestCountryPosts
+  requestCountryPosts,
+  likePost,
+  unlikePost
 } from "../../redux/reducers/postReducer";
 import {
   Map as LeafletMap,
@@ -36,6 +38,18 @@ class ViewPosts extends Component {
     this.refs.countryMapView.leafletElement.fitBounds(e.target.getBounds());
   };
 
+  handleLikePost = async post => {
+    if (post.userLiked) {
+      await this.props.unlikePost(post.post_id);
+    } else {
+      await this.props.likePost(post.post_id);
+    }
+    await this.props.requestCountryPosts(
+      this.props.postCountry,
+      this.props.countryInfo
+    );
+  };
+
   handleEdit = (id, country) => {
     this.props.openEditPostForm(id, country);
   };
@@ -57,20 +71,20 @@ class ViewPosts extends Component {
               id="countryMapView"
               ref="countryMapView"
               center={[26.588527, 8.4375]}
-            dragging={false}
-            doubleClickZoom={false}
-            zoomSnap={false}
-            zoomDelta={false}
-            trackResize={false}
-            touchZoom={false}
-            scrollWheelZoom={false}
-            tap={false}
-            zoom={1}
-            zoomControl={false}
-            minZoom={1}
-            maxZoom={6}
-            maxBoundsViscosity={1}
-            maxBounds={[[90, 180], [-90, -180]]}
+              dragging={false}
+              doubleClickZoom={false}
+              zoomSnap={false}
+              zoomDelta={false}
+              trackResize={false}
+              touchZoom={false}
+              scrollWheelZoom={false}
+              tap={false}
+              zoom={1}
+              zoomControl={false}
+              minZoom={1}
+              maxZoom={6}
+              maxBoundsViscosity={1}
+              maxBounds={[[90, 180], [-90, -180]]}
             >
               <TileLayer url="https://api.mapbox.com/styles/v1/nolanjames/cjyzw8gsf0v4t1coya5i7hm16/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoibm9sYW5qYW1lcyIsImEiOiJjanlrdDdyaXYwMTc1M2NsaW1lbHk4OWJlIn0.iggyHj94yOeanu2cdVezug" />
               <FeatureGroup onAdd={this.onFeatureGroupAdd}>
@@ -112,7 +126,10 @@ class ViewPosts extends Component {
                 </h3>
                 <h3>Capital City: {this.props.countryInfo.capital}</h3>
                 <h3>
-                  Currency: ({this.props.countryInfo.currencies[0].symbol})
+                  Currency:{" "}
+                  {this.props.countryInfo.currencies[0].symbol
+                    ? `(${this.props.countryInfo.currencies[0].symbol})`
+                    : null}
                   {this.props.countryInfo.currencies[0].name}
                 </h3>
               </div>
@@ -129,7 +146,9 @@ class ViewPosts extends Component {
                 <h2>&{post.username}</h2>
                 <h4>{post.upload_date}</h4>
                 {post.image_urls.length > 0 && (
-                  <ImageScroll imgArr={post.image_urls} />
+                  <div id="viewPostsImageScroll">
+                    <ImageScroll imgArr={post.image_urls} />
+                  </div>
                 )}
                 <div id="description">
                   <h3>Description:</h3>
@@ -137,24 +156,36 @@ class ViewPosts extends Component {
                   <h3>Recommendations:</h3>
                   <p>{post.post_content.split("!RECOMMENDATIONS!")[1]}</p>
                 </div>
-                {post.user_id === this.props.userId && (
-                  <div id="editDelete">
+
+                <div id="postIcons">
+                  <div id="like">
                     <i
-                      className="material-icons"
-                      onClick={() =>
-                        this.handleEdit(post.post_id, this.props.postCountry)
-                      }
+                      onClick={() => this.handleLikePost(post)}
+                      className={`material-icons ${
+                        post.userLiked ? "liked" : null
+                      }`}
                     >
-                      edit
+                      thumb_up
                     </i>
-                    <i
-                      className="material-icons"
-                      onClick={this.handleToggleDelete}
-                    >
-                      delete
-                    </i>
+                    <p>{post.likes}</p>
                   </div>
-                )}
+                  {post.user_id === this.props.userId && (
+                    <div id="editDelete">
+                      <i
+                        className="material-icons"
+                        onClick={() => this.handleEdit(post)}
+                      >
+                        edit
+                      </i>
+                      <i
+                        className="material-icons"
+                        onClick={this.handleToggleDelete}
+                      >
+                        delete
+                      </i>
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}
@@ -175,5 +206,12 @@ function mapStateToProps(reduxState) {
 
 export default connect(
   mapStateToProps,
-  { closeViewPosts, openEditPostForm, deletePost, requestCountryPosts }
+  {
+    closeViewPosts,
+    openEditPostForm,
+    deletePost,
+    requestCountryPosts,
+    likePost,
+    unlikePost
+  }
 )(ViewPosts);
