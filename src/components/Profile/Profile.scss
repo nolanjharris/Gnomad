@@ -12,6 +12,7 @@
 
   button:hover {
     cursor: pointer;
+    @extend %button-hover;
   }
 
   @media screen and (max-width: $break-tablet) {
@@ -42,9 +43,11 @@
       position: absolute;
       top: 15px;
       left: 15px;
+      color: $brand-color-dark;
 
       &:hover {
         cursor: pointer;
+        // @extend %button-hover;
       }
 
       @media screen and (max-width: $break-mobile) {
@@ -70,6 +73,7 @@
 
       #profilePic {
         @include flexCenter(row);
+        // justify-content: flex-start;
         height: 20vw;
         min-height: 175px;
         width: 20vw;
@@ -88,7 +92,7 @@
 
       #profileContent {
         height: fit-content;
-        // min-height: 50%;
+        min-height: 50%;
         width: 70%;
         min-width: 220px;
         @include flexSpaceAround(column);
@@ -144,6 +148,10 @@
           color: $brand-color-dark;
           margin-bottom: 10px;
 
+          &:hover {
+            @extend %button-hover;
+          }
+
           @media screen and (max-width: $break-tablet) {
             font-size: .9em;
             min-height: 35px;
@@ -153,6 +161,10 @@
         #visitedList {
           background-color: $brand-color-dark;
           color: $white-color;
+
+          &:hover {
+            @extend %button-hover;
+          }
         }
 
       }

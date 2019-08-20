@@ -8,7 +8,8 @@ import {
   openEditPostForm,
   requestCountryPosts,
   likePost,
-  unlikePost
+  unlikePost,
+  editProfilePost
 } from "../../redux/reducers/postReducer";
 import {
   Map as LeafletMap,
@@ -50,8 +51,9 @@ class ViewPosts extends Component {
     );
   };
 
-  handleEdit = (id, country) => {
-    this.props.openEditPostForm(id, country);
+  handleEdit = async (post, country) => {
+    await this.props.editProfilePost([post]);
+    this.props.openEditPostForm(post.post_id, country);
   };
 
   handleDelete = id => {
@@ -212,6 +214,7 @@ export default connect(
     deletePost,
     requestCountryPosts,
     likePost,
-    unlikePost
+    unlikePost,
+    editProfilePost
   }
 )(ViewPosts);

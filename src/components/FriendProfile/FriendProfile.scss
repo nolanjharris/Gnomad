@@ -43,6 +43,7 @@
             position: absolute;
             top: 15px;
             left: 15px;
+            color: $brand-color-dark;
 
             &:hover {
                 cursor: pointer;
@@ -68,6 +69,7 @@
 
             #friendProfilePic {
                 @include flexCenter(row);
+                // justify-content: flex-start;
                 height: 20vw;
                 min-height: 175px;
                 width: 20vw;
@@ -86,10 +88,10 @@
             #friendProfileContent {
                 height: fit-content;
                 min-height: 40%;
-                width: 40%;
+                width: 70%;
                 min-width: 220px;
                 @include flexSpaceAround(column);
-                // justify-content: flex-start;
+                justify-content: flex-start;
 
                 @media screen and (max-width: $break-tablet) {
                     min-height: 50%;
@@ -139,6 +141,10 @@
                     background-color: rgba(255, 255, 255, 0.1);
                     color: $brand-color-dark;
                     margin-bottom: 10px;
+
+                    &:hover {
+                        @extend %button-hover;
+                    }
 
                     @media screen and (max-width: $break-tablet) {
                         font-size: .9em;

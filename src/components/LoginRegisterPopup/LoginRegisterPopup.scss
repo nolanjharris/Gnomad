@@ -122,6 +122,10 @@
                 @media screen and (max-width: $break-tablet) {
                     height: 40px;
                 }
+
+                &:hover {
+                    @extend %button-hover;
+                }
             }
 
             #error {

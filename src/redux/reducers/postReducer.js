@@ -161,6 +161,7 @@ export default function reducer(state = initialState, action) {
         postCountry: payload[1]
       };
     case `${REQUEST_COUNTRY_POSTS}_FULFILLED`:
+      console.log(payload[1]);
       return {
         ...state,
         posts: payload[0],

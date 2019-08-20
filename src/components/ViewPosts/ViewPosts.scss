@@ -10,9 +10,14 @@
     z-index: 5;
     opacity: .9;
 
-    i:hover {
-        cursor: pointer
+    i {
+        color: $brand-color-dark;
+
+        &:hover {
+            cursor: pointer
+        }
     }
+
 
     @media screen and (max-width: $break-tablet) {
         align-items: flex-end;
@@ -217,6 +222,10 @@
 
         #backToMap {
             width: 20%;
+
+            // &:hover {
+            //     @extend %button-hover;
+            // }
         }
 
         // * {

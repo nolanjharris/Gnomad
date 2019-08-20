@@ -17,6 +17,8 @@ button:focus {
     outline: none;
 }
 
+
+
 @mixin flexCenter($direction) {
     display: flex;
     justify-content: center;
@@ -41,6 +43,10 @@ button:focus {
 %header-h2 {
     font-size: 4em;
     color: $brand-color-dark;
+}
+
+%button-hover {
+    background-color: $brand-color;
 }
 
 body {

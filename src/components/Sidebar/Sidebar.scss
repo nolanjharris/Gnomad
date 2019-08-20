@@ -108,12 +108,17 @@
 
                 &:hover {
                     cursor: pointer;
+                    @extend %button-hover;
                 }
             }
 
             #openProfile {
                 background-color: $brand-color-dark;
                 color: rgba(255, 255, 255, 0.7);
+
+                &:hover {
+                    @extend %button-hover;
+                }
             }
         }
     }
@@ -162,6 +167,8 @@
 
                 &:hover {
                     cursor: pointer;
+                    // @extend %button-hover;
+                    // color: $accent-color;
                 }
             }
 
@@ -201,6 +208,7 @@
 
                 &:hover {
                     cursor: pointer;
+                    @extend %button-hover;
                 }
             }
 
@@ -217,6 +225,10 @@
                 border-radius: 1px;
                 font-size: 1.1em;
                 font-family: $content-font;
+
+                &:hover {
+                    @extend %button-hover;
+                }
             }
 
             select {
@@ -224,6 +236,7 @@
 
                 &:hover {
                     cursor: pointer;
+                    // @extend %button-hover;
                 }
             }
 
@@ -271,6 +284,7 @@
 
                 &:hover {
                     cursor: pointer;
+                    @extend %button-hover;
                 }
             }
         }

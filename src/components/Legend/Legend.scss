@@ -259,6 +259,7 @@
                     }
 
                     &:hover {
+                        @extend %button-hover;
                         cursor: pointer;
                     }
                 }

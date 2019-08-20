@@ -35,6 +35,7 @@
 
             &:hover {
                 cursor: pointer;
+                @extend %button-hover;
             }
         }
     }

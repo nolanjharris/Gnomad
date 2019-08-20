@@ -75,6 +75,10 @@
         margin-bottom: 0;
         background: #fff;
 
+        &:hover {
+          @extend %button-hover;
+        }
+
         @media screen and (max-width: $break-tablet) {
           width: 100%;
         }
@@ -111,6 +115,10 @@
       i {
         margin: 5px;
         margin-bottom: 0;
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
   }
