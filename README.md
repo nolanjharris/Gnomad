@@ -10,6 +10,8 @@ When you sign in for the first time, you will see a very boring world map. That'
 
 Click on a country that you have been to and a popup will give you the option to either add this country to your 'visited list' or see all the posts for that country. The form is pretty straight forward to add it to your list. You can add images from your trip and write a description of your time there. You can also make reccomendations to other users who are looking into going to that country.
 
+![Country Popup](/imgs/popup.jpg)
+
 Viewing posts is just that, viewing all the posts made about that country. You can 'Like' posts and there is also some information about the country including the currency they use and the language they speak.
 
 ![View Posts](/imgs/viewPosts.jpg)
