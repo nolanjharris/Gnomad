@@ -1,68 +1,35 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## GNOMAD - A Visual Travel Blog
 
-## Available Scripts
+Gnomad was created to chart all the countries that you have travelled to, and represent them in a chosen color on a world map. I wanted to make a web-app version of a poster my friend had. It was set up so he could scratch off the countries he had travelled to and they became a brighter color. I think I accomplished that, plus more!
 
-In the project directory, you can run:
+### Adding Countries
 
-### `npm start`
+When you sign in for the first time, you will see a very boring world map. That's by design! The map becomes more and more colorful and interesting the more countries you add to it. You can also add your friends' traveled countries to your map, but we will get into that shortly.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![Visited Countries](/imgs/sidebar.jpg)
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Click on a country that you have been to and a popup will give you the option to either add this country to your 'visited list' or see all the posts for that country. The form is pretty straight forward to add it to your list. You can add images from your trip and write a description of your time there. You can also make reccomendations to other users who are looking into going to that country.
 
-### `npm test`
+Viewing posts is just that, viewing all the posts made about that country. You can 'Like' posts and there is also some information about the country including the currency they use and the language they speak.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![View Posts](/imgs/viewPosts.jpg)
 
-### `npm run build`
+### Your Profile
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can access your profile by opening the sidebar menu and clicking on "Profile". This is where you can update your profile image, change the color that your visited countries show up on the map, and view all the posts that you have made.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+![Profile Page](/imgs/profile.jpg)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Friends
 
-### `npm run eject`
+I wanted to make this a social experience that you can share with your friends, so I added a friends legend on the bottom right corner of the screen. This is where you can search for users by username and send them a friend request.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Friends Legend](/imgs/friendsLegend.jpg)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This area also allows you to see all your friends and toggle thier visited countries on and off of your map. By default, thier countries are colored according to the color they set for themselves, but you have the option to change the color they show up as on your map. You can also click on thier username to see thier profile page and see all posts that they have made or all images that they have posted.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Notifications
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+In the sidebar there is a notifications bell that will show a red bubble if you have any pending friend requests. When you click on it you can accept friends requests at your discretion.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+![Notifications](/imgs/notifications.jpg)
